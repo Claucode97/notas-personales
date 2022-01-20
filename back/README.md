@@ -1,4 +1,4 @@
-# Aplicación semilla (backend)
+# Aplicación Notas-Personales (backend)
 
 ## Puesta en marcha
 

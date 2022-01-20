@@ -1,4 +1,4 @@
-# Aplicación semilla (front)
+# Aplicación Notas-Personales (front)
 
 ## Configuración del proyecto
 ```
