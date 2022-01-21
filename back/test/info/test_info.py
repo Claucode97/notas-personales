@@ -4,6 +4,7 @@ from src.webserver import create_app
 from src.domain.info import InfoRepository, Info
 7
 
+
 def test_should_return_info_in_database():
     info_repository = InfoRepository(temp_file())
     app = create_app(repositories={"info": info_repository})
@@ -15,7 +16,7 @@ def test_should_return_info_in_database():
         )
     )
 
-    response = client.get("/api/info")
+    response = client.get("/api/my-notes")
     assert response.json == {
         "app_name": "test application",
     }
