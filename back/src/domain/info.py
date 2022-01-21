@@ -2,11 +2,11 @@ import sqlite3
 
 
 class Info:
-    def __init__(self, app_name):
-        self.app_name = app_name
+    def __init__(self, app_my_notes):
+        self.app_my_notes = app_my_notes
 
     def to_dict(self):
-        return {"app_name": self.app_name}
+        return {"app_my_notes": self.app_my_notes}
 
 
 class InfoRepository:
@@ -22,7 +22,7 @@ class InfoRepository:
     def init_tables(self):
         sql = """
             create table if not exists info (
-                app_name varchar
+                app_my_notes varchar
             )
         """
         conn = self.create_conn()
@@ -38,11 +38,11 @@ class InfoRepository:
 
         data = cursor.fetchone()
 
-        return Info(app_name=data["app_name"])
+        return Info(app_my_notes=data["app_my_notes"])
 
     def save(self, info):
-        sql = """insert into info (app_name) values (
-            :app_name
+        sql = """insert into info (app_my_notes) values (
+            :app_my_notes
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
