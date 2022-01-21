@@ -2,7 +2,6 @@ from src.lib.utils import temp_file
 
 from src.webserver import create_app
 from src.domain.info import InfoRepository, Info
-7
 
 
 def test_should_return_info_in_database():
