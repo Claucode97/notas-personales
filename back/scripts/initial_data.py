@@ -1,4 +1,4 @@
-from domain.info_note import InfoRepository, Info
+from src.domain.info_note import NotesRepository, Note
 import sys
 
 sys.path.insert(0, "")
@@ -6,6 +6,6 @@ sys.path.insert(0, "")
 
 database_path = "data/database.db"
 
-info_repository = InfoRepository(database_path)
+info_repository = NotesRepository(database_path)
 
-info_repository.save(Info(app_my_notes="f5-my-notes-app2"))
+info_repository.save(Note(app_my_notes="f5-my-notes-app2"))
