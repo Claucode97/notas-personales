@@ -1,4 +1,4 @@
-from src.domain.info import InfoRepository, Info
+from domain.info_note import InfoRepository, Info
 import sys
 
 sys.path.insert(0, "")

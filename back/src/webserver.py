@@ -13,8 +13,8 @@ def create_app(repositories):
         return "...magic!"
 
     @app.route("/api/my-notes", methods=["GET"])
-    def info_get():
-        info = repositories["info"].get_info()
-        return object_to_json(info)
+    def notes_get():
+        notes = repositories["note"].get_notes()
+        return object_to_json(notes)
 
     return app
