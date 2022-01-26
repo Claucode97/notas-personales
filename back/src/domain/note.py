@@ -2,11 +2,15 @@ import sqlite3
 
 
 class Note:
-    def __init__(self, app_my_notes):
-        self.app_my_notes = app_my_notes
+    def __init__(self, title, text):
+        self.title = title
+        self.text = text
 
     def to_dict(self):
-        return {"app_my_notes": self.app_my_notes}
+        return {
+            'title': self.title,
+            'text': self.text
+        }
 
 
 class NotesRepository:
@@ -22,7 +26,8 @@ class NotesRepository:
     def init_tables(self):
         sql = """
             create table if not exists notes (
-                app_my_notes varchar
+                title varchar,
+                text varchar
             )
         """
         conn = self.create_conn()
@@ -30,21 +35,31 @@ class NotesRepository:
         cursor.execute(sql)
         conn.commit()
 
-    def get_notes(self):
+    def get_all(self):
+        notes_list = []
         sql = """select * from notes"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql)
 
-        data = cursor.fetchone()
+        data = cursor.fetchall()
 
-        return Note(app_my_notes=data["app_my_notes"])
+        for item in data:
+            one_note = Note(
+                title=item["title"], text=item["text"]
+            )
+            notes_list.append(one_note)
 
-    def save(self, notes):
-        sql = """insert into notes (app_my_notes) values (
-            :app_my_notes
+        return notes_list
+
+    def save(self, note):
+        sql = """insert into notes (title, text) values (
+            :title, :text
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(sql, notes.to_dict())
+        cursor.execute(
+            sql,
+            note.to_dict(),
+        )
         conn.commit()

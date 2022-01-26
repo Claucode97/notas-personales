@@ -12,9 +12,14 @@ def create_app(repositories):
     def hello_world():
         return "...magic!"
 
+    @app.route("/api/info", methods=["GET"])
+    def info():
+        info = repositories["info"].get_info()
+        return object_to_json(info)
+
     @app.route("/api/my-notes", methods=["GET"])
     def notes_get():
-        notes = repositories["note"].get_notes()
+        notes = repositories["note"].get_all()
         return object_to_json(notes)
 
     return app
