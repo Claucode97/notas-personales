@@ -29,6 +29,7 @@ class NotesRepository:
                 title varchar,
                 text varchar
             )
+            
         """
         conn = self.create_conn()
         cursor = conn.cursor()
@@ -61,5 +62,6 @@ class NotesRepository:
         cursor.execute(
             sql,
             note.to_dict(),
+
         )
         conn.commit()
