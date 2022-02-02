@@ -1,12 +1,11 @@
 <template>
-<section class="about">
+<section class="notes-list">
   <h1>{{notaspersonales}}</h1>
    <article
-      class="pepe"
-      v-for="index in notes" :key="index.title"
-    >
-      <p>{{ index.title }}</p>
-      <p>{{ index.text }}</p>
+      class="note-item"
+      v-for="note in notes" :key="note.id">
+      <p>{{ note.title }}</p>
+      <p>{{ note.text }}</p>
     </article>
 </section>
 </template>
@@ -25,21 +24,25 @@
   },
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/my-notes')
+      const response = await fetch('http://localhost:5000/api/notes')
       this.notes = await response.json()
     }
   }
-
-
 }
 
 </script>
 <style scoped>
-article{
-  width: 300px;
-  height: 200px;
-  border: solid 5px;
-  background: violet;
-  color:darkmagenta;
+
+ h1 {
+  font:arial;
+  text-shadow: grey;
 }
+article{
+  border: 2px solid rgb(23, 87, 10);
+  border-radius: 1em;
+  margin:1em;
+  padding: 1px;
+  text-align: left;
+}
+
 </style>

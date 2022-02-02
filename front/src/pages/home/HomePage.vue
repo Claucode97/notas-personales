@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 h1 {
   font-style: italic;
   
