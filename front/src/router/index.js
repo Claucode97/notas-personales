@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const routes = [
   {
     path: '/',
@@ -7,9 +8,15 @@ const routes = [
     component: () => import('@/pages/home/HomePage.vue'),
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/pages/about/AboutPage.vue'),
+    path: '/notes',
+    name: 'Notes',
+    component: () => import('@/pages/notes/Notes.vue'),
+  },
+
+  {
+    path: '/notes/:id',
+    name: 'NoteDetail',
+    component: () => import('@/pages/noteDetail/NoteDetail.vue'),
   },
 ]
 
