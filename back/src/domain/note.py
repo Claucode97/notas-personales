@@ -2,12 +2,14 @@ import sqlite3
 
 
 class Note:
-    def __init__(self, title, text):
+    def __init__(self, id, title, text):
+        self.id = id
         self.title = title
         self.text = text
 
     def to_dict(self):
         return {
+            'id': self.id,
             'title': self.title,
             'text': self.text
         }
@@ -26,6 +28,7 @@ class NotesRepository:
     def init_tables(self):
         sql = """
             create table if not exists notes (
+                id varchar,
                 title varchar,
                 text varchar
             )
@@ -47,15 +50,26 @@ class NotesRepository:
 
         for item in data:
             one_note = Note(
-                title=item["title"], text=item["text"]
+                id=item["id"], title=item["title"], text=item["text"]
             )
             notes_list.append(one_note)
 
         return notes_list
 
+    def get_by_id(self, note_id):
+
+        sql = """SELECT * FROM notes WHERE id= :id"""
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, {"id": note_id})
+
+        data = cursor.fetchone()
+        one_note = Note(id=data["id"], title=data["title"], text=data["text"])
+        return one_note
+
     def save(self, note):
-        sql = """insert into notes (title, text) values (
-            :title, :text
+        sql = """insert into notes (id, title, text) values (
+            :id, :title, :text
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()

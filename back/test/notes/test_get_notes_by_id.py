@@ -3,23 +3,14 @@ from src.webserver import create_app
 from src.domain.note import NotesRepository, Note
 
 
-def test_should_return_empty_list_of_notes():
-    notes_repository = NotesRepository(temp_file())
-    app = create_app(repositories={"note": notes_repository})
-    client = app.test_client()
-
-    response = client.get("/api/notes")
-
-    assert response.json == []
-
-
-def test_should_return_list_of_notes():
+def test_shuld_return_existing_note_by_id():
     notes_repository = NotesRepository(temp_file())
     app = create_app(repositories={"note": notes_repository})
     client = app.test_client()
     note = Note(id="pepa", title="example1", text="text example")
     notes_repository.save(note)
-    response = client.get("/api/notes")
+
+    response = client.get("/api/notes/pepa")
 
     assert response.json == [
         {
@@ -27,5 +18,4 @@ def test_should_return_list_of_notes():
             "title": "example1",
             "text": "text example"
         }
-
     ]

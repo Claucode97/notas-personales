@@ -17,11 +17,17 @@ def create_app(repositories):
         info = repositories["info"].get_info()
         return object_to_json(info)
 
-    @app.route("/api/my-notes", methods=["GET"])
-    def notes_get():
+    @app.route("/api/notes", methods=["GET"])
+    def notes_get_all():
 
         notes = repositories["note"].get_all()
         return object_to_json(notes)
+
+    @app.route("/api/notes/<id>", methods=["GET"])
+    def notes_get_by_id(id):
+
+        one_note_by_id = repositories["note"].get_by_id(id)
+        return object_to_json(one_note_by_id)
 
     return app
 
