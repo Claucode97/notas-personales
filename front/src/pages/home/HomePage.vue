@@ -11,7 +11,7 @@ export default {
   name: 'Home',
   data() {
     return {
-    personalnotes:"WELLCOME"
+    personalnotes:"WELCOME"
     }
   }
 }
