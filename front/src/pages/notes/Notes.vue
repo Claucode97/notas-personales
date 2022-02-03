@@ -6,7 +6,6 @@
       v-for="note in notes" :key="note.id">
       <p>{{ note.title }}</p>
       <p>{{ note.text }}</p>
-      <router-link :to="{name:'notedetails', params:{id: note.id}}" ><button>detaills</button></router-link>
     </article>
 </section>
 </template>
