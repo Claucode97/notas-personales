@@ -12,10 +12,8 @@ def test_shuld_return_existing_note_by_id():
 
     response = client.get("/api/notes/pepa")
 
-    assert response.json == [
-        {
-            "id": "pepa",
-            "title": "example1",
-            "text": "text example"
-        }
-    ]
+    assert response.json == {
+        "id": "pepa",
+        "title": "example1",
+        "text": "text example"
+    }
