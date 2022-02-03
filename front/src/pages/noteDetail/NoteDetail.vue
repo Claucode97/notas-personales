@@ -19,8 +19,9 @@
   },
   methods: {
     async loadData() {
-      //const response = await fetch('http://localhost:5000/api/notes/:id')
-      this.note = {"id": "note-1", "title": "la compra", "text": "comprar leche"}
+      const response = await fetch('http://localhost:5000/api/notes/<id>')
+      this.note = await response.json()
+      
     }
   },
 
