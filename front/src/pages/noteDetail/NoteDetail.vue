@@ -19,7 +19,7 @@
   },
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes/<id>')
+      const response = await fetch('http://localhost:5000/api/notes', + this.id)
       this.note = await response.json()
       
     }
