@@ -19,11 +19,7 @@
   },
   methods: {
     async loadData() {
-<<<<<<< HEAD
       const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
-=======
-      const response = await fetch('http://localhost:5000/api/notes', + this.id)
->>>>>>> 389ca6186e6cde06ab8297cf1cde2f1148ba58f0
       this.note = await response.json()
       
     }
