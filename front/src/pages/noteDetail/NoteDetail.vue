@@ -1,5 +1,5 @@
 <template>
-<h1>Note detail: {{note.id}}</h1>
+<h1>Note detail: {{$route.params.id}}</h1>
   <ul>
       <li>Title: {{note.title}}</li>
       <li>Text: {{note.text}}</li>
@@ -19,7 +19,7 @@
   },
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes/<id>')
+      const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
       this.note = await response.json()
       
     }
