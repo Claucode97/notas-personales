@@ -4,9 +4,9 @@
    <article
       class="note-item"
       v-for="note in notes" :key="note.id">
-      <p>{{ note.title }}</p>
+      <h2>{{ note.title }}</h2>
       <p>{{ note.text }}</p>
-      <router-link :to="{name:'notedetails', params:{id: note.id}}" ><button>detaills</button></router-link>
+      <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button>detaills</button></router-link>
     </article>
 </section>
 </template>
