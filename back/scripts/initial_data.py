@@ -14,11 +14,11 @@ def main():
 
     notes_repository = NotesRepository(database_path)
 
-    notes_repository.save(
-        Note(id="note-1", title="Lista de la compra:", text="Pan y Chorizo"))
-
+    nota1 = Note(id="note-1", title="Lista de la compra:",
+                 text="Pan y Chorizo")
     nota2 = Note(id="note-2", title='Bebidas', text='Vino y agua')
 
+    notes_repository.save(nota1)
     notes_repository.save(nota2)
 
     print("datos iniciales cargados")
