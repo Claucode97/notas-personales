@@ -3,7 +3,7 @@
   <h1>{{notaspersonales}}</h1>
    <article
       class="note-item"
-      v-for="note in notes" :key="note.id">
+      v-for="note in notes_list" :key="note.id">
       <h2>{{ note.title }}</h2>
       <p>{{ note.text }}</p>
       <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button>detaills</button></router-link>
@@ -13,11 +13,11 @@
 
 <script>
   export default {
-  name: 'Home',
+  name: 'Notes',
   data() {
     return {
       notaspersonales:"NOTAS PERSONALES",
-    notes:[]
+      notes_list:[]
     }
   },
   mounted() {
@@ -26,7 +26,7 @@
   methods: {
     async loadData() {
       const response = await fetch('http://localhost:5000/api/notes')
-      this.notes = await response.json()
+      this.notes_list = await response.json()
     }
   }
 }

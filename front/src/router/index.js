@@ -18,6 +18,11 @@ const routes = [
     name: 'NoteDetail',
     component: () => import('@/pages/noteDetail/NoteDetail.vue'),
   },
+  {
+    path: '/notes/add',
+    name: 'AddNote',
+    component: () => import('@/pages/add/AddNote.vue'),
+  },
 ]
 
 const router = createRouter({

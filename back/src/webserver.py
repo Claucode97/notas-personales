@@ -27,6 +27,7 @@ def create_app(repositories):
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
         data = request.json
+        print("*****", request.data)
         note = Note(**data)
         repositories["note"].save(note)
         return ''

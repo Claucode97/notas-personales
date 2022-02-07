@@ -8,7 +8,7 @@
 
 <script>
   export default {
-  name: 'noteDetail',
+  name: 'NoteDetail',
   data() {
     return {
     note:{}
