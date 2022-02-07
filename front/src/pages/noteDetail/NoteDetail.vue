@@ -1,9 +1,13 @@
 <template>
-<h1>Note detail: {{$route.params.id}}</h1>
-  <ul>
-      <li>Title: {{note.title}}</li>
-      <li>Text: {{note.text}}</li>
-  </ul>
+<main id="notes-page">
+<h1>{{$route.params.id}}</h1>
+  <section id="notes-flex-container">
+      <article id="note-item">
+          <h3> {{note.title}}</h3>
+          <p>{{note.text}}</p>
+      </article>
+  </section>
+</main>
 </template>
 
 <script>
@@ -30,11 +34,39 @@
 
 </script>
 <style scoped>
-article{
-  width: 300px;
-  height: 200px;
-  border: solid 5px;
-  background: violet;
-  color:darkmagenta;
+#notes-page {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    max-width: 90vw;
+    height: 100vh;
+    margin: auto;
+    padding: 0;
 }
+#notes-flex-container {
+    margin: auto;
+  }
+#note-item {
+  float: left;
+  width: 85vw;
+  border: 5px double gray;
+  border-radius: 1em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px 5px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  margin-top: 10px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+h3 {
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
 </style>

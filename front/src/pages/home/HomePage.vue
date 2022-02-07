@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
-   
+  <div class="home"> 
     <h1>{{ personalnotes }}</h1>
+    <p> my notes</p>
   </div>
 </template>
 
@@ -17,10 +17,16 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
+
 h1 {
-  font-style: italic;
-  
+    font-family: Arial, Helvetica, sans-serif;
+    border: 5px double gray;
+    border-radius: 1em;
+    font-size: 30px;
+    margin-top: 80px;
+    text-align: center;
+    text-transform: capitalize; 
 }
 
 </style>
