@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 from src.lib.utils import object_to_json
+from src.domain.note import Note
 
 
 def create_app(repositories):
@@ -22,6 +23,13 @@ def create_app(repositories):
 
         notes = repositories["note"].get_all()
         return object_to_json(notes)
+
+    @app.route("/api/notes", methods=["POST"])
+    def notes_post():
+        data = request.json
+        note = Note(**data)
+        repositories["note"].save(note)
+        return ''
 
     @app.route("/api/notes/<id>", methods=["GET"])
     def notes_get_by_id(id):
