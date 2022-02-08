@@ -28,7 +28,7 @@ class NotesRepository:
     def init_tables(self):
         sql = """
             create table if not exists notes (
-                id varchar,
+                id varchar NOT NULL PRIMARY KEY,
                 title varchar,
                 text varchar
             )

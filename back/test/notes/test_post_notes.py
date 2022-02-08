@@ -24,3 +24,26 @@ def test_should_save_note():
         "title": "example1",
         "text": "Hola nena",
     }
+
+
+def test_shouldnt_save_note_with_same_id():
+    notes_repository = NotesRepository(temp_file())
+    app = create_app(repositories={"note": notes_repository})
+    client = app.test_client()
+
+    note1 = {
+        "id": "note1",
+        "title": "example1",
+        "text": "Hola nena",
+    }
+
+    note2 = {
+        "id": "note1",
+        "title": "example1",
+        "text": "Hola nena",
+    }
+
+    response = client.post("/api/notes", json=note1)
+    response2 = client.post("/api/notes", json=note2)
+
+    assert response2.status_code != 200
