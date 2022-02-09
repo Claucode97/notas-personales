@@ -1,27 +1,31 @@
 <template>
-  <div class="add">
-   
-    <h1>{{ pagetitle }}</h1>
-    <form v-on:submit.prevent="addNewNote" action="" >
-        <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
-        <br>
-        <textarea v-model ="note_description" name="text-form" id="text-form-id"  placeholder="type the description"></textarea>
-        <br>
-        <button id="submit-button">Submit this note!</button>
-    </form>
-  </div>
+  <main id="notes-page">
+    <section id="notes-flex-container">
+       <article id="note-item">
+        <h1>{{ pagetitle }}</h1>
+        <form v-on:submit.prevent="addNewNote" action="" >
+            <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
+            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>          
+        </form>
+        </article>  
+        <article id="navigation-bar">
+              <button class="button-save">DELETE</button>
+              <button class="button-delete">SAVE</button>
+        </article>
+    </section>
+  </main>
 </template>
 
 <script>
-
+import {v4 as uuidv4} from 'uuid';
+uuidv4()
 export default {
   name: 'AddNote',
   data() {
     return {
-        pagetitle:"Añade una nota nueva: ",
+        pagetitle:"New note",
         note_title: "",
         note_description: "",
-        num: 100,
         notes_front:[]
 
         
@@ -39,9 +43,9 @@ export default {
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){
-            this.num +=1 
+            let nextId= uuidv4()
             
-            let newNote = {"id": "note-" + this.num, "title": this.note_title, "text": this.note_description}
+            let newNote = {"id": nextId,"title": this.note_title, "text": this.note_description}
             
             //this.notes_front.push(newNote)
 
@@ -73,10 +77,78 @@ export default {
 }
 </script>
 
-<style >
+<style escope>
+#notes-page {
+    text-align: center;
+    height: 100vh;
+    margin-top: 10px;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+#notes-flex-container {
+    margin: auto;
+  }
+#note-item {
+    width: 85vw;
+    height: 30vh;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 15px 15px;
+  }
+#navegation-bar {
+    display: block;
+  }
+label {
+    display: block;
+    text-align: left;
+    font-size: 20px;
+    padding: 10px;
+  }
+input {
+    width: 85vw;
+    border: 5px double gray;
+    border-radius: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
+  }
+ 
+textarea {
+    width: 85vw;
+    height: 20vh;
+    border: 5px double gray;
+    border-radius: 0.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+  }
+
 h1 {
-  font-style: italic;
-  
-}
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  h3 {
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+
+  p {
+    font-size: 1.2em;
+    color: rgb(59, 58, 58);
+    text-align: left;
+  }
+
+  .button-save, .button-delete {
+    color: black;
+    background: rgb(197, 193, 193);
+    border-radius: 0.5em;
+    width: 100px;
+    margin-top: 90px;
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
 </style>

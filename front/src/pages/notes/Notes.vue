@@ -2,13 +2,11 @@
 <main id="notes-page">
 <section id="notes-flex-container">
   <h1>{{notaspersonales}}</h1>
-
    <article
-      class="note-item"
+      id="note-item"
       v-for="note in notes_list" :key="note.id">
       <h2>{{ note.title }}</h2>
-      <p>{{ note.text }}</p>
-      <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button>detaills</button></router-link>
+      <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
     </article>
 </section>
 </main>
@@ -35,6 +33,7 @@
 }
 
 </script>
+
 <style scoped>
 #notes-page {
     text-align: center;
@@ -57,16 +56,19 @@ h1 {
 #note-item {
     float: left;
     width: 85vw;
+   
     border: 5px double gray;
     border-radius: 1em;
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 5px 5px;
-    text-align: center;
+    padding: 5px 5px; 
   }
-h3 {
+
+h2 {
     text-transform: uppercase;
     text-decoration: underline;
+    text-align: left;
+    
   }
 
   p {
@@ -83,6 +85,5 @@ h3 {
     padding: 10px 5px 10px;
     font-size: 20px;
   }
-
 
 </style>
