@@ -17,7 +17,8 @@
 </template>
 
 <script>
-
+import {v4 as uuidv4} from 'uuid';
+uuidv4()
 export default {
   name: 'AddNote',
   data() {
@@ -25,7 +26,6 @@ export default {
         pagetitle:"New note",
         note_title: "",
         note_description: "",
-        num: 100,
         notes_front:[]
 
         
@@ -43,9 +43,9 @@ export default {
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){
-            this.num +=1 
+            let nextId= uuidv4()
             
-            let newNote = {"id": "note-" + this.num, "title": this.note_title, "text": this.note_description}
+            let newNote = {"id": nextId,"title": this.note_title, "text": this.note_description}
             
             //this.notes_front.push(newNote)
 
