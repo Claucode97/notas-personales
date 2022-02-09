@@ -29,7 +29,7 @@ def create_app(repositories):
         data = request.json
         print("*****", request.data)
         note = Note(**data)
-        repositories["note"].save(note)
+        repositories["note"].insert_data_note(note)
         return ''
 
     @app.route("/api/notes/<id>", methods=["GET"])
@@ -38,10 +38,18 @@ def create_app(repositories):
         one_note_by_id = repositories["note"].get_by_id(id)
         return object_to_json(one_note_by_id)
 
+    @app.route("/api/notes/<id>", methods=["POST"])
+    def notes_modify(id, titulo, detalles):
+
+        modified_note = repositories["note"].modify_data_note_by_id(
+            id, titulo, detalles)
+        return object_to_json(modified_note)
+
     return app
 
 
 """    @app.route("/api/save-notes", methods=["POST"])
     def notes_post():
+         --> save cambia a insert_data_note
         repositories["note"].save("Título1", "Descripción de la nota 1")
         return True"""
