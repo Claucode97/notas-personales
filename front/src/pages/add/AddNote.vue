@@ -4,14 +4,14 @@
        <article id="note-item">
         <h1>{{ pagetitle }}</h1>
         <form v-on:submit.prevent="addNewNote" action="" >
+          <section>
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
             <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>          
+            <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
+          </section>
         </form>
         </article>  
-        <article id="navigation-bar">
-              <button class="button-save">DELETE</button>
-              <button class="button-delete">SAVE</button>
-        </article>
+        
     </section>
   </main>
 </template>
@@ -139,7 +139,7 @@ h1 {
     text-align: left;
   }
 
-  .button-save, .button-delete {
+  .button-save {
     color: black;
     background: rgb(197, 193, 193);
     border-radius: 0.5em;
