@@ -18,7 +18,7 @@ def test_should_return_list_of_notes():
     app = create_app(repositories={"note": notes_repository})
     client = app.test_client()
     note = Note(id="pepa", title="example1", text="text example")
-    notes_repository.save(note)
+    notes_repository.insert_data_note(note)
     response = client.get("/api/notes")
 
     assert response.json == [

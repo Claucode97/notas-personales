@@ -18,8 +18,8 @@ def main():
                  text="Pan y Chorizo")
     nota2 = Note(id="note-2", title='Bebidas', text='Vino y agua')
 
-    notes_repository.save(nota1)
-    notes_repository.save(nota2)
+    notes_repository.insert_data_note(nota1)
+    notes_repository.insert_data_note(nota2)
 
     print("datos iniciales cargados")
 

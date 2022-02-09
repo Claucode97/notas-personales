@@ -67,7 +67,7 @@ class NotesRepository:
         one_note = Note(id=data["id"], title=data["title"], text=data["text"])
         return one_note
 
-    def save(self, note):
+    def insert_data_note(self, note):
         sql = """insert into notes (id, title, text) values (
             :id, :title, :text
         ) """
@@ -77,5 +77,20 @@ class NotesRepository:
             sql,
             note.to_dict(),
 
+        )
+        conn.commit()
+
+    # metodo save() cambiado de nombre
+
+    def modify_data_note_by_id(self, modified_note):
+
+        sql = """ UPDATE notes
+                    SET title = :title, text= :text
+                    WHERE id = :id; """
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        # print(type(modified_note["title"]))
+        cursor.execute(
+            sql, modified_note.to_dict()
         )
         conn.commit()
