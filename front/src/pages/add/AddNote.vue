@@ -46,9 +46,6 @@ export default {
             let nextId= uuidv4()
             
             let newNote = {"id": nextId,"title": this.note_title, "text": this.note_description}
-            
-            //this.notes_front.push(newNote)
-
 
             const settings={
                 method:'POST',
@@ -56,9 +53,8 @@ export default {
                 headers:{
                     'Content-Type': 'application/json'
                 }
-
             }
-            fetch('http://localhost:5000/api/notes', settings) // <-- comprobar ruta
+            fetch('http://localhost:5000/api/notes', settings)
 
             console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
             console.log("obj mandado al back " + JSON.stringify(newNote))
@@ -78,33 +74,39 @@ export default {
 </script>
 
 <style escope>
-#notes-page {
+
+  #notes-page {
     text-align: center;
     height: 100vh;
     margin-top: 10px;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
   }
-#notes-flex-container {
+    
+  #notes-flex-container {
     margin: auto;
   }
-#note-item {
+
+  #note-item {
     width: 85vw;
     height: 30vh;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 15px 15px;
   }
-#navegation-bar {
+
+  #navegation-bar {
     display: block;
   }
-label {
+
+  label {
     display: block;
     text-align: left;
     font-size: 20px;
     padding: 10px;
   }
-input {
+
+  input {
     width: 85vw;
     border: 5px double gray;
     border-radius: 0.5em;
@@ -112,7 +114,7 @@ input {
     margin-bottom: 20px;
   }
  
-textarea {
+  textarea {
     width: 85vw;
     height: 20vh;
     border: 5px double gray;
@@ -121,7 +123,7 @@ textarea {
     color: gray;
   }
 
-h1 {
+  h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
     text-align: center;
