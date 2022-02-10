@@ -45,6 +45,11 @@ def create_app(repositories):
             id, titulo, detalles)
         return object_to_json(modified_note)
 
+    @app.route("/api/notes/<id>", methods=["DELETE"])
+    def deleted_note_by_id(id):
+        note_deleted_by_id = repositories["note"].note_deleted_by_id(id)
+        return ""
+
     return app
 
 

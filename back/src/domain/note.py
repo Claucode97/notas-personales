@@ -94,3 +94,14 @@ class NotesRepository:
             sql, modified_note.to_dict()
         )
         conn.commit()
+
+    def note_deleted_by_id(self, note_deleted):
+        sql = """ DELETE FROM notes
+                    WHERE notes.id = :id """
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(
+            sql, {"id": note_deleted}
+        )
+        conn.commit()
+        cursor.close()
