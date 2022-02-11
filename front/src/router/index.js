@@ -10,18 +10,18 @@ const routes = [
   {
     path: '/notes',
     name: 'Notes',
-    component: () => import('@/pages/notes/Notes.vue'),
+    component: () => import('@/pages/notes/NotesPage.vue'),
   },
 
   {
     path: '/notes/:id',
     name: 'NoteDetail',
-    component: () => import('@/pages/noteDetail/NoteDetail.vue'),
+    component: () => import('@/pages/noteDetail/NoteDetailPage.vue'),
   },
   {
     path: '/notes/add',
     name: 'AddNote',
-    component: () => import('@/pages/add/AddNote.vue'),
+    component: () => import('@/pages/noteAdd/AddNotePage.vue'),
   },
 ]
 
