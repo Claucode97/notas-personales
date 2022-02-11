@@ -6,7 +6,9 @@
       id="note-item"
       v-for="note in notesList" :key="note.id">
       <h2>{{ note.title }}</h2>
+      {{note.id}}
       <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
+    <button class="remove_note" @click="removeNote(note)">remove note</button>
     </article>
 </section>
 </main>
@@ -28,6 +30,12 @@
     async loadData() {
       const response = await fetch('http://localhost:5000/api/notes')
       this.notesList = await response.json()
+    },
+    removeNote(note){
+      note= fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
+      let note_to_remove=this.notesList.indexOf(note)     
+      this.notesList.splice(note_to_remove, 1)
+      
     }
   }
 }

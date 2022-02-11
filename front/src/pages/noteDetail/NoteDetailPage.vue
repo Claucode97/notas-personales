@@ -8,14 +8,15 @@
             <label for="note.text">Text:</label>
             <textarea v-model ="note.text" id="text-form" rows="8" cols="50"></textarea>          
             <button @click.prevent="modifyNote"  class="button-save">SAVE</button>
-            <button @click="NoteDelete"  class="button-delete">DELETE</button>
+            <router-link :to="{name:'NoteDetail'}" @click="removeNote" ><button>remove contact</button></router-link>
           </section>
       </article>
   </section>
 </main>
 </template>
 
-<script>
+<script>import router from "../../router"
+
   export default {
   name: 'NoteDetail',
   data() {
@@ -31,6 +32,10 @@
       const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
       this.note = await response.json()
       
+    },
+    removeNote(){
+      fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
+      router.push("/notes")
     }
     
   },
