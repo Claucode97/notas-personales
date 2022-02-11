@@ -6,7 +6,6 @@
       id="note-item"
       v-for="note in notesList" :key="note.id">
       <h2>{{ note.title }}</h2>
-      {{note.id}}
       <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
     <button class="remove_note" @click="removeNote(note)">remove note</button>
     </article>
@@ -85,7 +84,7 @@ h2 {
     text-align: left;
   }
 
-  .button-detail {
+  .button-detail, button {
     float: right;
     color: white;
     background: rgb(41, 40, 40);
