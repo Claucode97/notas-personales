@@ -30,10 +30,13 @@
       const response = await fetch('http://localhost:5000/api/notes')
       this.notesList = await response.json()
     },
-    removeNote(note){
-      note= fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
-      let note_to_remove=this.notesList.indexOf(note)     
-      this.notesList.splice(note_to_remove, 1)
+    async removeNote(note){
+
+      // FUNCIONA - VALIDACION FRONT
+      // let note_to_remove=this.notesList.indexOf(note)     
+      // this.notesList.splice(note_to_remove, 1)
+      await fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
+      this.loadData();
       
     }
   }
