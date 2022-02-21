@@ -31,10 +31,6 @@
       this.notesList = await response.json()
     },
     async removeNote(note){
-
-      // FUNCIONA - VALIDACION FRONT
-      // let note_to_remove=this.notesList.indexOf(note)     
-      // this.notesList.splice(note_to_remove, 1)
       await fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
       this.loadData();
       
