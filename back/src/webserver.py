@@ -38,17 +38,18 @@ def create_app(repositories):
         one_note_by_id = repositories["note"].get_by_id(id)
         return object_to_json(one_note_by_id)
 
-    @app.route("/api/notes/<id>", methods=["POST"])
-    def notes_modify(id, titulo, detalles):
-
-        modified_note = repositories["note"].modify_data_note_by_id(
-            id, titulo, detalles)
-        return object_to_json(modified_note)
-
     @app.route("/api/notes/<id>", methods=["DELETE"])
     def deleted_note_by_id(id):
         note_deleted_by_id = repositories["note"].note_deleted_by_id(id)
         return ""
+
+    @app.route("/api/notes/<id>", methods=["PUT"])
+    def modify_note_by_id(id):
+        data = request.json
+        print("*****", request.data)
+        note = Note(**data)
+        repositories["note"].modify_data_note_by_id(note)
+        return ''
 
     return app
 

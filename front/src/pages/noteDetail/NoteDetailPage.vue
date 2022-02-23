@@ -3,11 +3,11 @@
   <section id="notes-flex-container">
       <article id="note-item">
           <section>
-            <label for="title-form">Title:</label>
+            <label for="note.title">Title:</label>
             <input  v-model="note.title" type="text" id="title-form">
             <label for="note.text">Text:</label>
             <textarea v-model ="note.text" id="text-form" rows="8" cols="50"></textarea>          
-            <button @click.prevent="modifyNote"  class="button-save">SAVE</button>
+            <button @click.prevent="modifyNote(note)"  class="button-save">SAVE</button>
             <router-link :to="{name:'NoteDetail'}" @click="removeNote" ><button>remove contact</button></router-link>
           </section>
       </article>
@@ -21,12 +21,13 @@
   name: 'NoteDetail',
   data() {
     return {
-    note:{}
+    note: {}
     }
   },
   mounted() {
-    this.loadData()
+    this.loadData();
   },
+
   methods: {
     async loadData() {
       const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
@@ -36,8 +37,25 @@
     removeNote(){
       fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
       router.push("/notes")
-    }
+    },
     
+    async modifyNote(){ 
+      console.log("modifyNote")  
+      console.log(this.note)
+      const settings = {
+                method: 'PUT' ,
+                body: JSON.stringify(this.note),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                
+            }
+
+      await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
+      this.loadData();
+    
+    }
+  
   },
 
 
