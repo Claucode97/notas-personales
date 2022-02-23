@@ -75,7 +75,7 @@ import Swal from 'sweetalert2';
         console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
         console.log("obj mandado al back " + JSON.stringify(this.note))
               Swal.fire({
-        position: 'top-end',
+        position: 'top-center',
         icon: 'success',
         title: 'Your work has been saved',
         showConfirmButton: false,
