@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import {v4 as uuidv4} from 'uuid';
-uuidv4()
 import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
@@ -64,7 +62,7 @@ import Swal from 'sweetalert2';
       if (this.note.title != "" && this.note.text != ""){
 
         const settings = {
-          method: 'PUT' ,
+          method: 'PUT',
           body: JSON.stringify(this.note),
           headers: {
               'Content-Type': 'application/json'
@@ -75,13 +73,15 @@ import Swal from 'sweetalert2';
         await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
         this.loadData();
         console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
-        console.log("obj mandado al back " + JSON.stringify(newNote))
+        console.log("obj mandado al back " + JSON.stringify(this.note))
       }
       else{
           alert("Error! Fill in all the fields, please.")
         }  
-    }
+    },
   }
+  }
+
 </script>
 <style scoped>
 #notes-page {
@@ -92,9 +92,11 @@ import Swal from 'sweetalert2';
     margin: auto;
     padding: 0;
 }
+
 #notes-flex-container {
     margin: auto;
   }
+
 #note-item {
   float: left;
   width: 85vw;
@@ -106,6 +108,7 @@ import Swal from 'sweetalert2';
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 section{
   display: flex;
   align-content: center;
