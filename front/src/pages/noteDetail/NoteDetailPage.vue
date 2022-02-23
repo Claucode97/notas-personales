@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import {v4 as uuidv4} from 'uuid';
+uuidv4()
 import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
@@ -54,11 +56,33 @@ import Swal from 'sweetalert2';
         )
       }
     })
+    },
+
+    modifyNote() {
+      if (this.note_title != "" && this.note_description != ""){
+        let nextId= uuidv4()
+
+        let newNote = {"id": nextId, "title": this.note_title, "text": this.note_description}
+
+        const settings= {
+          method: 'POST',
+          body:JSON.stringify(newNote),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }
+        fetch('http://localhost:5000/api/notes', settings)
+        console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
+        console.log("obj mandado al back " + JSON.stringify(newNote))
+      }
+      else{
+          alert("Error! Fill in all the fields, please")
+        }
+
+        this.note_title = "";
+        this.note_description= "";
     }
-    
-  },
-
-
+  }
 }
 
 </script>
