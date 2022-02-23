@@ -58,6 +58,7 @@ export default {
 
             console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
             console.log("obj mandado al back " + JSON.stringify(newNote))
+            alert("Se ha añadido la nota correctamente!")
         }
               
         else{
