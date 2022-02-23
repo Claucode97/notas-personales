@@ -15,8 +15,8 @@
 </main>
 </template>
 
-<script>import router from "../../router"
-
+<script>
+import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
   data() {
@@ -33,9 +33,27 @@
       this.note = await response.json()
       
     },
-    removeNote(){
-      fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
-      router.push("/notes")
+    async removeNote(){
+      Swal.fire({
+      title: 'estas seguro?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
+          this.$router.push("/notes")
+          //this.loadData();
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+        )
+      }
+    })
     }
     
   },
