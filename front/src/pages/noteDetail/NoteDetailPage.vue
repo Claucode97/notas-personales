@@ -74,6 +74,13 @@ import Swal from 'sweetalert2';
         this.loadData();
         console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
         console.log("obj mandado al back " + JSON.stringify(this.note))
+              Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
       }
       else{
           alert("Error! Fill in all the fields, please.")
