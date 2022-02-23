@@ -15,8 +15,10 @@
 </main>
 </template>
 
-<script>import router from "../../router"
-
+<script>
+import {v4 as uuidv4} from 'uuid';
+uuidv4()
+import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
   data() {
@@ -34,33 +36,52 @@
       this.note = await response.json()
       
     },
-    removeNote(){
-      fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
-      router.push("/notes")
+    async removeNote(){
+      Swal.fire({
+      title: 'estas seguro?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
+          this.$router.push("/notes")
+          //this.loadData();
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+        )
+      }
+    })
     },
-    
-    async modifyNote(){ 
-      console.log("modifyNote")  
-      console.log(this.note)
-      const settings = {
-                method: 'PUT' ,
-                body: JSON.stringify(this.note),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+
+
+    async modifyNote() {
+      if (this.note.title != "" && this.note.text != ""){
+
+        const settings = {
+          method: 'PUT' ,
+          body: JSON.stringify(this.note),
+          headers: {
+              'Content-Type': 'application/json'
+          }
                 
-            }
+        }
 
-      await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
-      this.loadData();
-    
+        await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
+        this.loadData();
+        console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
+        console.log("obj mandado al back " + JSON.stringify(newNote))
+      }
+      else{
+          alert("Error! Fill in all the fields, please.")
+        }  
     }
-  
-  },
-
-
-}
-
+  }
 </script>
 <style scoped>
 #notes-page {

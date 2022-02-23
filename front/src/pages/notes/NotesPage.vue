@@ -14,12 +14,15 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+window.Swal= Swal;
   export default {
   name: 'Notes',
   data() {
     return {
       notasPersonales:"NOTAS PERSONALES",
-      notesList:[]
+      notesList:[],
+      
     }
   },
   mounted() {
@@ -31,9 +34,26 @@
       this.notesList = await response.json()
     },
     async removeNote(note){
-      await fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
-      this.loadData();
-      
+
+          Swal.fire({
+      title: 'estas seguro?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+          fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
+          this.loadData(fetch('http://localhost:5000/api/notes'));
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+        )
+      }
+    })
     }
   }
 }
