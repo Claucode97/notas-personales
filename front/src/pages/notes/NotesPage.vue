@@ -40,7 +40,7 @@ window.Swal= Swal;
       console.log('entrando')
       const notes = this.notesList
       const filtered_note= this.filtered_note
-      return notes.filter((note) => note.title.includes(filtered_note.toLocaleLowerCase()))
+      return notes.filter((note) => note.title.includes(filtered_note.toLowerCase()))
   },
     async removeNote(note){
 
