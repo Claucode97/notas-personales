@@ -105,6 +105,18 @@ h2 {
     text-align: left;
     
   }
+  .filtrar_notas{
+    width: 70%;
+    height: 2em;
+     border-width: thin thick mediu;
+    border-radius: 10px;
+  }
+  ::placeholder{
+    font-size: 150%;
+    padding: 1em;
+    color: rgb(6, 26, 117);
+
+  }
 
   p {
     font-size: 1.2em;
