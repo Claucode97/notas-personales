@@ -1,10 +1,12 @@
 <template>
+<input type="text"  class="filtrar_notas" v-model="filtered_note" placeholder="filtrar Notas">
+<button class="buscar"  @click="filteredNote()"><span>filtrar</span></button><br><br>
 <main id="notes-page">
 <section id="notes-flex-container">
   <h1>{{notasPersonales}}</h1>
    <article
       id="note-item"
-      v-for="note in notesList" :key="note.id">
+      v-for="note in filteredNote()" :key="note.id">
       <h2>{{ note.title }}</h2>
       <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
     <button class="remove_note" @click="removeNote(note)">remove note</button>
@@ -22,6 +24,7 @@ window.Swal= Swal;
     return {
       notasPersonales:"NOTAS PERSONALES",
       notesList:[],
+      filtered_note:'',
       
     }
   },
@@ -33,6 +36,12 @@ window.Swal= Swal;
       const response = await fetch('http://localhost:5000/api/notes')
       this.notesList = await response.json()
     },
+    filteredNote(){
+      console.log('entrando')
+      const notes = this.notesList
+      const filtered_note= this.filtered_note
+      return notes.filter((note) => note.title.includes(filtered_note))
+  },
     async removeNote(note){
 
           Swal.fire({
@@ -55,7 +64,7 @@ window.Swal= Swal;
       }
     })
     }
-  }
+  },
 }
 
 </script>
