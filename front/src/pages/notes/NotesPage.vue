@@ -37,10 +37,10 @@ window.Swal= Swal;
       this.notesList = await response.json()
     },
     filteredNote(){
-      console.log('entrando')
+      console.log('entrando', this.filtered_note)
       const notes = this.notesList
       const filtered_note= this.filtered_note
-      return notes.filter((note) => note.title.includes(filtered_note.toLowerCase()))
+      return notes.filter((note) => note.title.toLowerCase().includes(filtered_note.toLowerCase()))
   },
     async removeNote(note){
 
@@ -123,6 +123,15 @@ h2 {
     font-size: 1.2em;
     color: rgb(59, 58, 58);
     text-align: left;
+  }
+  .buscar{
+    margin-left:10em;
+    color: white;
+    background:rgb(41, 40, 40);
+    border-radius: 1em;
+    padding: 10px 5px 10px;
+    font-size: 20px;
+    margin-left: auto;
   }
 
   .button-detail, button {
