@@ -125,7 +125,7 @@ h2 {
     text-align: left;
   }
   .buscar{
-    margin-left:10em;
+    margin-right:2rem;
     color: white;
     background:rgb(41, 40, 40);
     border-radius: 1em;
