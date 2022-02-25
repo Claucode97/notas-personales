@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import config from '../../config.js';
 import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
@@ -30,7 +31,7 @@ import Swal from 'sweetalert2';
 
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
+      const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id )
       this.note = await response.json()
       
     },
@@ -45,7 +46,7 @@ import Swal from 'sweetalert2';
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-          fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
+          fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, {method: "DELETE"})
           this.$router.push("/notes")
           //this.loadData();
           Swal.fire(
@@ -70,7 +71,7 @@ import Swal from 'sweetalert2';
                 
         }
 
-        await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
+        await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
         this.loadData();
         console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
         console.log("obj mandado al back " + JSON.stringify(this.note))

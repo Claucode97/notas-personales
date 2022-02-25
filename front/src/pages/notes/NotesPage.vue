@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import config from '../../config.js';
 import Swal from 'sweetalert2';
 window.Swal= Swal;
   export default {
@@ -33,7 +34,7 @@ window.Swal= Swal;
   },
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes')
+      const response = await fetch(`${config.API_PATH}/notes`)
       this.notesList = await response.json()
     },
     filteredNote(){
@@ -54,8 +55,8 @@ window.Swal= Swal;
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-          fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
-          this.loadData(fetch('http://localhost:5000/api/notes'));
+          fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
+          this.loadData(fetch(`${config.API_PATH}/notes`));
           location.reload();
           Swal.fire(
             'Deleted!',

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import config from '@/config.js';
 import {v4 as uuidv4} from 'uuid';
 uuidv4()
 export default {
@@ -38,7 +39,7 @@ export default {
   
   methods:{
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes')
+      const response = await fetch(`${config.API_PATH}/notes`)
       this.notes_front= await response.json()
     },
     addNewNote(){
@@ -54,7 +55,7 @@ export default {
                     'Content-Type': 'application/json'
                 }
             }
-            fetch('http://localhost:5000/api/notes', settings)
+            fetch(`${config.API_PATH}/notes`, settings)
 
             console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
             console.log("obj mandado al back " + JSON.stringify(newNote))
