@@ -56,6 +56,7 @@ window.Swal= Swal;
       if (result.isConfirmed) {
           fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
           this.loadData(fetch('http://localhost:5000/api/notes'));
+          location.reload();
           Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
