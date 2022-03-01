@@ -8,7 +8,7 @@
             <label for="modifiedNote.text">Text:</label>
             <textarea v-model ="modifiedNote.text" id="text-form" rows="8" cols="50"></textarea>          
             <button @click.prevent="modifyNote(modifiedNote)"  class="button-save">SAVE</button>
-            <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button>remove contact</button></router-link>
+            <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button>DELETE</button></router-link>
           </section>
       </article>
   </section>
