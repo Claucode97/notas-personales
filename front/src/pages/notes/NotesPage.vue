@@ -1,10 +1,12 @@
 <template>
+<input type="text"  class="filtrar_notas" v-model="filtered_note" placeholder="filtrar Notas">
+<button class="buscar"  @click="filteredNote()"><span>filtrar</span></button><br><br>
 <main id="notes-page">
 <section id="notes-flex-container">
   <h1>{{notasPersonales}}</h1>
    <article
       id="note-item"
-      v-for="note in notesList" :key="note.id">
+      v-for="note in filteredNote()" :key="note.id">
       <h2>{{ note.title }}</h2>
       <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
     <button class="remove_note" @click="removeNote(note)">remove note</button>
@@ -14,6 +16,7 @@
 </template>
 
 <script>
+import config from '../../config.js';
 import Swal from 'sweetalert2';
 window.Swal= Swal;
   export default {
@@ -22,6 +25,7 @@ window.Swal= Swal;
     return {
       notasPersonales:"NOTAS PERSONALES",
       notesList:[],
+      filtered_note:'',
       
     }
   },
@@ -30,9 +34,15 @@ window.Swal= Swal;
   },
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes')
+      const response = await fetch(`${config.API_PATH}/notes`)
       this.notesList = await response.json()
     },
+    filteredNote(){
+      console.log('entrando', this.filtered_note)
+      const notes = this.notesList
+      const filtered_note= this.filtered_note
+      return notes.filter((note) => note.title.toLowerCase().includes(filtered_note.toLowerCase()))
+  },
     async removeNote(note){
 
           Swal.fire({
@@ -45,8 +55,9 @@ window.Swal= Swal;
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-          fetch("http://localhost:5000/api/notes/" + note.id, {method: "DELETE"})
-          this.loadData(fetch('http://localhost:5000/api/notes'));
+          fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
+          this.loadData(fetch(`${config.API_PATH}/notes`));
+          location.reload();
           Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
@@ -55,7 +66,7 @@ window.Swal= Swal;
       }
     })
     }
-  }
+  },
 }
 
 </script>
@@ -96,11 +107,32 @@ h2 {
     text-align: left;
     
   }
+  .filtrar_notas{
+    width: 70%;
+    height: 2em;
+     border-width: thin thick mediu;
+    border-radius: 10px;
+  }
+  ::placeholder{
+    font-size: 150%;
+    padding: 1em;
+    color: rgb(6, 26, 117);
+
+  }
 
   p {
     font-size: 1.2em;
     color: rgb(59, 58, 58);
     text-align: left;
+  }
+  .buscar{
+    margin-right:2rem;
+    color: white;
+    background:rgb(41, 40, 40);
+    border-radius: 1em;
+    padding: 10px 5px 10px;
+    font-size: 20px;
+    margin-left: auto;
   }
 
   .button-detail, button {

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import config from '../../config.js';
 import Swal from 'sweetalert2';
   export default {
   name: 'NoteDetail',
@@ -32,12 +33,9 @@ import Swal from 'sweetalert2';
 
   methods: {
     async loadData() {
-      const response = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
+      const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id )
       this.note = await response.json()
       this.modifiedNote = JSON.parse(JSON.stringify(this.note))
-      
-      /*const response2 = await fetch('http://localhost:5000/api/notes/' + this.$route.params.id )
-      this.oldNote = await response2.json()*/
       
     },
 
@@ -52,7 +50,7 @@ import Swal from 'sweetalert2';
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-          fetch("http://localhost:5000/api/notes/" + this.$route.params.id, {method: "DELETE"})
+          fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, {method: "DELETE"})
           this.$router.push("/notes")
           //this.loadData();
           Swal.fire(
@@ -81,38 +79,38 @@ import Swal from 'sweetalert2';
         alert("Error! Fill in all the fields, please.")
       }
       else{
-          if(this.isNoteModified()){
+        if(this.isNoteModified()){
           const settings = {
           method: 'PUT',
           body: JSON.stringify(this.modifiedNote),
           headers: {
               'Content-Type': 'application/json'
+            }
+              
           }
-                
-        }
 
-        await fetch("http://localhost:5000/api/notes/" + this.$route.params.id, settings)
-        this.loadData();
-        console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
-        console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
-              Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Your work has been saved',
-        showConfirmButton: false,
-        timer: 1500
+          await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
+          this.loadData();
+          console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
+          console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
+                Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500
         })
 
       }
-      else{
-        alert("Note has not being modified.")
-      }
-        }  
+        else{
+          alert("Note has not being modified.")
+        }
+      }  
       
       
     },
   }
-  }
+}
 
 </script>
 <style scoped>
