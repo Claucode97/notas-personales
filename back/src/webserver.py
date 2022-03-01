@@ -51,6 +51,12 @@ def create_app(repositories):
         repositories["note"].modify_data_note_by_id(note)
         return ''
 
+    @app.route("/api/user", methods=["GET"])
+    def users_get_all():
+
+        user = repositories["user"].get_all_users()
+        return object_to_json(user)
+
     return app
 
 

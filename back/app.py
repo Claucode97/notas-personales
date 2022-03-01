@@ -2,13 +2,15 @@ import sqlite3
 from src.webserver import create_app
 from src.domain.note import NotesRepository
 from src.domain.info import InfoRepository
+from src.domain.users import UserRepository
 
 
 database_path = "data/database.db"
 
 repositories = {
     "note": NotesRepository(database_path),
-    "info": InfoRepository(database_path)
+    "info": InfoRepository(database_path),
+    "user": UserRepository(database_path)
 }
 
 app = create_app(repositories)
