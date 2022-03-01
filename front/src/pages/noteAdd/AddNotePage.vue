@@ -68,6 +68,9 @@ export default {
                       showConfirmButton: false,
                       timer: 1500
                       })
+            //Esto redirige a la página principal de todas las notas, justo despues de añadir una nueva
+            // Si no queremos la redirección, sólo hay que borrar la línea de abajo
+            this.$router.push ("/notes") 
         }
               
         else{
