@@ -18,6 +18,8 @@
 
 <script>
 import config from '@/config.js';
+import Swal from 'sweetalert2';
+window.Swal= Swal;
 import {v4 as uuidv4} from 'uuid';
 uuidv4()
 export default {
@@ -59,7 +61,13 @@ export default {
 
             console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
             console.log("obj mandado al back " + JSON.stringify(newNote))
-            alert("Se ha añadido la nota correctamente!")
+            Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: 'Your note has been saved',
+                      showConfirmButton: false,
+                      timer: 1500
+                      })
         }
               
         else{

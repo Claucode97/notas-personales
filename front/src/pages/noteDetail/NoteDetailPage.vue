@@ -3,12 +3,12 @@
   <section id="notes-flex-container">
       <article id="note-item">
           <section>
-            <label for="note.title">Title:</label>
-            <input  v-model="note.title" type="text" id="title-form">
-            <label for="note.text">Text:</label>
-            <textarea v-model ="note.text" id="text-form" rows="8" cols="50"></textarea>          
-            <button @click.prevent="modifyNote(note)"  class="button-save">SAVE</button>
-            <router-link :to="{name:'NoteDetail'}" @click="removeNote" ><button>remove note</button></router-link>
+            <label for="modifiedNote.title">Title:</label>
+            <input  v-model="modifiedNote.title" type="text" id="title-form">
+            <label for="modifiedNote.text">Text:</label>
+            <textarea v-model ="modifiedNote.text" id="text-form" rows="8" cols="50"></textarea>          
+            <button @click.prevent="modifyNote(modifiedNote)"  class="button-save">SAVE</button>
+            <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button>remove contact</button></router-link>
           </section>
       </article>
   </section>
@@ -22,9 +22,11 @@ import Swal from 'sweetalert2';
   name: 'NoteDetail',
   data() {
     return {
-    note: {}
+    note: {},
+    modifiedNote: {},
     }
   },
+  
   mounted() {
     this.loadData();
   },
@@ -33,8 +35,10 @@ import Swal from 'sweetalert2';
     async loadData() {
       const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id )
       this.note = await response.json()
+      this.modifiedNote = JSON.parse(JSON.stringify(this.note))
       
     },
+
     async removeNote(){
       Swal.fire({
       title: 'estas seguro?',
@@ -58,37 +62,55 @@ import Swal from 'sweetalert2';
     })
     },
 
+    isNoteModified(){
+      if(this.note.title != this.modifiedNote.title || this.note.text != this.modifiedNote.text){
+        return true
+      }
+    },
+    isNoteEmpty(){
+      if (this.modifiedNote.title === "" && this.modifiedNote.text === ""){
+        return true
+      }
+    },
 
     async modifyNote() {
-      if (this.note.title != "" && this.note.text != ""){
 
-        const settings = {
-          method: 'PUT',
-          body: JSON.stringify(this.note),
-          headers: {
-              'Content-Type': 'application/json'
-          }
-                
-        }
-
-        await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
-        this.loadData();
-        console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
-        console.log("obj mandado al back " + JSON.stringify(this.note))
-              Swal.fire({
-        position: 'top-center',
-        icon: 'success',
-        title: 'Your work has been saved',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      if (this.isNoteEmpty()){
+        alert("Error! Fill in all the fields, please.")
       }
       else{
-          alert("Error! Fill in all the fields, please.")
-        }  
+        if(this.isNoteModified()){
+          const settings = {
+          method: 'PUT',
+          body: JSON.stringify(this.modifiedNote),
+          headers: {
+              'Content-Type': 'application/json'
+            }
+              
+          }
+
+          await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
+          this.loadData();
+          console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
+          console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
+                Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+      }
+        else{
+          alert("Note has not being modified.")
+        }
+      }  
+      
+      
     },
   }
-  }
+}
 
 </script>
 <style scoped>
