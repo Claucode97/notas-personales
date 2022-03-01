@@ -1,9 +1,9 @@
 <template>
+<h1>{{notasPersonales}}</h1>
 <input type="text"  class="filtrar_notas" v-model="filtered_note" placeholder="filtrar Notas">
-<button class="buscar"  @click="filteredNote()"><span>filtrar</span></button><br><br>
+<router-link to="/notes/add"><button>ADD NOTE</button></router-link>
 <main id="notes-page">
 <section id="notes-flex-container">
-  <h1>{{notasPersonales}}</h1>
    <article
       id="note-item"
       v-for="note in filteredNote()" :key="note.id">
