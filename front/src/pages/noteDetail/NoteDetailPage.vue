@@ -41,7 +41,7 @@ import Swal from 'sweetalert2';
 
     async removeNote(){
       Swal.fire({
-      title: 'estas seguro?',
+      title: 'ARE YOU SURE?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
@@ -57,9 +57,9 @@ import Swal from 'sweetalert2';
             'Deleted!',
             'Your file has been deleted.',
             'success'
-        )
-      }
-    })
+          )
+        }
+      })
     },
 
     isNoteModified(){
@@ -105,9 +105,7 @@ import Swal from 'sweetalert2';
         else{
           alert("Note has not being modified.")
         }
-      }  
-      
-      
+      }        
     },
   }
 }
@@ -125,6 +123,7 @@ import Swal from 'sweetalert2';
 
 #notes-flex-container {
     margin: auto;
+    width: 85vw;
   }
 
 #note-item {

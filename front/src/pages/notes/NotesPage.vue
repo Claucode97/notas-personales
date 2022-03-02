@@ -1,17 +1,22 @@
 <template>
-<h1>{{notasPersonales}}</h1>
-<input type="text"  class="filtrar_notas" v-model="filtered_note" placeholder="filtrar Notas">
-<router-link to="/notes/add"><button>ADD NOTE</button></router-link>
 <main id="notes-page">
-<section id="notes-flex-container">
-   <article
-      id="note-item"
-      v-for="note in filteredNote()" :key="note.id">
-      <h2>{{ note.title }}</h2>
-      <router-link :to="{name: 'NoteDetail',  params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
-    <button class="remove_note" @click="removeNote(note)">remove note</button>
-    </article>
-</section>
+  <h1>{{notesTitle}}</h1>
+  <section id = "filter-add">
+    <div class="search-structure">
+    <input type="text" v-model="filtered_note" placeholder="search notes...">
+    <i class="fa fa-search"></i>
+    </div>
+    <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
+  </section>
+  <section id="notes-flex-container">
+    <article
+        id="note-item"
+        v-for="note in filteredNote()" :key="note.id">
+        <h2>{{ note.title }}</h2>
+        <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
+      <button  @click="removeNote(note)">remove</button>
+      </article>
+  </section>
 </main>
 </template>
 
@@ -23,7 +28,7 @@ window.Swal= Swal;
   name: 'Notes',
   data() {
     return {
-      notasPersonales:"NOTAS PERSONALES",
+      notesTitle:"PERSONAL NOTES",
       notesList:[],
       filtered_note:'',
       
@@ -38,7 +43,6 @@ window.Swal= Swal;
       this.notesList = await response.json()
     },
     filteredNote(){
-      console.log('entrando', this.filtered_note)
       const notes = this.notesList
       const filtered_note= this.filtered_note
       return notes.filter((note) => note.title.toLowerCase().includes(filtered_note.toLowerCase()))
@@ -46,7 +50,7 @@ window.Swal= Swal;
     async removeNote(note){
 
           Swal.fire({
-      title: 'estas seguro?',
+      title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
@@ -72,17 +76,6 @@ window.Swal= Swal;
 </script>
 
 <style scoped>
-#notes-page {
-    text-align: center;
-    max-width: 90vw;
-    height: 100vh;
-    margin: auto;
-    padding: 0;
-  }
-#notes-flex-container {
-    margin: auto;
-  }
-
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
@@ -90,52 +83,55 @@ h1 {
     text-align: center;
     text-transform: capitalize;
   }
-#note-item {
-    float: left;
-    width: 85vw;
-   
-    border: 5px double gray;
-    border-radius: 1em;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 5px 5px; 
-  }
 
 h2 {
-    text-transform: uppercase;
-    text-decoration: underline;
-    text-align: left;
-    
-  }
-  .filtrar_notas{
-    width: 70%;
-    height: 2em;
-     border-width: thin thick mediu;
-    border-radius: 10px;
-  }
-  ::placeholder{
-    font-size: 150%;
-    padding: 1em;
-    color: rgb(6, 26, 117);
-
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-align: left;
+  max-width: 70vw;   
   }
 
-  p {
+p {
     font-size: 1.2em;
     color: rgb(59, 58, 58);
     text-align: left;
   }
-  .buscar{
-    margin-right:2rem;
-    color: white;
-    background:rgb(41, 40, 40);
-    border-radius: 1em;
-    padding: 10px 5px 10px;
-    font-size: 20px;
-    margin-left: auto;
+#notes-page {
+    text-align: center;
+    max-width: 90vw;
+    height: 100vh;
+    margin: auto;
+    padding: 0;
+  }
+#filter-add{
+  background:green;
+  height: 10vh;
+  width: 90vw;
+}
+
+#notes-flex-container {
+    margin: auto;
   }
 
-  .button-detail, button {
+#note-item {
+  float: left;
+  width: 85vw; 
+  border: 5px double gray;
+  border-radius: 1em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px 5px; 
+  }
+
+.search-structure i {
+  background: orange;
+}
+::placeholder{
+    font-size: 150%;
+    padding: 1em;
+    color: rgb(6, 26, 117);
+  }
+.button-detail, button {
     float: right;
     color: white;
     background: rgb(41, 40, 40);
@@ -143,5 +139,8 @@ h2 {
     padding: 10px 5px 10px;
     font-size: 20px;
   }
-
+.add_button{
+  background:grey;
+  width: 70vw;
+}
 </style>
