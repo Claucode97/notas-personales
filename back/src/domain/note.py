@@ -2,16 +2,18 @@ import sqlite3
 
 
 class Note:
-    def __init__(self, id, title, text):
+    def __init__(self, id, user_id, title, text):
         self.id = id
         self.title = title
         self.text = text
+        self.user_id = user_id
 
     def to_dict(self):
         return {
             'id': self.id,
             'title': self.title,
-            'text': self.text
+            'text': self.text,
+            'user_id': self.user_id
         }
 
 
@@ -30,7 +32,8 @@ class NotesRepository:
             create table if not exists notes (
                 id varchar NOT NULL PRIMARY KEY,
                 title varchar,
-                text varchar
+                text varchar,
+                user_id varchar
             )
             
         """
@@ -50,7 +53,7 @@ class NotesRepository:
 
         for item in data:
             one_note = Note(
-                id=item["id"], title=item["title"], text=item["text"]
+                id=item["id"], title=item["title"], text=item["text"], user_id=item["user_id"]
             )
             notes_list.append(one_note)
 
@@ -64,12 +67,26 @@ class NotesRepository:
         cursor.execute(sql, {"id": note_id})
 
         data = cursor.fetchone()
-        one_note = Note(id=data["id"], title=data["title"], text=data["text"])
+        one_note = Note(id=data["id"], title=data["title"],
+                        text=data["text"], user_id=data["user_id"])
         return one_note
 
+    def search_by_user_id(self, user_id):
+
+        sql = """SELECT * FROM notes WHERE user_id= :user_id"""
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, {"user_id": user_id})
+        data = cursor.fetchall()
+        notes = []
+        for item in data:
+            note = Note(**item)
+            notes.append(note)
+        return notes
+
     def insert_data_note(self, note):
-        sql = """insert into notes (id, title, text) values (
-            :id, :title, :text
+        sql = """insert into notes (id, title, text, user_id) values (
+            :id, :title, :text, :user_id
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
@@ -85,7 +102,7 @@ class NotesRepository:
     def modify_data_note_by_id(self, modified_note):
 
         sql = """ UPDATE notes
-                    SET title = :title, text= :text
+                    SET title = :title, text= :text, user_id = :user_id
                     WHERE id = :id; """
         conn = self.create_conn()
         cursor = conn.cursor()

@@ -7,7 +7,8 @@ def test_should_return_notes_deleted():
     notes_repository = NotesRepository(temp_file())
     app = create_app(repositories={"note": notes_repository})
     client = app.test_client()
-    note = Note(id="note-1", title="example1", text="text example")
+    note = Note(id="note-1", title="example1",
+                text="text example", user_id="Joseba_1")
     notes_repository.insert_data_note(note)
     reponse_note_deleted = client.delete("/api/notes/note-1")
     response = client.get("/api/notes")

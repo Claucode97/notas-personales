@@ -19,9 +19,9 @@ def create_app(repositories):
         return object_to_json(info)
 
     @app.route("/api/notes", methods=["GET"])
-    def notes_get_all():
-
-        notes = repositories["note"].get_all()
+    def get_user_all_notes():
+        user_id = request.headers.get("Authorization")
+        notes = repositories["note"].search_by_user_id(user_id)
         return object_to_json(notes)
 
     @app.route("/api/notes", methods=["POST"])
