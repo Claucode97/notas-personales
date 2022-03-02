@@ -17,7 +17,8 @@ def test_method_should_modify_data():
         id="note-1", title="example1 modified", text="text example modified", user_id="Joseba_1")
     notes_repository.modify_data_note_by_id(modified_note)
 
-    response_get_database = client.get("/api/notes/note-1")
+    response_get_database = client.get("/api/notes/note-1",
+                                       headers={"Authorization": "Joseba_1"})
     assert response_get_database.json == {
         "id": "note-1",
         "title": "example1 modified",

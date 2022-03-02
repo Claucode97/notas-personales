@@ -19,7 +19,8 @@ def test_should_save_note():
 
     assert response.status_code == 200
 
-    response_get = client.get("/api/notes/note1")
+    response_get = client.get("/api/notes/note1",
+                              headers={"Authorization": "Joseba_1"})
     assert response_get.json == {
         "id": "note1",
         "title": "example1",

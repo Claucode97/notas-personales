@@ -10,7 +10,8 @@ def test_should_return_notes_deleted():
     note = Note(id="note-1", title="example1",
                 text="text example", user_id="Joseba_1")
     notes_repository.insert_data_note(note)
-    reponse_note_deleted = client.delete("/api/notes/note-1")
+    reponse_note_deleted = client.delete("/api/notes/note-1",
+                                         headers={"Authorization": "Joseba_1"})
     response = client.get("/api/notes")
 
     assert response.json == []
