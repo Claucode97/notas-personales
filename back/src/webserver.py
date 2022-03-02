@@ -27,7 +27,6 @@ def create_app(repositories):
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
         data = request.json
-        print("*****", request.data)
         note = Note(**data)
         repositories["note"].insert_data_note(note)
         return ''
@@ -36,6 +35,7 @@ def create_app(repositories):
     def notes_get_by_id(id):
         user_id = request.headers.get("Authorization")
         one_note_by_id = repositories["note"].get_by_id(id)
+
         if user_id == one_note_by_id.user_id:
             return object_to_json(one_note_by_id), 200
         else:
@@ -57,14 +57,7 @@ def create_app(repositories):
     @app.route("/api/user", methods=["GET"])
     def users_get_all():
 
-        user = repositories["user"].get_all_users()
-        return object_to_json(user)
+        all_users = repositories["user"].get_all_users()
+        return object_to_json(all_users)
 
     return app
-
-
-"""    @app.route("/api/save-notes", methods=["POST"])
-    def notes_post():
-         --> save cambia a insert_data_note
-        repositories["note"].save("Título1", "Descripción de la nota 1")
-        return True"""

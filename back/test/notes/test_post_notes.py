@@ -50,6 +50,5 @@ def test_shouldnt_save_note_with_same_id():
 
     response = client.post("/api/notes", json=note1)
     response2 = client.post("/api/notes", json=note2)
-    print(response)
-    print(response2)
+
     assert response2.status_code != 200
