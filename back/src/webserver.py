@@ -19,9 +19,9 @@ def create_app(repositories):
         return object_to_json(info)
 
     @app.route("/api/notes", methods=["GET"])
-    def notes_get_all():
-
-        notes = repositories["note"].get_all()
+    def get_user_all_notes():
+        user_id = request.headers.get("Authorization")
+        notes = repositories["note"].search_by_user_id(user_id)
         return object_to_json(notes)
 
     @app.route("/api/notes", methods=["POST"])
@@ -34,9 +34,12 @@ def create_app(repositories):
 
     @app.route("/api/notes/<id>", methods=["GET"])
     def notes_get_by_id(id):
-
+        user_id = request.headers.get("Authorization")
         one_note_by_id = repositories["note"].get_by_id(id)
-        return object_to_json(one_note_by_id)
+        if user_id == one_note_by_id.user_id:
+            return object_to_json(one_note_by_id), 200
+        else:
+            return "", 403
 
     @app.route("/api/notes/<id>", methods=["DELETE"])
     def deleted_note_by_id(id):

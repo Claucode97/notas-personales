@@ -12,17 +12,20 @@ def test_should_save_note():
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
+        "user_id": "Joseba_1"
     }
 
     response = client.post("/api/notes", json=note)
 
     assert response.status_code == 200
 
-    response_get = client.get("/api/notes/note1")
+    response_get = client.get("/api/notes/note1",
+                              headers={"Authorization": "Joseba_1"})
     assert response_get.json == {
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
+        "user_id": "Joseba_1"
     }
 
 
@@ -35,12 +38,14 @@ def test_shouldnt_save_note_with_same_id():
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
+        "user_id": "Joseba_1"
     }
 
     note2 = {
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
+        "user_id": "Joseba_1"
     }
 
     response = client.post("/api/notes", json=note1)
