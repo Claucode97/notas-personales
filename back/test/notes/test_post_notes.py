@@ -29,7 +29,7 @@ def test_should_save_note():
     }
 
 
-def test_shouldnt_save_note_with_same_id():
+def test_shouldnt_save_new_note_with_same_id():
     notes_repository = NotesRepository(temp_file())
     app = create_app(repositories={"note": notes_repository})
     client = app.test_client()
@@ -43,8 +43,8 @@ def test_shouldnt_save_note_with_same_id():
 
     note2 = {
         "id": "note1",
-        "title": "example1",
-        "text": "Hola nena",
+        "title": "example2",
+        "text": "Hola beba",
         "user_id": "Joseba_1"
     }
 
