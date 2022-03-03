@@ -1,6 +1,7 @@
 <template>
 <main id="notes-page">
-  <h1>{{notesTitle}}</h1>
+  <h1>{{currentUser}}</h1>
+  <h2>{{notesTitle}}</h2>
   <section id = "filter-add">
     <div class="search-structure">
     <input type="text" v-model="filtered_note" placeholder="search notes...">
@@ -23,6 +24,7 @@
 <script>
 import config from '../../config.js';
 import Swal from 'sweetalert2';
+
 window.Swal= Swal;
   export default {
   name: 'Notes',
@@ -31,6 +33,8 @@ window.Swal= Swal;
       notesTitle:"PERSONAL NOTES",
       notesList:[],
       filtered_note:'',
+      currentUser: "",
+      
       
     }
   },
@@ -47,7 +51,7 @@ window.Swal= Swal;
       };
       const response = await fetch(`${config.API_PATH}/notes`, settings)
       this.notesList = await response.json()
-
+      this.currentUser= localStorage.userName
     },
     filteredNote(){
       const notes = this.notesList

@@ -23,6 +23,7 @@ export default {
     greeting:"WELCOME",
     users:[],
     selectedUsers: null,
+    currentUser: localStorage.userName
     };
   },
 

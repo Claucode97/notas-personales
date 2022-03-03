@@ -34,7 +34,13 @@ import Swal from 'sweetalert2';
 
   methods: {
     async loadData() {
-      const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id )
+       const settings = {
+        method: 'GET',
+        headers: {
+          Authorization: localStorage.userId
+        },
+      };
+      const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id, settings)
       this.note = await response.json()
       this.modifiedNote = JSON.parse(JSON.stringify(this.note))
       
@@ -51,6 +57,7 @@ import Swal from 'sweetalert2';
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
+
           fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, {method: "DELETE"})
           this.$router.push("/notes")
           //this.loadData();
@@ -94,7 +101,7 @@ import Swal from 'sweetalert2';
           console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
           console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
                 Swal.fire({
-          position: 'top-center',
+          position: 'center',
           icon: 'success',
           title: 'Your work has been saved',
           showConfirmButton: false,

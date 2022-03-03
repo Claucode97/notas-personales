@@ -48,13 +48,14 @@ export default {
         if (this.note_title != "" && this.note_description != ""){
             let nextId= uuidv4()
             
-            let newNote = {"id": nextId,"title": this.note_title, "text": this.note_description}
+            let newNote = {"id": nextId, "title": this.note_title, "text": this.note_description, "user_id": localStorage.userId}
 
             const settings={
                 method:'POST',
                 body:JSON.stringify(newNote),
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.userId
                 }
             }
             fetch(`${config.API_PATH}/notes`, settings)
