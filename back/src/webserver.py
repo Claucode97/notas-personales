@@ -26,6 +26,7 @@ def create_app(repositories):
 
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
+        user_id = request.headers.get("Authorization")
         data = request.json
         note = Note(**data)
         repositories["note"].insert_data_note(note)
@@ -35,7 +36,6 @@ def create_app(repositories):
     def notes_get_by_id(id):
         user_id = request.headers.get("Authorization")
         one_note_by_id = repositories["note"].get_by_id(id)
-
         if user_id == one_note_by_id.user_id:
             return object_to_json(one_note_by_id), 200
         else:
@@ -43,11 +43,13 @@ def create_app(repositories):
 
     @app.route("/api/notes/<id>", methods=["DELETE"])
     def deleted_note_by_id(id):
+        user_id = request.headers.get("Authorization")
         note_deleted_by_id = repositories["note"].note_deleted_by_id(id)
         return ""
 
     @app.route("/api/notes/<id>", methods=["PUT"])
     def modify_note_by_id(id):
+        user_id = request.headers.get("Authorization")
         data = request.json
         print("*****", request.data)
         note = Note(**data)
@@ -56,7 +58,7 @@ def create_app(repositories):
 
     @app.route("/api/user", methods=["GET"])
     def users_get_all():
-
+        user_id = request.headers.get("Authorization")
         all_users = repositories["user"].get_all_users()
         return object_to_json(all_users)
 
