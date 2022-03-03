@@ -1,16 +1,15 @@
 <template>
-<main id="notes-page">
+<main>
+  <h2>DETAILED NOTE</h2>
   <section id="notes-flex-container">
       <article id="note-item">
-          <section>
-            <label for="modifiedNote.title">Title:</label>
-            <input  v-model="modifiedNote.title" type="text" id="title-form">
-            <label for="modifiedNote.text">Text:</label>
-            <textarea v-model ="modifiedNote.text" id="text-form" rows="8" cols="50"></textarea>          
-            <button @click.prevent="modifyNote(modifiedNote)"  class="button-save">SAVE</button>
-            <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button>DELETE</button></router-link>
-          </section>
+            <label for="modifiedNote.title">TITLE:</label>
+            <input  v-model="modifiedNote.title">
+            <label for="modifiedNote.text">TEXT:</label>
+            <textarea v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
       </article>
+      <button @click.prevent="modifyNote(modifiedNote)"  class="save_button">SAVE</button>
+      <button class= remove_button><router-link :to="{name:'NoteDetail'}" @click="removeNote"></router-link>REMOVE</button>
   </section>
 </main>
 </template>
@@ -119,38 +118,41 @@ import Swal from 'sweetalert2';
 
 </script>
 <style scoped>
-#notes-page {
-    font-family: Arial, Helvetica, sans-serif;
+main {
     text-align: center;
-    max-width: 90vw;
-    height: 100vh;
-    margin: auto;
-    padding: 0;
+    width: 90vw; 
 }
-
-#notes-flex-container {
-    margin: auto;
-    width: 85vw;
-  }
+input, textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 90vw;
+  border: 5px double gray;
+  border-radius: 0.5em;
+  font-size: 1em;
+  text-transform: Capitalize;
+  padding-top: 10px;
+  margin:  5px 0px 15px ;
+  color:black;
+}
+label {
+  font-weight: bold;
+}
 
 #note-item {
-  float: left;
   width: 85vw;
-  border: 5px double gray;
-  border-radius: 1em;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
   padding: 5px 5px;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
 }
+.save_button, .remove_button {
+    width: 30vw;
+    color: black;
+    background: rgb(197, 193, 193);
+    border-radius: 0.5em;
+    padding: 5px 5px 5px;
+    font-size: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+    
 
-section{
-  display: flex;
-  align-content: center;
-  flex-direction: column;
 }
-
-
-
 </style>

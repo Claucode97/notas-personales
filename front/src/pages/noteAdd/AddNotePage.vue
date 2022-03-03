@@ -120,25 +120,16 @@ export default {
     padding: 10px;
   }
 
-  input {
+  input, textarea {
     width: 85vw;
     border: 5px double gray;
     border-radius: 0.5em;
-    font-family: Arial, Helvetica, sans-serif;
     margin-bottom: 20px;
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
   }
  
-  textarea {
-    width: 85vw;
-    height: 20vh;
-    border: 5px double gray;
-    border-radius: 0.5em;
-    font-family: Arial, Helvetica, sans-serif;
-    color: gray;
-  }
-
   h1 {
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
     text-align: center;
     text-transform: capitalize;
@@ -160,11 +151,10 @@ export default {
     background: rgb(197, 193, 193);
     border-radius: 0.5em;
     width: 100px;
-    margin-top: 90px;
+    margin-top: 30px;
     margin-right: 10px;
     padding: 5px 10px;
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
   }
 
 </style>
