@@ -39,8 +39,15 @@ window.Swal= Swal;
   },
   methods: {
     async loadData() {
-      const response = await fetch(`${config.API_PATH}/notes`)
+      const settings = {
+        method: 'GET',
+        headers: {
+          Authorization: localStorage.userId
+        },
+      };
+      const response = await fetch(`${config.API_PATH}/notes`, settings)
       this.notesList = await response.json()
+
     },
     filteredNote(){
       const notes = this.notesList
@@ -104,7 +111,6 @@ p {
     padding: 0;
   }
 #filter-add{
-  background:green;
   height: 10vh;
   width: 90vw;
 }
@@ -124,7 +130,6 @@ p {
   }
 
 .search-structure i {
-  background: orange;
 }
 ::placeholder{
     font-size: 150%;
@@ -141,6 +146,6 @@ p {
   }
 .add_button{
   background:grey;
-  width: 70vw;
+  width: 10em;
 }
 </style>

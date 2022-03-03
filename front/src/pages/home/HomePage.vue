@@ -9,13 +9,13 @@
           </option>
       </select>
     </section>
-    <button @click="onButtonClicked"> GET MY NOTES</button>
+    <button @click="onButtonClicked">GET MY NOTES</button>
     
   </div>
 </template>
 
 <script>
-
+import config from '@/config.js';
 export default {
   name: 'Home',
   data() {
@@ -31,7 +31,13 @@ export default {
   },
 methods: {
   async loadData() {
-    this.users = [
+  
+    
+    const response = await fetch(`${config.API_PATH}/user`)
+    this.users = await response.json()
+  /**
+   * 
+   *  this.users = [
       {
         id: "user-1",
         name:"Pepa",
@@ -40,13 +46,17 @@ methods: {
         id:"user-2",
         name:"Pepe",
       },
-    ];
+   *  ];
+   * 
+   */
+   
+   
   },
 
   onButtonClicked(){
     localStorage.userId = this.selectedUser.id;
     localStorage.userName = this.selectedUser.name;
-    //this.$root.$forceUpdate();
+    this.$root.$forceUpdate();
     this.$router.push ("/notes")
     }
   }

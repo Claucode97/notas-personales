@@ -24,6 +24,7 @@ import Swal from 'sweetalert2';
     return {
     note: {},
     modifiedNote: {},
+    loggedUser: localStorage.userName
     }
   },
   
@@ -86,7 +87,6 @@ import Swal from 'sweetalert2';
           headers: {
               'Content-Type': 'application/json'
             }
-              
           }
 
           await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
