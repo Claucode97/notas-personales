@@ -78,6 +78,7 @@ h1 {
 button{
   margin-top: 80px;
   font-size: 1.5em;
+  border-radius: 0.5em;
 }
 
 </style>

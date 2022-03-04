@@ -4,7 +4,7 @@
   <h2>{{notesTitle}}</h2>
   <section id = "filter-add">
     <div class="search-structure">
-    <input type="text" v-model="filtered_note" placeholder="search notes...">
+    <input type="text" v-model="filtered_note" placeholder="Search notes...">
     <i class="fa fa-search"></i>
     </div>
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
@@ -13,9 +13,9 @@
     <article
         id="note-item"
         v-for="note in filteredNote()" :key="note.id">
-        <h2>{{ note.title }}</h2>
-        <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class="button-detail">detaills</button></router-link>
-      <button  @click="removeNote(note)">remove</button>
+        <p>{{ note.title }}</p>
+        <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class= "detail_button">DETAILLS</button></router-link>
+      <button  class="remove_button" @click="removeNote(note)">REMOVE</button>
       </article>
   </section>
 </main>
@@ -90,30 +90,33 @@ window.Swal= Swal;
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
-    margin-top: 10px;
-    text-align: center;
-    text-transform: capitalize;
+    text-align: center; 
   }
 
 h2 {
   text-transform: uppercase;
-  text-decoration: underline;
-  text-align: left;
-  max-width: 70vw;   
+  text-align: center; 
   }
 
 p {
     font-size: 1.2em;
-    color: rgb(59, 58, 58);
+    color: black;
     text-align: left;
+    text-transform: capitalize;
   }
+input{
+  width: 70vw;
+  font-size: 1em;
+  border: none; 
+  
+}
+
 #notes-page {
-    text-align: center;
-    max-width: 90vw;
-    height: 100vh;
+    width: 90vw;
     margin: auto;
     padding: 0;
   }
+
 #filter-add{
   height: 10vh;
   width: 90vw;
@@ -126,30 +129,38 @@ p {
 #note-item {
   float: left;
   width: 85vw; 
+  height: 12vh;
   border: 5px double gray;
   border-radius: 1em;
   margin-top: 10px;
-  margin-bottom: 10px;
   padding: 5px 5px; 
   }
 
-.search-structure i {
+.search-structure {
+  
+  width: 90vw;
+  border: 1px double gray;
+
 }
 ::placeholder{
-    font-size: 150%;
-    padding: 1em;
-    color: rgb(6, 26, 117);
+    font-size: 1em;
+    color: rgb(168, 196, 160);
   }
-.button-detail, button {
+.detail_button, .remove_button {
     float: right;
     color: white;
-    background: rgb(41, 40, 40);
-    border-radius: 1em;
-    padding: 10px 5px 10px;
-    font-size: 20px;
+    background: rgb(61, 59, 59);
+    border-radius: 0.5em;
+    padding: 5px 5px 5px;
+    font-size: 12px;
+    margin-right:5px;
+    border-color: black;
   }
 .add_button{
-  background:grey;
-  width: 10em;
+  background:rgb(152, 155, 154);
+  color: white;
+  width: 90vw;
+  margin-top: 10px;
+  border-radius: 0.5em;
 }
 </style>
