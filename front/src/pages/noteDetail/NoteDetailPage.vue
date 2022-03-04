@@ -9,7 +9,7 @@
             <textarea v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
       </article>
       <button @click.prevent="modifyNote(modifiedNote)"  class="save_button">SAVE</button>
-      <button class= remove_button><router-link :to="{name:'NoteDetail'}" @click="removeNote"></router-link>REMOVE</button>
+      <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>REMOVE</button></router-link>
   </section>
 </main>
 </template>
@@ -143,7 +143,7 @@ label {
   margin-bottom: 10px;
   padding: 5px 5px;
 }
-.save_button, .remove_button {
+/* .save_button, .remove_button {
     width: 30vw;
     color: black;
     background: rgb(197, 193, 193);
@@ -154,5 +154,5 @@ label {
     margin-left: 10px;
     
 
-}
+} */
 </style>
