@@ -22,7 +22,7 @@ export default {
     return {
     greeting:"WELCOME",
     users:[],
-    selectedUsers: null,
+    selectedUser: null,
     currentUser: localStorage.userName
     };
   },
