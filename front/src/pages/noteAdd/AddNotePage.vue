@@ -1,5 +1,17 @@
 <template>
   <main id="notes-page">
+  <section>
+    <form @submit.prevent="clickbutton"  action="">
+    <button><select v-model="selectedCategory">
+      <option :value="null" > Select Category</option>
+        <option v-for="index in categories" :key="index.id_cat" :value="index">
+          {{index.name}}
+          </option>
+    </select>
+          {{selectedCategory}}
+    </button>
+    </form>
+    </section>
     <section id="notes-flex-container">
        <article id="note-item">
         <h1>{{ pagetitle }}</h1>
@@ -10,8 +22,7 @@
             <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
           </section>
         </form>
-        </article>  
-        
+        </article>
     </section>
   </main>
 </template>
@@ -29,9 +40,9 @@ export default {
         pagetitle:"New note",
         note_title: "",
         note_description: "",
-        notes_front:[]
-
-        
+        notes_front:[],
+        categories: [],
+        selectedCategory: null,
     }
   },   
   mounted() {
@@ -43,6 +54,19 @@ export default {
     async loadData() {
       const response = await fetch(`${config.API_PATH}/notes`)
       this.notes_front= await response.json()
+
+      this.categories = [
+        {
+        id_cat: "cat-1",
+        name: "DEPORTE" },
+        {
+        id_cat: "cat-2",
+        name: "MUSICA"
+        },
+         {
+        id_cat: "cat-3",
+        name: "COMPRAS"
+        }]
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){

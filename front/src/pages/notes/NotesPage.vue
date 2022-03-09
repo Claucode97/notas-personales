@@ -9,6 +9,17 @@
     </div>
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
   </section>
+  <section>
+    <form @submit.prevent="filteredButton"  action="">
+    <button><select v-model="selectedCategory">
+      <option :value="null" > Select Category</option>
+        <option v-for="index in categories" :key="index.id_cat" :value="index">
+          {{index.name}}
+          </option>
+    </select>
+    </button>
+    </form>
+    </section>
   <section id="notes-flex-container">
     <article
         id="note-item"
@@ -34,6 +45,8 @@ window.Swal= Swal;
       notesList:[],
       filtered_note:'',
       currentUser: "",
+      categories: [],
+      selectedCategory: null,
       
       
     }
@@ -42,6 +55,13 @@ window.Swal= Swal;
     this.loadData()
   },
   methods: {
+    filteredButton(){
+
+      this.selectedCategory
+      const categoryNotes = []
+      return categoryNotes
+
+    },
     async loadData() {
       const settings = {
         method: 'GET',
@@ -52,6 +72,19 @@ window.Swal= Swal;
       const response = await fetch(`${config.API_PATH}/notes`, settings)
       this.notesList = await response.json()
       this.currentUser= localStorage.userName
+
+      this.categories = [
+        {
+        id_cat: "cat-1",
+        name: "DEPORTE" },
+        {
+        id_cat: "cat-2",
+        name: "MUSICA"
+        },
+         {
+        id_cat: "cat-3",
+        name: "COMPRAS"
+        }]
     },
     filteredNote(){
       const notes = this.notesList
