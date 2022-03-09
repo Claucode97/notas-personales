@@ -1,15 +1,14 @@
 <template>
 <main>
   <h2>DETAILED NOTE</h2>
-  <section id="notes-flex-container">
-      <article id="note-item">
-            <label for="modifiedNote.title">TITLE:</label>
-            <input  v-model="modifiedNote.title">
-            <label for="modifiedNote.text">TEXT:</label>
-            <textarea v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
+  <section>
+      <article>
+            <input id="title" v-model="modifiedNote.title">
+            <textarea id="text" v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
       </article>
-      <button @click.prevent="modifyNote(modifiedNote)"  class="save_button">SAVE</button>
-      <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>REMOVE</button></router-link>
+       <router-link :to="{name:'Notes'}"><button>Volver</button></router-link>
+      <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
+      <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
   </section>
 </main>
 </template>
@@ -70,12 +69,12 @@ import Swal from 'sweetalert2';
     },
 
     isNoteModified(){
-      if(this.note.title != this.modifiedNote.title || this.note.text != this.modifiedNote.text){
+      if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text)){
         return true
       }
     },
     isNoteEmpty(){
-      if (this.modifiedNote.title === "" && this.modifiedNote.text === ""){
+      if ((this.modifiedNote.title) === ("" && this.modifiedNote.text === "")){
         return true
       }
     },
@@ -109,7 +108,7 @@ import Swal from 'sweetalert2';
 
       }
         else{
-          alert("Note has not being modified.")
+          alert("Note has not been modified.")
         }
       }        
     },
@@ -128,31 +127,13 @@ input, textarea {
   border: 5px double gray;
   border-radius: 0.5em;
   font-size: 1em;
-  text-transform: Capitalize;
   padding-top: 10px;
   margin:  5px 0px 15px ;
   color:black;
 }
+
 label {
   font-weight: bold;
 }
 
-#note-item {
-  width: 85vw;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding: 5px 5px;
-}
-/* .save_button, .remove_button {
-    width: 30vw;
-    color: black;
-    background: rgb(197, 193, 193);
-    border-radius: 0.5em;
-    padding: 5px 5px 5px;
-    font-size: 15px;
-    margin-right: 10px;
-    margin-left: 10px;
-    
-
-} */
 </style>
