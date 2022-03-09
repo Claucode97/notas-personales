@@ -10,15 +10,13 @@
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
   </section>
   <section>
-    <form @submit.prevent="filteredButton"  action="">
-    <button><select v-model="selectedCategory">
+  <select v-model="selectedCategory">
       <option :value="null" > Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
           {{index.name}}
           </option>
     </select>
-    </button>
-    </form>
+    <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
     </section>
   <section id="notes-flex-container">
     <article

@@ -1,16 +1,12 @@
 <template>
   <main id="notes-page">
   <section>
-    <form @submit.prevent="clickbutton"  action="">
-    <button><select v-model="selectedCategory">
+    <select v-model="selectedCategory">
       <option :value="null" > Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
           {{index.name}}
           </option>
     </select>
-          {{selectedCategory}}
-    </button>
-    </form>
     </section>
     <section id="notes-flex-container">
        <article id="note-item">
