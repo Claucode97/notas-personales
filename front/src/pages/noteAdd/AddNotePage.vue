@@ -6,7 +6,8 @@
         <form v-on:submit.prevent="addNewNote" action="" >
           <section>
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
-            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>          
+            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
+             <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
             <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
           </section>
         </form>
@@ -87,7 +88,7 @@ export default {
 }
 </script>
 
-<style escope>
+<style scope>
 
   #notes-page {
     text-align: center;
@@ -125,7 +126,6 @@ export default {
     border: 5px double gray;
     border-radius: 0.5em;
     margin-bottom: 20px;
-    text-transform: capitalize;
     font-family: Arial, Helvetica, sans-serif;
   }
  
