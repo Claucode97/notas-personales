@@ -1,6 +1,13 @@
 <template>
 <main>
+
   <h2>DETAILED NOTE</h2>
+
+  <select v-model=" clickedCategory">
+          <option value="" >Select Category</option>
+          <option v-for="category in this.listOfCategories" :value="category" :key="category.id_cat">{{ category.name }}</option>
+  </select>
+  {{clickedCategory}}
   <section>
       <article>
             <input id="title" v-model="modifiedNote.title">
@@ -10,6 +17,7 @@
       <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
       <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
   </section>
+  
 </main>
 </template>
 
@@ -22,8 +30,10 @@ import Swal from 'sweetalert2';
     return {
     note: {},
     modifiedNote: {},
-    loggedUser: localStorage.userName
-    }
+    loggedUser: localStorage.userName,
+    listOfCategories: [],
+    clickedCategory: null
+   };
   },
   
   mounted() {
@@ -41,10 +51,25 @@ import Swal from 'sweetalert2';
       const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id, settings)
       this.note = await response.json()
       this.modifiedNote = JSON.parse(JSON.stringify(this.note))
-      
+
+      this.listOfCategories = [
+        {
+        id_cat: "cat-0",
+        name: "No category" },
+        {
+        id_cat: "cat-1",
+        name: "Sports" },
+        {
+        id_cat: "cat-2",
+        name: "Music"
+        },
+         {
+        id_cat: "cat-3",
+        name: "Shops"
+        }]
     },
 
-    async removeNote(){
+    removeNote(){
       Swal.fire({
       title: 'ARE YOU SURE?',
       text: "You won't be able to revert this!",
@@ -79,7 +104,7 @@ import Swal from 'sweetalert2';
       }
     },
 
-    async modifyNote() {
+    modifyNote() {
 
       if (this.isNoteEmpty()){
         alert("Error! Fill in all the fields, please.")
@@ -94,7 +119,7 @@ import Swal from 'sweetalert2';
             }
           }
 
-          await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
+          fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
           this.loadData();
           console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
           console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))

@@ -11,7 +11,7 @@
   </section>
   <section>
   <select v-model="selectedCategory">
-      <option :value="null" > Select Category</option>
+      <option :value="null"> Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
           {{index.name}}
           </option>

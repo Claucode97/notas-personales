@@ -1,16 +1,17 @@
 <template>
   <main id="notes-page">
   <section>
+        <h1>{{ pagetitle }}</h1>
     <select v-model="selectedCategory">
       <option :value="null" > Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
           {{index.name}}
           </option>
     </select>
+    {{selectedCategory}}
     </section>
     <section id="notes-flex-container">
        <article id="note-item">
-        <h1>{{ pagetitle }}</h1>
         <form v-on:submit.prevent="addNewNote" action="" >
           <section>
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
@@ -29,7 +30,7 @@ import config from '@/config.js';
 import Swal from 'sweetalert2';
 window.Swal= Swal;
 import {v4 as uuidv4} from 'uuid';
-uuidv4()
+
 export default {
   name: 'AddNote',
   data() {
@@ -54,22 +55,30 @@ export default {
 
       this.categories = [
         {
+        id_cat: "cat-0",
+        name: "No category" },
+        {
         id_cat: "cat-1",
-        name: "DEPORTE" },
+        name: "Sports" },
         {
         id_cat: "cat-2",
-        name: "MUSICA"
+        name: "Music"
         },
          {
         id_cat: "cat-3",
-        name: "COMPRAS"
+        name: "Shops"
         }]
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){
             let nextId= uuidv4()
             
-            let newNote = {"id": nextId, "title": this.note_title, "text": this.note_description, "user_id": localStorage.userId}
+            let newNote = {"id": nextId, "title": this.note_title,
+                           "text": this.note_description, 
+                           "user_id": localStorage.userId,
+                          "id_cat": this.selectedCategory.id_cat }
+
+            console.log("new note", newNote)
 
             const settings={
                 method:'POST',
