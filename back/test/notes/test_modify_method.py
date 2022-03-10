@@ -9,12 +9,12 @@ def test_method_should_modify_data():
     client = app.test_client()
 
     original_note = Note(id="note-1", title="example1",
-                         text="text example", user_id="Joseba_1")
+                         text="text example", user_id="Joseba_1", id_cat="null")
 
     notes_repository.insert_data_note(original_note)
 
     modified_note = Note(
-        id="note-1", title="example1 modified", text="text example modified", user_id="Joseba_1")
+        id="note-1", title="example1 modified", text="text example modified", user_id="Joseba_1", id_cat="cat-1")
     notes_repository.modify_data_note_by_id(modified_note)
 
     response_get_database = client.get("/api/notes/note-1",
@@ -23,5 +23,6 @@ def test_method_should_modify_data():
         "id": "note-1",
         "title": "example1 modified",
         "text": "text example modified",
-        "user_id": "Joseba_1"
+        "user_id": "Joseba_1",
+        "id_cat": "cat-1"
     }
