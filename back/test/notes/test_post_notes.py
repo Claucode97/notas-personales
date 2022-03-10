@@ -12,7 +12,8 @@ def test_should_save_note():
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
-        "user_id": "Joseba_1"
+        "user_id": "Joseba_1",
+        "id_cat": "cat-1"
     }
 
     response = client.post("/api/notes", json=note)
@@ -25,7 +26,8 @@ def test_should_save_note():
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
-        "user_id": "Joseba_1"
+        "user_id": "Joseba_1",
+        "id_cat": "cat-1"
     }
 
 
@@ -38,14 +40,16 @@ def test_shouldnt_save_new_note_with_same_id():
         "id": "note1",
         "title": "example1",
         "text": "Hola nena",
-        "user_id": "Joseba_1"
+        "user_id": "Joseba_1",
+        "id_cat": "cat-1"
     }
 
     note2 = {
         "id": "note1",
         "title": "example2",
         "text": "Hola beba",
-        "user_id": "Joseba_1"
+        "user_id": "Joseba_1",
+        "id_cat": "cat-1"
     }
 
     response = client.post("/api/notes", json=note1)

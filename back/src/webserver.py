@@ -23,10 +23,10 @@ def create_app(repositories):
         user_id = request.headers.get("Authorization")
         notes = repositories["note"].search_by_user_id(user_id)
         return object_to_json(notes)
+    # verificar que no pueda ir a notas sin haber escogido un usuario
 
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
-        user_id = request.headers.get("Authorization")
         data = request.json
         note = Note(**data)
         repositories["note"].insert_data_note(note)
@@ -49,17 +49,19 @@ def create_app(repositories):
 
     @app.route("/api/notes/<id>", methods=["PUT"])
     def modify_note_by_id(id):
-        user_id = request.headers.get("Authorization")
         data = request.json
-        print("*****", request.data)
         note = Note(**data)
         repositories["note"].modify_data_note_by_id(note)
         return ''
 
     @app.route("/api/user", methods=["GET"])
     def users_get_all():
-        user_id = request.headers.get("Authorization")
         all_users = repositories["user"].get_all_users()
         return object_to_json(all_users)
+
+    @app.route("/api/categories", methods=["GET"])
+    def categorie_get_all():
+        all_categories = repositories["category"].get_all_categories()
+        return object_to_json(all_categories)
 
     return app
