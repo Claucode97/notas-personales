@@ -1,17 +1,25 @@
 <template>
   <main id="notes-page">
+  <section>
+    <select v-model="selectedCategory">
+      <option :value="null" > Select Category</option>
+        <option v-for="index in categories" :key="index.id_cat" :value="index">
+          {{index.name}}
+          </option>
+    </select>
+    </section>
     <section id="notes-flex-container">
        <article id="note-item">
         <h1>{{ pagetitle }}</h1>
         <form v-on:submit.prevent="addNewNote" action="" >
           <section>
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
-            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>          
+            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
+             <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
             <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
           </section>
         </form>
-        </article>  
-        
+        </article>
     </section>
   </main>
 </template>
@@ -29,9 +37,9 @@ export default {
         pagetitle:"New note",
         note_title: "",
         note_description: "",
-        notes_front:[]
-
-        
+        notes_front:[],
+        categories: [],
+        selectedCategory: null,
     }
   },   
   mounted() {
@@ -43,6 +51,19 @@ export default {
     async loadData() {
       const response = await fetch(`${config.API_PATH}/notes`)
       this.notes_front= await response.json()
+
+      this.categories = [
+        {
+        id_cat: "cat-1",
+        name: "DEPORTE" },
+        {
+        id_cat: "cat-2",
+        name: "MUSICA"
+        },
+         {
+        id_cat: "cat-3",
+        name: "COMPRAS"
+        }]
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){
@@ -87,7 +108,7 @@ export default {
 }
 </script>
 
-<style escope>
+<style scope>
 
   #notes-page {
     text-align: center;
@@ -125,7 +146,6 @@ export default {
     border: 5px double gray;
     border-radius: 0.5em;
     margin-bottom: 20px;
-    text-transform: capitalize;
     font-family: Arial, Helvetica, sans-serif;
   }
  
