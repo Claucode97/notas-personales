@@ -1,9 +1,9 @@
 import sqlite3
-from domain.category import CategoryRepository
+from src.domain.category import CategoryRepository
 from src.webserver import create_app
 from src.domain.note import NotesRepository
 from src.domain.info import InfoRepository
-from domain.user import UserRepository
+from src.domain.user import UserRepository
 
 
 database_path = "data/database.db"
