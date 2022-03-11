@@ -37,7 +37,9 @@ class NotesRepository:
                 title varchar,
                 text varchar,
                 user_id varchar,
-                id_cat varchar
+                id_cat varchar,
+                FOREIGN KEY (id_cat)
+                    REFERENCES categories (id_cat) 
             )
 
         """

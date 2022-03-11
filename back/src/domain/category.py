@@ -27,7 +27,10 @@ class CategoryRepository:
         sql = """
             create table if not exists categories (
                 id_cat varchar PRIMARY KEY,
-                name varchar
+                name varchar,
+                note_id varchar,
+                FOREIGN KEY (note_id)
+                    REFERENCES notes (id) 
             )
         """
         conn = self.create_conn()
