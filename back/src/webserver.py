@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from src.lib.utils import object_to_json
@@ -60,8 +60,10 @@ def create_app(repositories):
         return object_to_json(all_users)
 
     @app.route("/api/categories", methods=["GET"])
-    def categorie_get_all():
-        all_categories = repositories["category"].get_all_categories()
-        return object_to_json(all_categories)
+    def categories_get_all():
+        # comprobar que va bien
+        all_categories = repositories["note"].get_all_categories()
+
+        return jsonify(all_categories)
 
     return app
