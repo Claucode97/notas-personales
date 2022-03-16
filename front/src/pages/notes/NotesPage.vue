@@ -1,8 +1,15 @@
 <template>
-<main>
+<main id="notes-page">
   <h1>{{currentUser}}</h1>
   <h2>{{notesTitle}}</h2>
- <section class="filter-button-section">
+  <section id = "filter-add">
+    <div class="search-structure">
+    <input type="text" v-model="filtered_note" placeholder="Search notes...">
+    <i class="fa fa-search"></i>
+    </div>
+    <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
+  </section>
+  <section>
   <select v-model="selectedCategory">
       <option :value="null"> Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
@@ -11,13 +18,13 @@
     </select>
     <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
     </section>
-  <section class="search-section">
-    <input type="text" v-model="filtered_note" placeholder="Search notes..." >
-  </section>
-    <router-link to="/notes/add"><button class="add-button">Add note</button></router-link>
-  <section>
-    <article v-for="note in filteredNote()" :key="note.id">
+  <section id="notes-flex-container">
+    <article
+        id="note-item"
+        v-for="note in filteredNote()" :key="note.id">
         <p>{{ note.title }}</p>
+        <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class= "detail_button">DETAILLS</button></router-link>
+      <button  class="remove_button" @click="removeNote(note)">REMOVE</button>
       </article>
   </section>
 </main>
@@ -32,7 +39,7 @@ window.Swal= Swal;
   name: 'Notes',
   data() {
     return {
-      notesTitle:"Personal notes",
+      notesTitle:"PERSONAL NOTES",
       notesList:[],
       filtered_note:'',
       currentUser: "",
@@ -67,14 +74,14 @@ window.Swal= Swal;
       this.categories = [
         {
         id_cat: "cat-1",
-        name: "Sports" },
+        name: "DEPORTE" },
         {
         id_cat: "cat-2",
-        name: "Music"
+        name: "MUSICA"
         },
          {
         id_cat: "cat-3",
-        name: "Shops"
+        name: "COMPRAS"
         }]
     },
     filteredNote(){
@@ -111,11 +118,6 @@ window.Swal= Swal;
 </script>
 
 <style scoped>
-  
-main{
-      width: 100%;
-    }
-
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
@@ -123,52 +125,73 @@ h1 {
   }
 
 h2 {
-   font-size: 2em;
-   text-align: center;
+  text-transform: uppercase;
+  text-align: center; 
   }
-  .filter-button-section {
-    display: flex;
-    flex-direction: row;
-    justify-content:center;
-    width: 100%;
-    height: 6em;
-  }
-  
-  .filter-button-section button{
+
+p {
     font-size: 1.2em;
-    width: 9em;
-    height: 1.6em;
-    margin-right: 14em;
+    color: black;
+    text-align: left;
+    text-transform: capitalize;
   }
-
- select {
-     margin-left: 12.4em;
-     border: none;
-     font-size: 1.2em;
-     height: 1.6em;
-     width: 9em;
-}
-.search-section {
-    display: flex;
-    flex-direction: row-reverse;
-    margin:auto;
-    width: 100%;
-    height: 100%;
-  }
+input{
+  width: 70vw;
+  font-size: 1em;
+  border: none; 
   
-  input{
-    width: 29em;
-    height: 2.4em;
-    border:solid 0.1em;
-    margin-right: 37em;
-  }
-  .add-button{
-      background: rgb(122, 202, 175);
-      border-radius: 0.5em;
-      width: 8em;
-      padding: 0.4em;
-      margin-top: 4em;
-      font-size: 1.2em;
-    }
+}
 
+#notes-page {
+    width: 90vw;
+    margin: auto;
+    padding: 0;
+  }
+
+#filter-add{
+  height: 10vh;
+  width: 90vw;
+}
+
+#notes-flex-container {
+    margin: auto;
+  }
+
+#note-item {
+  float: left;
+  width: 85vw; 
+  height: 12vh;
+  border: 5px double gray;
+  border-radius: 1em;
+  margin-top: 10px;
+  padding: 5px 5px; 
+  }
+
+.search-structure {
+  
+  width: 90vw;
+  border: 1px double gray;
+
+}
+::placeholder{
+    font-size: 1em;
+    color: rgb(168, 196, 160);
+  }
+.detail_button, .remove_button {
+    float: right;
+    color: white;
+    background: rgb(61, 59, 59);
+    border-radius: 0.5em;
+    padding: 5px 5px 5px;
+    font-size: 12px;
+    margin-right:5px;
+    border-color: black;
+  }
+.add_button{
+  background:rgb(152, 155, 154);
+  color: white;
+  width: 90vw;
+  margin-top: 10px;
+  border-radius: 0.5em;
+}
 </style>

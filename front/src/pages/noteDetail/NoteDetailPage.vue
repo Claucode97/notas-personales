@@ -1,7 +1,7 @@
 <template>
 <main>
 
-  <h2>Detailed note</h2>
+  <h2>DETAILED NOTE</h2>
 
   <select v-model=" clickedCategory">
           <option value="" >Select Category</option>
@@ -10,13 +10,13 @@
   {{clickedCategory}}
   <section>
       <article>
-            <input v-model="modifiedNote.title">
-            <textarea v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
+            <input id="title" v-model="modifiedNote.title">
+            <textarea id="text" v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
       </article>
-  </section>
        <router-link :to="{name:'Notes'}"><button>Volver</button></router-link>
       <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
       <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
+  </section>
   
 </main>
 </template>
@@ -99,7 +99,7 @@ import Swal from 'sweetalert2';
       }
     },
     isNoteEmpty(){
-      if ((this.modifiedNote.title === "") && (this.modifiedNote.text === "")){
+      if ((this.modifiedNote.title) === ("" && this.modifiedNote.text === "")){
         return true
       }
     },
@@ -143,55 +143,22 @@ import Swal from 'sweetalert2';
 </script>
 <style scoped>
 main {
-    width: 100%;
-    height: 100%;
+    text-align: center;
+    width: 90vw; 
 }
-  section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 90%;
-    height: 80%;
-    margin-bottom: 3em;
-   
-  }
-
-  article {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 40%;
-    margin: 0em 0em 0em 8em;
-  }
-
-  input {
-    box-sizing: border-box;
-    width: 60%;
-    border: 0.16em solid grey;
-    border-radius: 0.5em;
-    font-size: 1em;
-    padding-top: 1em;
-    margin: 1em 0em 1em 7.4em;
-  }
-
-
-textarea {
-  box-sizing: border-box;
-  width: 60%;
-  border: 0.2em solid grey;
+input, textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 90vw;
+  border: 5px double gray;
   border-radius: 0.5em;
   font-size: 1em;
-  padding-top: 1em;
-  margin: 1em 0em 1em 9em;
+  padding-top: 10px;
+  margin:  5px 0px 15px ;
+  color:black;
 }
 
-select {
-     background: transparent;
-     border: none;
-     font-size: 1.4em;
-     height: 3em;
-     padding: 1em;
-     width: 14em;
-  }
+label {
+  font-weight: bold;
+}
 
 </style>
