@@ -1,25 +1,24 @@
 <template>
-  <main id="notes-page">
+  <main>
   <section>
+        <h1>{{ pagetitle }}</h1>
     <select v-model="selectedCategory">
       <option :value="null" > Select Category</option>
         <option v-for="index in categories" :key="index.id_cat" :value="index">
           {{index.name}}
           </option>
     </select>
+    {{selectedCategory}}
     </section>
-    <section id="notes-flex-container">
-       <article id="note-item">
-        <h1>{{ pagetitle }}</h1>
-        <form v-on:submit.prevent="addNewNote" action="" >
-          <section>
+    <section class="container">
+        <form v-on:submit.prevent="addNewNote" action="">
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
             <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
-             <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
-            <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
-          </section>
         </form>
-        </article>
+    </section>
+    <section class="section-buttons">
+          <router-link :to="{name:'Notes'}"><button class="buttons">Back</button></router-link>
+          <button @click.prevent="addNewNote"  class="buttons">Save</button>
     </section>
   </main>
 </template>
@@ -29,7 +28,7 @@ import config from '@/config.js';
 import Swal from 'sweetalert2';
 window.Swal= Swal;
 import {v4 as uuidv4} from 'uuid';
-uuidv4()
+
 export default {
   name: 'AddNote',
   data() {
@@ -54,22 +53,30 @@ export default {
 
       this.categories = [
         {
+        id_cat: "cat-0",
+        name: "No category" },
+        {
         id_cat: "cat-1",
-        name: "DEPORTE" },
+        name: "Sports" },
         {
         id_cat: "cat-2",
-        name: "MUSICA"
+        name: "Music"
         },
          {
         id_cat: "cat-3",
-        name: "COMPRAS"
+        name: "Shops"
         }]
     },
     addNewNote(){
         if (this.note_title != "" && this.note_description != ""){
             let nextId= uuidv4()
             
-            let newNote = {"id": nextId, "title": this.note_title, "text": this.note_description, "user_id": localStorage.userId}
+            let newNote = {"id": nextId, "title": this.note_title,
+                           "text": this.note_description, 
+                           "user_id": localStorage.userId,
+                          "id_cat": this.selectedCategory.id_cat }
+
+            console.log("new note", newNote)
 
             const settings={
                 method:'POST',
@@ -108,73 +115,74 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 
-  #notes-page {
-    text-align: center;
-    height: 100vh;
-    margin-top: 10px;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-    
-  #notes-flex-container {
-    margin: auto;
-  }
-
-  #note-item {
-    width: 85vw;
-    height: 30vh;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 15px 15px;
-  }
-
-  #navegation-bar {
-    display: block;
-  }
-
-  label {
-    display: block;
-    text-align: left;
-    font-size: 20px;
-    padding: 10px;
-  }
-
-  input, textarea {
-    width: 85vw;
-    border: 5px double gray;
-    border-radius: 0.5em;
-    margin-bottom: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
- 
   h1 {
-    font-size: 30px;
+    font-size: 2em;
     text-align: center;
-    text-transform: capitalize;
   }
 
-  h3 {
-    text-transform: uppercase;
-    text-decoration: underline;
+  main {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    width: 100%;
   }
-
-  p {
-    font-size: 1.2em;
-    color: rgb(59, 58, 58);
-    text-align: left;
+  .container {
+   margin: auto;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   width: 90%;
   }
+  
+  form{
+    margin: auto;
+    width: 60%;
+    height: 40%;
+    }
 
-  .button-save {
-    color: black;
-    background: rgb(197, 193, 193);
+  input {
+    height: 2em;
+    width: 80%;
+    border: 0.2em solid grey;
     border-radius: 0.5em;
-    width: 100px;
-    margin-top: 30px;
-    margin-right: 10px;
-    padding: 5px 10px;
-    font-size: 20px;
+    margin-bottom: 1.9em;
   }
+  
+  textarea {
+    width: 80%;
+    border: 0.2em solid grey;
+    border-radius: 0.5em; 
+
+    }
+
+  .buttons{
+    background: rgb(122, 202, 175);
+    border-radius: 0.5em;
+    width: 4em;
+    padding: 0.4em;
+    margin-top: 4em;
+    font-size: 1.2em;
+  }
+
+  .section-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: auto;
+
+  }
+
+select {
+     background: transparent;
+     margin: 0em 0em 2em 1em;
+     border: none;
+     font-size: 1.2em;
+     height: 2.9em;
+     padding: 1em;
+     width: 14em;
+}
+
 
 </style>

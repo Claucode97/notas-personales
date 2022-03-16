@@ -9,7 +9,7 @@
           </option>
       </select>
     </section>
-    <button @click="onButtonClicked">GET MY NOTES</button>
+    <button @click="onButtonClicked">Get my notes</button>
     
   </div>
 </template>
@@ -50,8 +50,7 @@ methods: {
    *  ];
    * 
    */
-   
-   
+  
   },
 
   onButtonClicked(){

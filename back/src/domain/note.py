@@ -31,8 +31,10 @@ class NotesRepository:
         return conn
 
     def init_tables(self):
-        sql = """
-            create table if not exists notes (
+        # notes -> no tiene foreign key(id_cat)
+        # porque la relacion notes - categories es VOLUNTARIA
+        sql_table_notes = """
+            CREATE TABLE IF NOT EXISTS notes (
                 id varchar NOT NULL PRIMARY KEY,
                 title varchar,
                 text varchar,
@@ -43,17 +45,21 @@ class NotesRepository:
             )
 
         """
+        sql_table_categories = """
+                CREATE TABLE IF NOT EXISTS categories (
+                id_cat varchar NOT NULL PRIMARY KEY,
+                name varchar)"""
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(sql)
+        cursor.execute(sql_table_notes)
+        cursor.execute(sql_table_categories)
         conn.commit()
 
-    def get_all(self):
+    def get_all_notes(self):
         notes_list = []
-        sql = """select * from notes"""
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(sql)
+        cursor.execute("""select * from notes""")
 
         data = cursor.fetchall()
 
@@ -77,6 +83,7 @@ class NotesRepository:
                         text=data["text"], user_id=data["user_id"], id_cat=data["id_cat"])
         return one_note
 
+    # get_all_notes_searching_by_user_id
     def search_by_user_id(self, user_id):
 
         sql = """SELECT * FROM notes WHERE user_id= :user_id"""
@@ -128,3 +135,48 @@ class NotesRepository:
         )
         conn.commit()
         cursor.close()
+
+    def get_all_categories(self):
+        sql = """ SELECT * FROM categories """
+
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        data_list = cursor.fetchall()
+        print(data_list)
+
+        categories_list = []
+        for category in data_list:
+
+            category_dicc = {
+                'id_cat': category["id_cat"], 'name': category["name"]}
+            categories_list.append(category_dicc)
+            print(type(category_dicc))
+
+        #users = [User(**item) for item in data]
+
+        cursor.close()
+        print(categories_list)
+        return categories_list
+
+    # terminar de construir
+    def get_last_category_id(self):
+        sql = """SELECT id_cat FROM categories
+                ORDER BY id_cat DESC
+                LIMIT 1"""
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        data_last_id = cursor.fetchone()[0]
+
+        return data_last_id
+
+    # comprobar que funciona
+    def save_a_new_category(self, id_category, name_category):
+        sql = """insert into categories (id_cat, name) values (
+            :id_cat, :name
+        ) """
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, {'id_cat': id_category, 'name': name_category})
+        conn.commit()
