@@ -2,20 +2,22 @@
 <main>
 
   <h2>DETAILED NOTE</h2>
-
-  <select v-model=" clickedCategory">
-          <option value="" >Select Category</option>
-          <option v-for="category in this.listOfCategories" :value="category" :key="category.id_cat">{{ category.name }}</option>
-  </select>
-  {{clickedCategory}}
+  
   <section>
       <article>
             <input id="title" v-model="modifiedNote.title">
             <textarea id="text" v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
-      </article>
-       <router-link :to="{name:'Notes'}"><button>Volver</button></router-link>
-      <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
-      <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
+      </article>      
+      <select v-model="clickedCategory">
+          <option value="null" disabled >Select Category</option>
+          <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat">{{ index.name }}</option>
+      </select>
+  </section>
+  <br/>
+  <section>
+    <router-link :to="{name:'Notes'}"><button>Volver</button></router-link>
+    <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
+    <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
   </section>
   
 </main>
@@ -24,15 +26,16 @@
 <script>
 import config from '../../config.js';
 import Swal from 'sweetalert2';
+
   export default {
-  name: 'NoteDetail',
-  data() {
+    name: 'NoteDetail',
+    data() {
     return {
     note: {},
     modifiedNote: {},
     loggedUser: localStorage.userName,
     listOfCategories: [],
-    clickedCategory: null
+    clickedCategory: ""
    };
   },
   
@@ -94,7 +97,7 @@ import Swal from 'sweetalert2';
     },
 
     isNoteModified(){
-      if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text)){
+      if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text || (this.note.id_cat != this.modifiedNote.id_cat))){
         return true
       }
     },
@@ -104,7 +107,7 @@ import Swal from 'sweetalert2';
       }
     },
 
-    modifyNote() {
+    async modifyNote() {
 
       if (this.isNoteEmpty()){
         alert("Error! Fill in all the fields, please.")
@@ -119,7 +122,7 @@ import Swal from 'sweetalert2';
             }
           }
 
-          fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
+          await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
           this.loadData();
           console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
           console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
