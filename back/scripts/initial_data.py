@@ -16,6 +16,7 @@ def main():
     notes_repository = NotesRepository(database_path)
 
     # Guardar categorias en NOTE repository
+    notes_repository.save_a_new_category("cat-0", "No category")
     notes_repository.save_a_new_category("cat-1", "Sports")
     notes_repository.save_a_new_category("cat-2", "Music")
     notes_repository.save_a_new_category("cat-3", "Shopping List")
