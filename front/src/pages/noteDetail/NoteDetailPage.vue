@@ -7,10 +7,11 @@
       <article>
             <input id="title" v-model="modifiedNote.title">
             <textarea id="text" v-model ="modifiedNote.text"  rows="8" cols="49"></textarea> 
-      </article>      
-      <select v-model="clickedCategory">
-          <option value="null" disabled >Select Category</option>
-          <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat">{{ index.name }}</option>
+      </article>
+      <p>Selecciona la categoria</p>      
+      <select v-model="clickedCategory"> 
+          <option disabled value="">{{this.noteCategoryName}}</option>
+          <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
       </select>
   </section>
   <br/>
@@ -35,14 +36,17 @@ import Swal from 'sweetalert2';
     modifiedNote: {},
     loggedUser: localStorage.userName,
     listOfCategories: [],
-    clickedCategory: ""
+    clickedCategory: "",
+    noteCategoryName: ""
    };
   },
-  
+  computed: {
+
+  },
   mounted() {
     this.loadData();
   },
-
+  
   methods: {
     async loadData() {
        const settings = {
@@ -51,27 +55,28 @@ import Swal from 'sweetalert2';
           Authorization: localStorage.userId
         },
       };
+      //Carga los datos de la nota
       const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id, settings)
       this.note = await response.json()
       this.modifiedNote = JSON.parse(JSON.stringify(this.note))
+      console.log(this.modifiedNote)
+      
+      //Esto carga los datos de categorias
+      const responseCategories = await fetch(`${config.API_PATH}/categories`)
+      this.listOfCategories = await responseCategories.json()
+      console.log(this.listOfCategories[0].id_cat)
 
-      this.listOfCategories = [
-        {
-        id_cat: "cat-0",
-        name: "No category" },
-        {
-        id_cat: "cat-1",
-        name: "Sports" },
-        {
-        id_cat: "cat-2",
-        name: "Music"
-        },
-         {
-        id_cat: "cat-3",
-        name: "Shops"
-        }]
+      for (let category of this.listOfCategories){
+        console.log(category.id_cat + "==" + this.note.id_cat)
+        if (category.id_cat == this.note.id_cat){
+          console.log(category)
+          this.noteCategoryName = category.name
+          console.log(this.noteCategoryName)
+        }
+      }
+      
     },
-
+    
     removeNote(){
       Swal.fire({
       title: 'ARE YOU SURE?',
@@ -95,8 +100,12 @@ import Swal from 'sweetalert2';
         }
       })
     },
-
+    
     isNoteModified(){
+      console.log(this.modifiedNote.id_cat +  this.clickedCategory.id_cat)
+      this.modifiedNote.id_cat = this.clickedCategory.id_cat
+      console.log(this.modifiedNote.id_cat)
+
       if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text || (this.note.id_cat != this.modifiedNote.id_cat))){
         return true
       }
