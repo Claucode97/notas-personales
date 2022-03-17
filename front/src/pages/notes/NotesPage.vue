@@ -9,15 +9,14 @@
     </div>
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
   </section>
+  <br />
   <section>
-  <select v-model="selectedCategory">
-      <option :value="null"> Select Category</option>
-        <option v-for="index in categories" :key="index.id_cat" :value="index">
-          {{index.name}}
-          </option>
-    </select>
-    <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
-    </section>
+  <select class="selectFount" v-model="selectedCategory"> 
+    <option value="null">Select category</option>
+    <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
+  </select>
+  <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
+  </section>
   <section id="notes-flex-container">
     <article
         id="note-item"
@@ -43,7 +42,7 @@ window.Swal= Swal;
       notesList:[],
       filtered_note:'',
       currentUser: "",
-      categories: [],
+      listOfCategories: [],
       selectedCategory: null,
       
       
@@ -67,22 +66,15 @@ window.Swal= Swal;
           Authorization: localStorage.userId
         },
       };
+      //Se cargan los datos de la nota
       const response = await fetch(`${config.API_PATH}/notes`, settings)
       this.notesList = await response.json()
       this.currentUser= localStorage.userName
+      
+      //Se c argan los datos de la categoria
+      const responseCategories = await fetch(`${config.API_PATH}/categories`)
+      this.listOfCategories = await responseCategories.json()
 
-      this.categories = [
-        {
-        id_cat: "cat-1",
-        name: "DEPORTE" },
-        {
-        id_cat: "cat-2",
-        name: "MUSICA"
-        },
-         {
-        id_cat: "cat-3",
-        name: "COMPRAS"
-        }]
     },
     filteredNote(){
       const notes = this.notesList

@@ -30,8 +30,8 @@ export default {
   mounted(){
     this.loadData();
   },
-methods: {
-  async loadData() {
+  methods: {
+    async loadData() {
   
     
     const response = await fetch(`${config.API_PATH}/user`)

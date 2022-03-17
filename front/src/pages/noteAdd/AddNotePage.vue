@@ -1,14 +1,7 @@
 <template>
   <main id="notes-page">
   <section>
-        <h1>{{ pagetitle }}</h1>
-    <select v-model="selectedCategory">
-      <option :value="null" >Select Category</option>
-        <option v-for="index in categories" :key="index.id_cat" :value="index">
-          {{index.name}}
-        </option>
-    </select>
-    {{selectedCategory}}
+    <h1>{{ pagetitle }}</h1>    
     </section>
     <section id="notes-flex-container">
        <article id="note-item">
@@ -16,10 +9,18 @@
           <section>
             <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
             <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
-             <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
-            <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
+            
+          <div class="select">
+            <p>Select category: </p>
+            <select class="selectFount" v-model="selectedCategory"> 
+              <option value="null">Select category</option>
+              <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
+            </select>
+          </div>
           </section>
         </form>
+        <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
+        <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
         </article>
     </section>
   </main>
@@ -39,7 +40,7 @@ export default {
         note_title: "",
         note_description: "",
         notes_front:[],
-        categories: [],
+        listOfCategories: [],
         selectedCategory: null,
     }
   },   
@@ -53,30 +54,24 @@ export default {
       const response = await fetch(`${config.API_PATH}/notes`)
       this.notes_front= await response.json()
 
-      this.categories = [
-        {
-        id_cat: "cat-0",
-        name: "No category" },
-        {
-        id_cat: "cat-1",
-        name: "Sports" },
-        {
-        id_cat: "cat-2",
-        name: "Music"
-        },
-         {
-        id_cat: "cat-3",
-        name: "Shops"
-        }]
+      //Categorias
+      const responseCategories = await fetch(`${config.API_PATH}/categories`)
+      this.listOfCategories = await responseCategories.json()
+      console.log(this.listOfCategories[0].id_cat)
     },
     addNewNote(){
+        console.log(this.selectedCategory)
         if (this.note_title != "" && this.note_description != ""){
             let nextId= uuidv4()
-            
+            if (this.selectedCategory === null){
+              this.selectedCategory = {"id_cat": "cat-0", "name": "No category"}
+            }
+            console.log(this.selectedCategory)
             let newNote = {"id": nextId, "title": this.note_title,
                            "text": this.note_description, 
                            "user_id": localStorage.userId,
                           "id_cat": this.selectedCategory.id_cat }
+                      
 
             console.log("new note", newNote)
 
@@ -184,6 +179,16 @@ export default {
     margin-right: 10px;
     padding: 5px 10px;
     font-size: 20px;
+  }
+
+  .select{
+    display: flex;
+    justify-content: center;
+
+  }
+
+  select{
+    font-size: 1rem;
   }
 
 </style>
