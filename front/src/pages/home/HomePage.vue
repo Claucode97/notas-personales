@@ -2,6 +2,7 @@
   <div class="home"> 
     <h1>{{ greeting }}</h1>
     <section>
+      <h3>Select user:</h3>
       <select v-model="selectedUser">
         <option :value="null" disabled >Select User</option>
         <option v-for="user in this.users" :value="user" :key="user.id">
