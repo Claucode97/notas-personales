@@ -103,7 +103,10 @@ import Swal from 'sweetalert2';
     
     isNoteModified(){
       console.log(this.modifiedNote.id_cat +  this.clickedCategory.id_cat)
-      this.modifiedNote.id_cat = this.clickedCategory.id_cat
+      if(this.clickedCategory.id_cat != undefined){
+        this.modifiedNote.id_cat = this.clickedCategory.id_cat
+      }
+      
       console.log(this.modifiedNote.id_cat)
 
       if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text || (this.note.id_cat != this.modifiedNote.id_cat))){
