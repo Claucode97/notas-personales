@@ -10,13 +10,16 @@
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
   </section>
   <br />
+  <!-- 
   <section>
   <select class="selectFount" v-model="selectedCategory"> 
     <option value="null">Select category</option>
     <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
   </select>
   <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
-  </section>
+  </section> 
+  -->
+
   <section id="notes-flex-container">
     <article
         id="note-item"
@@ -91,10 +94,10 @@ window.Swal= Swal;
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-          fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
-          this.loadData(fetch(`${config.API_PATH}/notes`));
+          await fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
+          this.loadData(await fetch(`${config.API_PATH}/notes`));
           location.reload();
           Swal.fire(
             'Deleted!',
