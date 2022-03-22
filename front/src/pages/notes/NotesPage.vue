@@ -98,13 +98,13 @@ window.Swal= Swal;
     }).then(async(result) => {
       if (result.isConfirmed) {
         await fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
-        await  this.loadData(fetch(`${config.API_PATH}/notes`));
-          location.reload();
           Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
             'success'
-        )
+        ).then(function() {
+          location.reload()
+          })
       }
     })
     }
