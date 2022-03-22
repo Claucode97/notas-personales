@@ -37,28 +37,12 @@ export default {
     
     const response = await fetch(`${config.API_PATH}/user`)
     this.users = await response.json()
-  /**
-   * 
-   *  this.users = [
-      {
-        id: "user-1",
-        name:"Pepa",
-      },
-      {
-        id:"user-2",
-        name:"Pepe",
-      },
-   *  ];
-   * 
-   */
-   
-   
+  
   },
 
   onButtonClicked(){
     localStorage.userId = this.selectedUser.id;
     localStorage.userName = this.selectedUser.name;
-    this.$root.$forceUpdate();
     this.$router.push ("/notes")
     }
   }

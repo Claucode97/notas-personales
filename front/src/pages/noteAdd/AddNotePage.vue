@@ -1,14 +1,14 @@
 <template>
   <main id="notes-page">
   <section>
-    <h1>{{ pagetitle }}</h1>    
+    <h1>{{ pageTitle }}</h1>    
     </section>
     <section id="notes-flex-container">
        <article id="note-item">
         <form v-on:submit.prevent="addNewNote" action="" >
           <section>
-            <input  v-model="note_title" type="text" name="title-form"  placeholder="type the title here">
-            <textarea v-model ="note_description" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
+            <input  v-model="noteTitle" type="text" name="title-form"  placeholder="type the title here">
+            <textarea v-model ="noteDescription" name="text-form" rows="8" cols="50"  placeholder="type the description"></textarea>
             
           <div class="select">
             <p>Select category: </p>
@@ -36,10 +36,9 @@ export default {
   name: 'AddNote',
   data() {
     return {
-        pagetitle:"New note",
-        note_title: "",
-        note_description: "",
-        notes_front:[],
+        pageTitle:"New note",
+        noteTitle: "",
+        noteDescription: "",
         listOfCategories: [],
         selectedCategory: null,
     }
@@ -51,30 +50,32 @@ export default {
   
   methods:{
     async loadData() {
-      const response = await fetch(`${config.API_PATH}/notes`)
-      this.notes_front= await response.json()
+
 
       //Categorias
       const responseCategories = await fetch(`${config.API_PATH}/categories`)
       this.listOfCategories = await responseCategories.json()
-      console.log(this.listOfCategories[0].id_cat)
     },
+
+
+  isValidData(){
+       if ((this.noteTitle != "") && (this.noteDescription != "")){
+         return true
+
+       }else{
+         return false
+       }
+  },
     addNewNote(){
-        console.log(this.selectedCategory)
-        if (this.note_title != "" && this.note_description != ""){
+      if(this.isValidData()){
             let nextId= uuidv4()
             if (this.selectedCategory === null){
               this.selectedCategory = {"id_cat": "cat-0", "name": "No category"}
             }
-            console.log(this.selectedCategory)
-            let newNote = {"id": nextId, "title": this.note_title,
-                           "text": this.note_description, 
+            let newNote = {"id": nextId, "title": this.noteTitle,
+                           "text": this.noteDescription, 
                            "user_id": localStorage.userId,
                           "id_cat": this.selectedCategory.id_cat }
-                      
-
-            console.log("new note", newNote)
-
             const settings={
                 method:'POST',
                 body:JSON.stringify(newNote),
@@ -84,9 +85,6 @@ export default {
                 }
             }
             fetch(`${config.API_PATH}/notes`, settings)
-
-            console.log("post a la BD hacia el endpoint - 5000/api/notes POST - ")
-            console.log("obj mandado al back " + JSON.stringify(newNote))
             Swal.fire({
                       position: 'center',
                       icon: 'success',
@@ -99,20 +97,25 @@ export default {
             this.$router.push ("/notes") 
         }
               
-        else{
-            alert("Error! Fill in all the fields, please")
-        }
+        else{ 
+           Swal.fire({
+                      position: 'center',
+                      icon: 'error',
+                      title: 'Error! Fill all the fields out, please!',
+                      showConfirmButton: false,
+                      timer: 1500
+                      })
+          }
 
-        this.note_title = ""
-        this.note_description= ""
-        
+        this.noteTitle = ""
+        this.noteDescription= ""
 
         }
     }
 }
 </script>
 
-<style scope>
+<style scoped>
 
   #notes-page {
     text-align: center;

@@ -3,24 +3,26 @@
   <h1>{{currentUser}}</h1>
   <h2>{{notesTitle}}</h2>
   <section id = "filter-add">
-    <div class="search-structure">
-    <input type="text" v-model="filtered_note" placeholder="Search notes...">
+    <article class="search-structure">
+    <input type="text" v-model="filteredNote" placeholder="Search notes...">
+
     <i class="fa fa-search"></i>
-    </div>
+    </article>
     <router-link to="/notes/add"><button class="add_button">ADD NOTE</button></router-link>
   </section>
-  <br />
+  <br>
   <section>
   <select class="selectFount" v-model="selectedCategory"> 
     <option value="null">Select category</option>
     <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
   </select>
-  <button @click="filteredByCategory(selectedCategory)">Filter By Category</button>
+  <button @click="filterByCategory">Filter By Category</button>
+  {{selectedCategory}}
   </section>
   <section id="notes-flex-container">
     <article
         id="note-item"
-        v-for="note in filteredNote()" :key="note.id">
+        v-for="note in filterNote()" :key="note.id">
         <p>{{ note.title }}</p>
         <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class= "detail_button">DETAILLS</button></router-link>
       <button  class="remove_button" @click="removeNote(note)">REMOVE</button>
@@ -40,25 +42,17 @@ window.Swal= Swal;
     return {
       notesTitle:"PERSONAL NOTES",
       notesList:[],
-      filtered_note:'',
+      filteredNote:'',
       currentUser: "",
       listOfCategories: [],
       selectedCategory: null,
-      
-      
     }
   },
+
   mounted() {
     this.loadData()
   },
   methods: {
-    filteredButton(){
-
-      this.selectedCategory
-      const categoryNotes = []
-      return categoryNotes
-
-    },
     async loadData() {
       const settings = {
         method: 'GET',
@@ -76,14 +70,24 @@ window.Swal= Swal;
       this.listOfCategories = await responseCategories.json()
 
     },
-    filteredNote(){
+    filterNote(){
       const notes = this.notesList
-      const filtered_note= this.filtered_note
-      return notes.filter((note) => note.title.toLowerCase().includes(filtered_note.toLowerCase()))
+      const filteredNote= this.filteredNote
+      return notes.filter((note) => note.title.toLowerCase().includes(filteredNote.toLowerCase()))
   },
-    async removeNote(note){
 
-          Swal.fire({
+
+  filterByCategory(){
+
+   let notesWithCategories = this.notesList
+   let selectedCategory = this.selectedCategory
+   let newArray =  notesWithCategories.filter((category) => category.id_cat == selectedCategory.id_cat)
+   return this.notesList = newArray 
+  },
+  
+  async removeNote(note){
+
+      Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -91,10 +95,10 @@ window.Swal= Swal;
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-          fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
-          this.loadData(fetch(`${config.API_PATH}/notes`));
+        await fetch(`${config.API_PATH}/notes`+ "/" + note.id, {method: "DELETE"})
+        await  this.loadData(fetch(`${config.API_PATH}/notes`));
           location.reload();
           Swal.fire(
             'Deleted!',

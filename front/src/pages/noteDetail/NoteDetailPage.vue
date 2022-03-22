@@ -14,11 +14,11 @@
           <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
       </select>
   </section>
-  <br/>
+  <br>
   <section>
-    <router-link :to="{name:'Notes'}"><button>Volver</button></router-link>
+    <router-link :to="{name:'Notes'}"><button>Back</button></router-link>
     <button @click.prevent="modifyNote(modifiedNote)" class="save_button">Save</button>
-    <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button remove_button>Remove</button></router-link>
+    <router-link :to="{name:'NoteDetail'}" @click="removeNote"><button>Remove</button></router-link>
   </section>
   
 </main>
@@ -40,9 +40,7 @@ import Swal from 'sweetalert2';
     noteCategoryName: ""
    };
   },
-  computed: {
 
-  },
   mounted() {
     this.loadData();
   },
@@ -59,22 +57,16 @@ import Swal from 'sweetalert2';
       const response = await fetch(`${config.API_PATH}/notes` + '/' + this.$route.params.id, settings)
       this.note = await response.json()
       this.modifiedNote = JSON.parse(JSON.stringify(this.note))
-      console.log(this.modifiedNote)
-      
+     
       //Esto carga los datos de categorias
       const responseCategories = await fetch(`${config.API_PATH}/categories`)
       this.listOfCategories = await responseCategories.json()
-      console.log(this.listOfCategories[0].id_cat)
 
       for (let category of this.listOfCategories){
-        console.log(category.id_cat + "==" + this.note.id_cat)
         if (category.id_cat == this.note.id_cat){
-          console.log(category)
           this.noteCategoryName = category.name
-          console.log(this.noteCategoryName)
         }
       }
-      
     },
     
     removeNote(){
@@ -86,12 +78,11 @@ import Swal from 'sweetalert2';
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
 
-          fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, {method: "DELETE"})
+        await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, {method: "DELETE"})
           this.$router.push("/notes")
-          //this.loadData();
           Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
@@ -102,16 +93,18 @@ import Swal from 'sweetalert2';
     },
     
     isNoteModified(){
-      console.log(this.modifiedNote.id_cat +  this.clickedCategory.id_cat)
-      this.modifiedNote.id_cat = this.clickedCategory.id_cat
-      console.log(this.modifiedNote.id_cat)
+      if(this.clickedCategory.id_cat != undefined){
+        this.modifiedNote.id_cat = this.clickedCategory.id_cat
+      }
 
-      if((this.note.title != this.modifiedNote.title) || (this.note.text != this.modifiedNote.text || (this.note.id_cat != this.modifiedNote.id_cat))){
+      if((this.note.title != this.modifiedNote.title) ||
+       (this.note.text != this.modifiedNote.text) || 
+       (this.note.id_cat != this.modifiedNote.id_cat)){
         return true
       }
     },
     isNoteEmpty(){
-      if ((this.modifiedNote.title) === ("" && this.modifiedNote.text === "")){
+      if ((this.modifiedNote.title === "") && (this.modifiedNote.text === "")){
         return true
       }
     },
@@ -119,7 +112,11 @@ import Swal from 'sweetalert2';
     async modifyNote() {
 
       if (this.isNoteEmpty()){
-        alert("Error! Fill in all the fields, please.")
+         Swal.fire(
+            'Error!',
+            'Fill all the fields out, please!',
+            'error'
+          )
       }
       else{
         if(this.isNoteModified()){
@@ -133,8 +130,6 @@ import Swal from 'sweetalert2';
 
           await fetch(`${config.API_PATH}/notes` + "/" + this.$route.params.id, settings)
           this.loadData();
-          console.log("put a la BD hacia el endpoint - 5000/api/notes PUT - ")
-          console.log("obj mandado al back " + JSON.stringify(this.modifiedNote))
                 Swal.fire({
           position: 'center',
           icon: 'success',
@@ -145,7 +140,13 @@ import Swal from 'sweetalert2';
 
       }
         else{
-          alert("Note has not been modified.")
+          Swal.fire({
+          position: 'center',
+          icon: 'info',
+          title: 'Note has not been modifieded',
+          showConfirmButton: false,
+          timer: 1500
+        })
         }
       }        
     },
