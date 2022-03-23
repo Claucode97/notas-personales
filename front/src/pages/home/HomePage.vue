@@ -2,16 +2,12 @@
   <div class="home"> 
     <h1>{{ greeting }}</h1>
     <section>
-      <h3>Select user:</h3>
-      <select v-model="selectedUser">
-        <option :value="null" disabled >Select User</option>
-        <option v-for="user in this.users" :value="user" :key="user.id">
-            {{user.name }}
-          </option>
-      </select>
+      <h3>User:</h3>
+      <input type="text" />
+      <h3>Password:</h3>
+      <input type="password">
     </section>
-    <button @click="onButtonClicked">GET MY NOTES</button>
-    
+    <button @click="onButtonClicked">LOGIN</button>
   </div>
 </template>
 
@@ -21,7 +17,7 @@ export default {
   name: 'Home',
   data() {
     return {
-    greeting:"WELCOME",
+    greeting:"WELCOME TO NOTES",
     users:[],
     selectedUser: null,
     currentUser: localStorage.userName
@@ -52,21 +48,23 @@ export default {
 <style scoped>
 
 h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    border: 5px double gray;
-    border-radius: 1em;
-    font-size: 2em;
-    margin-top: 80px;
-    text-align: center;
-    text-transform: capitalize; 
+  background-color: rgba(183, 156, 236, 0.863);
+  padding-top: 0.3rem;
+  margin: 0;
 }
-button{
-  margin-top: 80px;
-  font-size: 1.5em;
-  border-radius: 0.5em;
+h3 {
+  font-size: 2rem;
 }
-option, h3, select {
-  font-size: 1.2rem;
+button {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  background-color: mediumpurple;
+  border-radius: 10%;
 }
-
+section {
+  margin-top: 3rem;
+}
+input {
+  font-size: 1.3rem;
+}
 </style>
