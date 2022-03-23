@@ -4,7 +4,7 @@
   <h2>{{notesTitle}}</h2>
   <section id = "filter-add">
     <article class="search-structure">
-    <input type="text" v-model="filteredNote" placeholder="Search notes...">
+    <input type="text" v-model="searchNote" placeholder="Search notes...">
 
     <i class="fa fa-search"></i>
     </article>
@@ -13,16 +13,14 @@
   <br>
   <section>
   <select class="selectFount" v-model="selectedCategory"> 
-    <option value="null">Select category</option>
-    <option v-for="index in this.listOfCategories" :value="index" :key="index.id_cat" >{{ index.name }}</option>
+    <option value="">Select category</option>
+    <option v-for="index in this.listOfCategories" :value="index.id_cat" :key="index.id_cat" >{{ index.name }}</option>
   </select>
-  <button @click="filterByCategory">Filter By Category</button>
-  {{selectedCategory}}
   </section>
   <section id="notes-flex-container">
     <article
         id="note-item"
-        v-for="note in filterNote()" :key="note.id">
+        v-for="note in filterNote" :key="note.id">
         <p>{{ note.title }}</p>
         <router-link :to="{name: 'NoteDetail', params: {id: note.id}}" ><button class= "detail_button">DETAILLS</button></router-link>
       <button  class="remove_button" @click="removeNote(note)">REMOVE</button>
@@ -42,10 +40,10 @@ window.Swal= Swal;
     return {
       notesTitle:"PERSONAL NOTES",
       notesList:[],
-      filteredNote:'',
+      searchNote:'',
       currentUser: "",
       listOfCategories: [],
-      selectedCategory: null,
+      selectedCategory: "",
     }
   },
 
@@ -70,20 +68,6 @@ window.Swal= Swal;
       this.listOfCategories = await responseCategories.json()
 
     },
-    filterNote(){
-      const notes = this.notesList
-      const filteredNote= this.filteredNote
-      return notes.filter((note) => note.title.toLowerCase().includes(filteredNote.toLowerCase()))
-  },
-
-
-  filterByCategory(){
-
-   let notesWithCategories = this.notesList
-   let selectedCategory = this.selectedCategory
-   let newArray =  notesWithCategories.filter((category) => category.id_cat == selectedCategory.id_cat)
-   return this.notesList = newArray 
-  },
   
   async removeNote(note){
 
@@ -109,6 +93,32 @@ window.Swal= Swal;
     })
     }
   },
+
+  computed:{
+      filterNote(){
+      
+      return this.notesList.filter((note) => note.title.toLowerCase().includes(this.searchNote.toLowerCase()))
+                           .filter((note) =>
+                           {
+                             if(this.selectedCategory != "" || this.selectedCategory == null) {
+                              if( note.id_cat == this.selectedCategory){
+                               return true}
+                             }else{
+                               return this.notesList
+                             }
+                             })
+
+  },
+
+
+  // filterByCategory(){
+
+  //  let notesWithCategories = this.notesList
+  //  let selectedCategory = this.selectedCategory
+  //  let newArray =  notesWithCategories.filter((category) => category.id_cat == selectedCategory.id_cat)
+  //  return this.notesList = newArray 
+  // },
+  }
 }
 
 </script>
