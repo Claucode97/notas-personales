@@ -1,11 +1,12 @@
 import sys
+
 sys.path.insert(0, "")
+from src.domain.user import UserRepository, User
+from src.domain.note import NotesRepository, Note
+from src.domain.info import InfoRepository, Info
 
 
 def main():
-    from src.domain.user import UserRepository, User
-    from src.domain.note import NotesRepository, Note
-    from src.domain.info import InfoRepository, Info
 
     database_path = "data/database.db"
 
@@ -21,10 +22,20 @@ def main():
     notes_repository.save_a_new_category("cat-2", "Music")
     notes_repository.save_a_new_category("cat-3", "Shopping List")
 
-    nota1 = Note(id="note-1", title="Lista de la compra:",
-                 text="Pan y Chorizo", user_id="user-1", id_cat="cat-1")
-    nota2 = Note(id="note-2", title='Bebidas',
-                 text='Vino y agua', user_id="user-1", id_cat="cat-2")
+    nota1 = Note(
+        id="note-1",
+        title="Lista de la compra:",
+        text="Pan y Chorizo",
+        user_id="user-1",
+        id_cat="cat-1",
+    )
+    nota2 = Note(
+        id="note-2",
+        title="Bebidas",
+        text="Vino y agua",
+        user_id="user-1",
+        id_cat="cat-2",
+    )
 
     notes_repository.insert_data_note(nota1)
     notes_repository.insert_data_note(nota2)
@@ -35,8 +46,8 @@ def main():
 
     user_repository = UserRepository(database_path)
 
-    user_repository.save(User("user-1", "Roberto"))
-    user_repository.save(User("user-2", "Laura"))
+    user_repository.save(User("user-1", "Roberto", "password1"))
+    user_repository.save(User("user-2", "Laura", "password2"))
 
     print("Datos iniciales cargados (se ha ejecutado initial_data.py)")
 
