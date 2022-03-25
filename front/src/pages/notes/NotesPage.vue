@@ -66,16 +66,18 @@ export default {
   },
   methods: {
     async loadData() {
+      let usuario = localStorage.getItem("user");
+      let jsonUsuario = JSON.parse(usuario);
       const settings = {
         method: "GET",
         headers: {
-          Authorization: localStorage.userId,
+          Authorization: jsonUsuario.id,
         },
       };
       //Se cargan los datos de la nota
       const response = await fetch(`${config.API_PATH}/notes`, settings);
       this.notesList = await response.json();
-      this.currentUser = localStorage.userName;
+      this.currentUser = jsonUsuario.name;
 
       //Se c argan los datos de la categoria
       const responseCategories = await fetch(`${config.API_PATH}/categories`);

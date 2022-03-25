@@ -1,13 +1,23 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-
 from src.lib.utils import object_to_json
 from src.domain.note import Note
+from src.domain.user import User
 
 
 def create_app(repositories):
     app = Flask(__name__)
     CORS(app)
+
+    @app.route("/auth/login", methods=["POST"])
+    def login():
+        body = request.json
+        user = repositories["user"].get_by_id(body["user"])
+
+        if user is None or (body["password"]) != user.password:
+            return "", 401
+
+        return user.to_dict(), 200
 
     @app.route("/", methods=["GET"])
     def hello_world():
@@ -23,14 +33,17 @@ def create_app(repositories):
         user_id = request.headers.get("Authorization")
         notes = repositories["note"].search_by_user_id(user_id)
         return object_to_json(notes)
+
     # verificar que no pueda ir a notas sin haber escogido un usuario
 
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
         data = request.json
+
         note = Note(**data)
+
         repositories["note"].insert_data_note(note)
-        return ''
+        return ""
 
     @app.route("/api/notes/<id>", methods=["GET"])
     def notes_get_by_id(id):
@@ -52,7 +65,7 @@ def create_app(repositories):
         data = request.json
         note = Note(**data)
         repositories["note"].modify_data_note_by_id(note)
-        return ''
+        return ""
 
     @app.route("/api/user", methods=["GET"])
     def users_get_all():

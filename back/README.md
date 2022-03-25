@@ -6,22 +6,21 @@
 
 1. Instalar los paquetes necesarios
 
-    `python -m pip install --user -r requirements.txt`
+   `python -m pip install --user -r requirements.txt`
 
 2. Ejecutar los tests
 
-    `python -m pytest`
+   `python -m pytest`
 
 3. Generar los datos iniciales
-
-    `python scripts/initial_data.py`
+   python scripts/initial_data.py
+   ``
 
 4. Ejecutar la aplicación
 
-    `python app.py`
+   `python app.py`
 
 #Actualizar base de datos
 1º. Eliminar base de datos ("database.db)
-2º  Ejecutar el initialdata.
-3ª  Ejecutar servidor.
-
+2º Ejecutar el initialdata.
+3ª Ejecutar servidor.

@@ -1,13 +1,12 @@
-from encodings import search_function
 import sqlite3
 
 
 class Note:
     def __init__(self, id, user_id, title, text, id_cat):
         self.id = id
+        self.user_id = user_id
         self.title = title
         self.text = text
-        self.user_id = user_id
         self.id_cat = id_cat
 
     def to_dict(self):
@@ -143,7 +142,6 @@ class NotesRepository:
         cursor = conn.cursor()
         cursor.execute(sql)
         data_list = cursor.fetchall()
-        print(data_list)
 
         categories_list = []
         for category in data_list:
@@ -151,12 +149,8 @@ class NotesRepository:
             category_dicc = {
                 'id_cat': category["id_cat"], 'name': category["name"]}
             categories_list.append(category_dicc)
-            print(type(category_dicc))
-
-        #users = [User(**item) for item in data]
 
         cursor.close()
-        print(categories_list)
         return categories_list
 
     # terminar de construir
