@@ -13,6 +13,7 @@ def create_app(repositories):
     def login():
         body = request.json
         user = repositories["user"].get_by_id(body["user"])
+
         if user is None or (body["password"]) != user.password:
             return "", 401
 
@@ -38,7 +39,9 @@ def create_app(repositories):
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
         data = request.json
+
         note = Note(**data)
+
         repositories["note"].insert_data_note(note)
         return ""
 
