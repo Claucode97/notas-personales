@@ -19,7 +19,7 @@
           </div>
           </section>
         </form>
-        <router-link :to="{name:'Notes'}"><button class="button-save">VOLVER</button></router-link>
+        <button @click="goBack" class="button-save">Go Back</button>
         <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
         </article>
     </section>
@@ -55,6 +55,26 @@ export default {
       //Categorias
       const responseCategories = await fetch(`${config.API_PATH}/categories`)
       this.listOfCategories = await responseCategories.json()
+    },
+  
+    goBack() {
+      Swal.fire({
+        title: 'Do you want to save the changes?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: "Don't save",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.addNewNote()
+        Swal.fire('Saved!', '', 'success')
+      } 
+      else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+          this.$router.push("/notes")
+      }
+})
     },
 
 
