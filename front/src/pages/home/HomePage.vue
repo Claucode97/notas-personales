@@ -1,52 +1,50 @@
 <template>
-  <div class="home"> 
+  <div class="home">
     <h1>{{ greeting }}</h1>
     <section>
       <h3>User:</h3>
-      <input type="text" />
+      <input type="text" v-model="user" />
       <h3>Password:</h3>
-      <input type="password">
+      <input type="password" v-model="password" />
     </section>
     <button @click="onButtonClicked">LOGIN</button>
   </div>
 </template>
 
 <script>
-import config from '@/config.js';
+import { useStorage } from "@vueuse/core";
+import { login } from "@/services/auth.js";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
-    greeting:"WELCOME TO NOTES",
-    users:[],
-    selectedUser: null,
-    currentUser: localStorage.userName
+      greeting: "WELCOME TO NOTES",
+      user: "",
+      password: "",
+      localUser: useStorage("user", {}),
     };
   },
 
-  mounted(){
-    this.loadData();
-  },
+  mounted() {},
   methods: {
-    async loadData() {
-  
-    
-    const response = await fetch(`${config.API_PATH}/user`)
-    this.users = await response.json()
-  
+    async onButtonClicked() {
+      const response = await login(this.user, this.password);
+      const loginStatus = response.status;
+      const loginUser = await response.json();
+      console.log(loginStatus);
+      if (response.status === 401) {
+        alert("unauthorized");
+      } else {
+        this.localUser = loginUser;
+        localStorage.setItem("user", JSON.stringify(this.localUser));
+        this.$router.push("/notes");
+      }
+    },
   },
-
-  onButtonClicked(){
-    localStorage.userId = this.selectedUser.id;
-    localStorage.userName = this.selectedUser.name;
-    this.$router.push ("/notes")
-    }
-  }
 };
 </script>
 
 <style scoped>
-
 h1 {
   background-color: rgba(183, 156, 236, 0.863);
   padding-top: 0.3rem;
