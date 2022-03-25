@@ -1,20 +1,24 @@
 <template>
-  <main id="notes-page">
-    <h1>{{ currentUser }}</h1>
-    <h2>{{ notesTitle }}</h2>
+  <main>
+    <h1>{{ notesTitle }}</h1>
+    <h2>{{ currentUser }}</h2>
     <section id="filter-add">
       <article class="search-structure">
-        <input type="text" v-model="searchNote" placeholder="Search notes..." />
-
-        <i class="fa fa-search"></i>
+        <input
+          class="search"
+          type="search"
+          v-model="searchNote"
+          placeholder="Search..."
+        />
+        <span class="search-icon"><i class="fa fa-search"></i></span>
       </article>
       <router-link to="/notes/add"
         ><button class="add_button">ADD NOTE</button></router-link
       >
     </section>
     <br />
-    <section>
-      <select class="selectFount" v-model="selectedCategory">
+    <section class="selectCategory">
+      <select v-model="selectedCategory">
         <option value="">Select category</option>
         <option
           v-for="index in this.listOfCategories"
@@ -28,11 +32,11 @@
     <section id="notes-flex-container">
       <article id="note-item" v-for="note in filterNote" :key="note">
         <router-link :to="{ name: 'NoteDetail', params: { id: note.id } }">
-          <span>
-            <p>{{ note.title }}</p>
-            <p class="category">{{ getCategoryNameById(note.id_cat) }}</p>
+          <span class="data">
+            <h3>{{ note.title }}</h3> 
           </span>
         </router-link>
+        <p class="category">{{ getCategoryNameById(note.id_cat) }}</p>
         <button class="remove_button" @click="removeNote(note)">❌</button>
       </article>
     </section>
@@ -123,92 +127,77 @@ export default {
           }
         });
     },
-
-    // filterByCategory(){
-
-    //  let notesWithCategories = this.notesList
-    //  let selectedCategory = this.selectedCategory
-    //  let newArray =  notesWithCategories.filter((category) => category.id_cat == selectedCategory.id_cat)
-    //  return this.notesList = newArray
-    // },
   },
 };
 </script>
 
 <style scoped>
-.category {
-  border: 2px solid mediumpurple;
-  border-radius: 4px;
-  padding: 2px 2px;
-}
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  text-align: center;
-}
-
-h2 {
-  text-transform: uppercase;
-  text-align: center;
-}
-
-input {
-  width: 70vw;
-  font-size: 1em;
-  border: none;
-}
-
-#notes-page {
-  width: 90vw;
-  margin: auto;
-}
-
-#filter-add {
-  height: 10vh;
-  width: 90vw;
-}
-
-#notes-flex-container {
-  margin: auto;
-}
-span {
-  display: flex;
-}
-#note-item {
-  border: 5px double gray;
-  border-radius: 1em;
-  padding: 2px 2px;
-}
-#note-item p {
-  width: 10rem;
-}
-#note-item .category {
-  width: 5rem;
-}
 .search-structure {
-  width: 90vw;
-  border: 1px double gray;
+  border: 1px solid;
+  min-width: 3rem;
+  position: relative;
+  margin-right: 10%;
+  margin-left: 10%;
+  font-size: 1rem;
 }
-::placeholder {
-  font-size: 1em;
-  color: rgb(168, 196, 160);
+.search {
+  border: transparent;
+  width: 29%;
+  font-size: 1rem;
+
+  display: block;
+  bottom: 0rem;
+  right: 0.1rem;
 }
-.detail_button,
-.remove_button {
-  float: right;
-  color: white;
-  background: rgb(61, 59, 59);
-  border-radius: 0.5em;
-  padding: 5px 5px 5px;
-  font-size: 12px;
-  margin-right: 5px;
-  border-color: black;
+.search-icon {
+  position: absolute;
+  display: block;
+  bottom: 0rem;
+  right: 0.1rem;
 }
 .add_button {
-  background: rgb(152, 155, 154);
-  color: white;
-  width: 90vw;
-  margin-top: 10px;
-  border-radius: 0.5em;
+  background-color: #c0a9ee;
+  width: 3rem;
+  float: right;
+  right: 1.5rem;
+  top: 12.3rem;
+  border-radius: 15%;
+  position: absolute;
+}
+.selectCategory {
+  display: flex;
+  justify-content: center;
+}
+select {
+  justify-content: center;
+}
+.data{
+  display: flex;
+}
+.category{
+  text-decoration: none;
+  border: 2px purple solid ;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  align-self: center;
+  margin: 0.3rem;
+  
+}
+.remove_button {
+  border-radius: 1rem;
+}
+#note-item {
+  display: flex;
+  border: 1px solid;
+  border-radius: 15px;
+  justify-content: space-between;
+  margin: 0.2rem;
+}
+#notes-flex-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
 }
 </style>
