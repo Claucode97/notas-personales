@@ -26,7 +26,7 @@
     </section>
     <br />
     <section>
-      <router-link :to="{ name: 'Notes' }"><button>Back</button></router-link>
+      <button @click="goBack" class="button-save">Back</button>
       <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
         Save
       </button>
@@ -58,6 +58,8 @@ export default {
     this.loadData();
   },
 
+  
+
   methods: {
     async loadData() {
       let usuario = localStorage.getItem("user");
@@ -87,7 +89,25 @@ export default {
         }
       }
     },
-
+    goBack() {
+      Swal.fire({
+        title: 'Do you want to save the changes?',
+        showConfirmButton:true,
+        showDenyButton: true,
+        
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.modifyNote()
+        this.$router.push("/notes")
+        Swal.fire('Saved!', '', 'success')
+      } 
+      else if (result.isDenied) {
+          Swal.fire('Changes are not saved', '', 'info')
+          this.$router.push("/notes")
+      }
+})
+    },
     removeNote() {
       Swal.fire({
         title: "ARE YOU SURE?",

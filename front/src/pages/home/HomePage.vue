@@ -45,11 +45,8 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  background-color: rgba(183, 156, 236, 0.863);
-  padding-top: 0.3rem;
-  margin: 0;
-}
+
+
 h3 {
   font-size: 2rem;
 }
