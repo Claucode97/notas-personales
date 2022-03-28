@@ -85,7 +85,7 @@ class NotesRepository:
     # get_all_notes_searching_by_user_id
     def search_by_user_id(self, user_id):
 
-        sql = """SELECT * FROM notes WHERE user_id= :user_id"""
+        sql = """SELECT * FROM notes WHERE user_id= :user_id ORDER BY lower(title) ASC"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"user_id": user_id})
