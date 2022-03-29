@@ -145,21 +145,13 @@ export default {
 
 <style scoped>
 
-
 #notes-flex-container {
   display:flex;
 }
-
-#note-item {
-  
-}
-
-
 .select {
   display: flex;
   justify-content: center;
 }
-
 select {
   font-size: 1rem;
 }
