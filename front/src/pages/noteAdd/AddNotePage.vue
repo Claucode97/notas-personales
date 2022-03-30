@@ -1,23 +1,27 @@
 <template>
   <h1>{{ pageTitle }}</h1>
-  <article id="notes-flex-container">
+  <article>
     <form v-on:submit.prevent="addNewNote" action="">
-      <input
-        v-model="noteTitle"
-        type="text"
-        name="title-form"
-        placeholder="type the title here"
-      />
-      <textarea
-        v-model="noteDescription"
-        name="text-form"
-        rows="8"
-        cols="50"
-        placeholder="type the description"
-      ></textarea>
-
-      <div class="select">
-        <p>Select category:</p>
+      <section>
+        <label for="title-form">Note title: </label>
+        <input
+          v-model="noteTitle"
+          type="text"
+          name="title-form"
+          placeholder="type the title here"
+        />
+      </section>
+      <section>
+        <label for="title-form">Description: </label>
+        <textarea
+          v-model="noteDescription"
+          name="text-form"
+          rows="8"
+          cols="50"
+          placeholder="type the description"
+        ></textarea>
+      </section>
+      
         <select class="selectFount" v-model="selectedCategory">
           <option value="null">Select category</option>
           <option
@@ -28,10 +32,10 @@
             {{ index.name }}
           </option>
         </select>
-      </div>
+
     </form>
-    <button @click="goBack" class="button-save">Back</button>
-    <button @click.prevent="addNewNote" class="button-save">SAVE</button>
+    <button @click="goBack">Back</button>
+    <button @click.prevent="addNewNote">Save</button>
   </article>
 </template>
 
@@ -168,14 +172,25 @@ export default {
 </script>
 
 <style scoped>
-#notes-flex-container {
-  display: flex;
-}
-.select {
-  display: flex;
-  justify-content: center;
-}
 select {
+  font-size: 1rem;
+  height: 2rem;
+}
+article {
+  font-size: 1.5rem;
+}
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 4rem;
+}
+label {
+  text-align: left;
+}
+button {
+  margin: 2rem 1rem;
+  width: 5rem;
+  height: 2rem;
   font-size: 1rem;
 }
 </style>
