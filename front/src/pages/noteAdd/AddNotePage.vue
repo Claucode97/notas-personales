@@ -1,46 +1,38 @@
 <template>
-  <main id="notes-page">
-    <section>
-      <h1>{{ pageTitle }}</h1>
-    </section>
-    <section id="notes-flex-container">
-      <article id="note-item">
-        <form v-on:submit.prevent="addNewNote" action="">
-          <section>
-            <input
-              v-model="noteTitle"
-              type="text"
-              name="title-form"
-              placeholder="type the title here"
-            />
-            <textarea
-              v-model="noteDescription"
-              name="text-form"
-              rows="8"
-              cols="50"
-              placeholder="type the description"
-            ></textarea>
+  <h1>{{ pageTitle }}</h1>
+  <article id="notes-flex-container">
+    <form v-on:submit.prevent="addNewNote" action="">
+      <input
+        v-model="noteTitle"
+        type="text"
+        name="title-form"
+        placeholder="type the title here"
+      />
+      <textarea
+        v-model="noteDescription"
+        name="text-form"
+        rows="8"
+        cols="50"
+        placeholder="type the description"
+      ></textarea>
 
-            <div class="select">
-              <p>Select category:</p>
-              <select class="selectFount" v-model="selectedCategory">
-                <option value="null">Select category</option>
-                <option
-                  v-for="index in this.listOfCategories"
-                  :value="index"
-                  :key="index.id_cat"
-                >
-                  {{ index.name }}
-                </option>
-              </select>
-            </div>
-          </section>
-        </form>
-        <button @click="goBack" class="button-save">Back</button>
-        <button @click.prevent="addNewNote" class="button-save">SAVE</button>
-      </article>
-    </section>
-  </main>
+      <div class="select">
+        <p>Select category:</p>
+        <select class="selectFount" v-model="selectedCategory">
+          <option value="null">Select category</option>
+          <option
+            v-for="index in this.listOfCategories"
+            :value="index"
+            :key="index.id_cat"
+          >
+            {{ index.name }}
+          </option>
+        </select>
+      </div>
+    </form>
+    <button @click="goBack" class="button-save">Back</button>
+    <button @click.prevent="addNewNote" class="button-save">SAVE</button>
+  </article>
 </template>
 
 <script>
@@ -176,79 +168,13 @@ export default {
 </script>
 
 <style scoped>
-#notes-page {
-  text-align: center;
-  height: 100vh;
-  margin-top: 10px;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 #notes-flex-container {
-  margin: auto;
+  display: flex;
 }
-
-#note-item {
-  width: 85vw;
-  height: 30vh;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 15px 15px;
-}
-
-#navegation-bar {
-  display: block;
-}
-
-label {
-  display: block;
-  text-align: left;
-  font-size: 20px;
-  padding: 10px;
-}
-
-input,
-textarea {
-  width: 85vw;
-  border: 5px double gray;
-  border-radius: 0.5em;
-  margin-bottom: 20px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-h1 {
-  font-size: 30px;
-  text-align: center;
-  text-transform: capitalize;
-}
-
-h3 {
-  text-transform: uppercase;
-  text-decoration: underline;
-}
-
-p {
-  font-size: 1.2em;
-  color: rgb(59, 58, 58);
-  text-align: left;
-}
-
-.button-save {
-  color: black;
-  background: rgb(197, 193, 193);
-  border-radius: 0.5em;
-  width: 100px;
-  margin-top: 30px;
-  margin-right: 10px;
-  padding: 5px 10px;
-  font-size: 20px;
-}
-
 .select {
   display: flex;
   justify-content: center;
 }
-
 select {
   font-size: 1rem;
 }

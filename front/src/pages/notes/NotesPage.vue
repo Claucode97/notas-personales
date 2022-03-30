@@ -161,7 +161,7 @@ export default {
   background-color: #c0a9ee;
   width: 3rem;
   float: right;
-  right: 1.5rem;
+  right: 2.3rem;
   top: 12.3rem;
   border-radius: 15%;
   position: absolute;
@@ -183,6 +183,7 @@ select {
   padding: 0.5rem;
   align-self: center;
   margin: 0.3rem;
+  font-size: 0.8rem;
   
 }
 .remove_button {
@@ -197,6 +198,7 @@ select {
 }
 #notes-flex-container {
   margin-top: 1rem;
+  margin: 1rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
