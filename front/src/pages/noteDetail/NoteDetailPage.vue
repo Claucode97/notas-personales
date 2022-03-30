@@ -1,40 +1,43 @@
 <template>
-  <main>
-    <h2>DETAILED NOTE</h2>
+  <h1>DETAILED NOTE</h1>
+  <article>
+    <section>
+      <label for="title">Note title: </label>
+      <input name="title" v-model="modifiedNote.title" />
+    </section>
+    <section>
+      <label for="description">Description: </label>
+      <textarea
+        id="text"
+        v-model="modifiedNote.text"
+        rows="8"
+        cols="49"
+      ></textarea>
+    </section>
 
-    <section>
-      <article>
-        <input id="title" v-model="modifiedNote.title"/>
-        <textarea
-          id="text"
-          v-model="modifiedNote.text"
-          rows="8"
-          cols="49"
-        ></textarea>
-      </article>
-      <p>Selecciona la categoria</p>
-      <select v-model="clickedCategory">
-        <option disabled value="">{{ this.noteCategoryName }}</option>
-        <option
-          v-for="index in this.listOfCategories"
-          :value="index"
-          :key="index.id_cat"
-        >
-          {{ index.name }}
-        </option>
-      </select>
-    </section>
-    <br />
-    <section>
-      <button @click="goBack" class="button-save">Back</button>
-      <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
-        Save
-      </button>
-      <router-link :to="{ name: 'NoteDetail' }" @click="removeNote"
-        ><button>Remove</button></router-link
+    <label>Category: </label>
+
+    <select v-model="clickedCategory">
+      <option disabled value="">{{ this.noteCategoryName }}</option>
+      <option
+        v-for="index in this.listOfCategories"
+        :value="index"
+        :key="index.id_cat"
       >
-    </section>
-  </main>
+        {{ index.name }}
+      </option>
+    </select>
+
+    <br />
+
+    <button @click="goBack" class="button-save">Back</button>
+    <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
+      Save
+    </button>
+    <router-link :to="{ name: 'NoteDetail' }" @click="removeNote"
+      ><button>Remove</button></router-link
+    >
+  </article>
 </template>
 
 <script>
@@ -57,8 +60,6 @@ export default {
   mounted() {
     this.loadData();
   },
-
-  
 
   methods: {
     async loadData() {
@@ -91,22 +92,20 @@ export default {
     },
     goBack() {
       Swal.fire({
-        title: 'Do you want to save the changes?',
-        showConfirmButton:true,
+        title: "Do you want to save the changes?",
+        showConfirmButton: true,
         showDenyButton: true,
-        
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        this.modifyNote()
-        this.$router.push("/notes")
-        Swal.fire('Saved!', '', 'success')
-      } 
-      else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-          this.$router.push("/notes")
-      }
-})
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.modifyNote();
+          this.$router.push("/notes");
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+          this.$router.push("/notes");
+        }
+      });
     },
     removeNote() {
       Swal.fire({
@@ -188,23 +187,26 @@ export default {
 };
 </script>
 <style scoped>
-main {
-  text-align: center;
-  width: 90vw;
+select {
+  font-size: 1rem;
+  height: 2rem;
+  
 }
-input,
-textarea {
-  font-family: Arial, Helvetica, sans-serif;
-  width: 90vw;
-  border: 5px double gray;
-  border-radius: 0.5em;
-  font-size: 1em;
-  padding-top: 10px;
-  margin: 5px 0px 15px;
-  color: black;
+article {
+  font-size: 1.2rem;
 }
-
+section {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 4rem;
+}
 label {
-  font-weight: bold;
+  text-align: left;
+}
+button {
+  margin: 2rem 1rem;
+  width: 5rem;
+  height: 2rem;
+  font-size: 1rem;
 }
 </style>

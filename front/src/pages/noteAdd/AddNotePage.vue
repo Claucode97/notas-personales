@@ -12,7 +12,7 @@
         />
       </section>
       <section>
-        <label for="title-form">Description: </label>
+        <label for="description">Description: </label>
         <textarea
           v-model="noteDescription"
           name="text-form"
@@ -177,7 +177,7 @@ select {
   height: 2rem;
 }
 article {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 section {
   display: flex;
