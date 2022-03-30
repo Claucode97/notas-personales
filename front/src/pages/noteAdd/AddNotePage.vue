@@ -37,8 +37,8 @@
           </section>
         </form>
         <button @click="goBack" class="button-save">Back</button>
-        <button @click.prevent="addNewNote"  class="button-save">SAVE</button>
-        </article>
+        <button @click.prevent="addNewNote" class="button-save">SAVE</button>
+      </article>
     </section>
   </main>
 </template>
@@ -70,25 +70,23 @@ export default {
       const responseCategories = await fetch(`${config.API_PATH}/categories`);
       this.listOfCategories = await responseCategories.json();
     },
-  
+
     goBack() {
       Swal.fire({
-        title: 'Do you want to save the changes?',
-        showConfirmButton:true,
+        title: "Do you want to save the changes?",
+        showConfirmButton: true,
         showDenyButton: true,
-        
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        this.addNewNote()
-        this.$router.push("/notes")
-        Swal.fire('Saved!', '', 'success')
-      } 
-      else if (result.isDenied) {
-          Swal.fire('Changes are not saved', '', 'info')
-          this.$router.push("/notes")
-      }
-})
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.addNewNote();
+          this.$router.push("/notes");
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+          this.$router.push("/notes");
+        }
+      });
     },
     isValidData() {
       if (this.noteTitle != "" && this.noteDescription != "") {
@@ -124,6 +122,7 @@ export default {
         };
         console.log(settings);
         fetch(`${config.API_PATH}/notes`, settings);
+
         Swal.fire({
           position: "center",
           icon: "success",
@@ -134,6 +133,7 @@ export default {
         //Esto redirige a la página principal de todas las notas, justo despues de añadir una nueva
         // Si no queremos la redirección, sólo hay que borrar la línea de abajo
         this.$router.push("/notes");
+        this.getTags(newNote);
       } else {
         Swal.fire({
           position: "center",
@@ -146,6 +146,30 @@ export default {
 
       this.noteTitle = "";
       this.noteDescription = "";
+    },
+
+    getTags(note) {
+      let hashtags = [];
+
+      let splitNoteBySpace = this.noteDescription.split(" ");
+      for (let hashtag of splitNoteBySpace) {
+        if (hashtag.startsWith("#")) {
+          hashtags.push(hashtag);
+        }
+      }
+      console.log(hashtags);
+
+      let objHash = { name: hashtags, note_id: note.id };
+
+      const settings = {
+        method: "POST",
+        body: JSON.stringify(objHash),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: note.user_id,
+        },
+      };
+      fetch(`${config.API_PATH}/tags`, settings);
     },
   },
 };

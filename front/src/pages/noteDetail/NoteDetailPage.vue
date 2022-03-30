@@ -4,7 +4,7 @@
 
     <section>
       <article>
-        <input id="title" v-model="modifiedNote.title" />
+        <input id="title" v-model="modifiedNote.title"/>
         <textarea
           id="text"
           v-model="modifiedNote.text"
