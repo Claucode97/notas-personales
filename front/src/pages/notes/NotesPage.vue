@@ -33,7 +33,7 @@
       <article id="note-item" v-for="note in filterNote" :key="note">
         <router-link :to="{ name: 'NoteDetail', params: { id: note.id } }">
           <span class="data">
-            <h3>{{ note.title }}</h3> 
+            <h3>{{ note.title }}</h3>
           </span>
         </router-link>
         <p class="category">{{ getCategoryNameById(note.id_cat) }}</p>
@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     async loadData() {
+      console.log;
       let usuario = localStorage.getItem("user");
       let jsonUsuario = JSON.parse(usuario);
       const settings = {
@@ -173,18 +174,17 @@ export default {
 select {
   justify-content: center;
 }
-.data{
+.data {
   display: flex;
 }
-.category{
+.category {
   text-decoration: none;
-  border: 2px purple solid ;
+  border: 2px purple solid;
   border-radius: 1rem;
   padding: 0.5rem;
   align-self: center;
   margin: 0.3rem;
   font-size: 0.8rem;
-  
 }
 .remove_button {
   border-radius: 1rem;
@@ -202,6 +202,5 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
 }
 </style>

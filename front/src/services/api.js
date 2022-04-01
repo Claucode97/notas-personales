@@ -1,6 +1,6 @@
 
 function getUserId() {
-    const userJson = localStorage.getItem("user");
+    const userJson = localStorage.getItem("auth");
     const user = JSON.parse(userJson);
     return user.id;
   }

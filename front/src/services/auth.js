@@ -17,7 +17,6 @@ export async function login(user, password) {
 
     
     const response = await fetch(`${config.AUTH_PATH}/login`, settings);
-    console.log("a",response)
     return response
 }
 

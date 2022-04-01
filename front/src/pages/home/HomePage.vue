@@ -7,13 +7,17 @@
       <h3>Password:</h3>
       <input type="password" v-model="password" />
     </section>
-    <button @click="onButtonClicked">LOGIN</button>
+    <button v-on:keyup.enter="onButtonClicked" @click="onButtonClicked">
+      LOGIN
+    </button>
   </div>
 </template>
 
 <script>
 import { useStorage } from "@vueuse/core";
 import { login } from "@/services/auth.js";
+import Swal from "sweetalert2";
+window.Swal = Swal;
 export default {
   name: "Home",
   data() {
@@ -30,13 +34,17 @@ export default {
     async onButtonClicked() {
       const response = await login(this.user, this.password);
       const loginStatus = response.status;
-      const loginUser = await response.json();
-      console.log(loginStatus);
-      if (response.status === 401) {
-        alert("unauthorized");
+
+      if (loginStatus === 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Password or user incorrect!",
+          footer: "Please type it again.",
+        });
       } else {
-        this.localUser = loginUser;
-        localStorage.setItem("user", JSON.stringify(this.localUser));
+        const auth = await response.json();
+        this.auth = auth;
         this.$router.push("/notes");
       }
     },
@@ -45,8 +53,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 h3 {
   font-size: 2rem;
 }
