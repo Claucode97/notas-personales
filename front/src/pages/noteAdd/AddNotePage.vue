@@ -151,7 +151,7 @@ export default {
       }
       console.log(hashtags);
 
-      let objHash = { name: hashtags, note_id: note.id };
+      let objHash = { tag: hashtags, note_id: note.id };
 
       const settings = {
         method: "POST",
@@ -161,6 +161,7 @@ export default {
           Authorization: note.user_id,
         },
       };
+      console.log(objHash)
       fetch(`${config.API_PATH}/tags`, settings);
     },
   },

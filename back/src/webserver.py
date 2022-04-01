@@ -3,6 +3,7 @@ from flask_cors import CORS
 from src.lib.utils import object_to_json
 from src.domain.note import Note
 from src.domain.user import User
+from src.domain.tags import Tag
 
 
 def create_app(repositories):
@@ -71,6 +72,19 @@ def create_app(repositories):
     def users_get_all():
         all_users = repositories["user"].get_all_users()
         return object_to_json(all_users)
+
+    @app.route("/api/tags", methods=["GET"])
+    def tags_get_all():
+        all_tags = repositories["tags"].get_all_tags()
+        return object_to_json(all_tags)
+
+    @app.route("/api/tags", methods=["POST"])
+    def tags_post_all():
+        data = request.json
+        tag = Tag(**data)
+
+        repositories["tags"].save(tag)
+        return "", 200
 
     @app.route("/api/categories", methods=["GET"])
     def categories_get_all():

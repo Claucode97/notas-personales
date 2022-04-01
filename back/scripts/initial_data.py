@@ -4,6 +4,7 @@ sys.path.insert(0, "")
 from src.domain.user import UserRepository, User
 from src.domain.note import NotesRepository, Note
 from src.domain.info import InfoRepository, Info
+from src.domain.tags import Tag, TagsRepository
 
 
 def main():
@@ -15,6 +16,10 @@ def main():
     info_repository.save(Info(app_name="f5-my-notes-app2"))
 
     notes_repository = NotesRepository(database_path)
+
+    # tag_repository = TagsRepository(database_path)
+    # tag_1 = Tag(note_id="1", tag="Music")
+    # tag_2 = Tag(note_id="2", tag="Claudio")
 
     # Guardar categorias en NOTE repository
     notes_repository.save_a_new_category("cat-0", "No category")
