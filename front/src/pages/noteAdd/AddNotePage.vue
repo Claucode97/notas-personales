@@ -21,18 +21,17 @@
           placeholder="type the description"
         ></textarea>
       </section>
-      
-        <select class="selectFount" v-model="selectedCategory">
-          <option value="null">Select category</option>
-          <option
-            v-for="index in this.listOfCategories"
-            :value="index"
-            :key="index.id_cat"
-          >
-            {{ index.name }}
-          </option>
-        </select>
 
+      <select class="selectFount" v-model="selectedCategory">
+        <option value="null">Select category</option>
+        <option
+          v-for="index in this.listOfCategories"
+          :value="index"
+          :key="index.id_cat"
+        >
+          {{ index.name }}
+        </option>
+      </select>
     </form>
     <button @click="goBack">Back</button>
     <button @click.prevent="addNewNote">Save</button>
@@ -95,7 +94,6 @@ export default {
       if (this.isValidData()) {
         let usuario = localStorage.getItem("user");
         let jsonUsuario = JSON.parse(usuario);
-
         let nextId = uuidv4();
         if (this.selectedCategory === null) {
           this.selectedCategory = { id_cat: "cat-0", name: "No category" };
@@ -107,7 +105,6 @@ export default {
           user_id: jsonUsuario.id,
           id_cat: this.selectedCategory.id_cat,
         };
-        console.log(newNote);
         const settings = {
           method: "POST",
           body: JSON.stringify(newNote),
@@ -116,7 +113,6 @@ export default {
             Authorization: jsonUsuario.id,
           },
         };
-        console.log(settings);
         fetch(`${config.API_PATH}/notes`, settings);
 
         Swal.fire({

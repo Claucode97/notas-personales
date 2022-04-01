@@ -44,7 +44,7 @@ export default {
         });
       } else {
         const auth = await response.json();
-        this.auth = auth;
+        localStorage.setItem("user", JSON.stringify(auth));
         this.$router.push("/notes");
       }
     },
