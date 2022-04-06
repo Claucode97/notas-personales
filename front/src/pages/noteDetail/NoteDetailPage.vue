@@ -170,13 +170,15 @@ export default {
             icon: "success",
             title: "Your work has been saved",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 1200,
+
           });
+          this.$router.push("/notes");
         } else {
           Swal.fire({
             position: "center",
             icon: "info",
-            title: "Note has not been modifieded",
+            title: "Note has not been modified",
             showConfirmButton: false,
             timer: 1500,
           });
