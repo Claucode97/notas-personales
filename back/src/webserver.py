@@ -88,7 +88,6 @@ def create_app(repositories):
 
     @app.route("/api/categories", methods=["GET"])
     def categories_get_all():
-        # comprobar que va bien
         all_categories = repositories["note"].get_all_categories()
 
         return jsonify(all_categories)

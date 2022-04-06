@@ -9,8 +9,7 @@
           class="search"
           type="search"
           v-model="searchNote"
-          placeholder="Search..."
-        />
+          placeholder="Search..."/>
         <span class="search-icon"><i class="fa fa-search"></i></span>
       </article>
       <router-link to="/notes/add"
@@ -151,7 +150,7 @@ export default {
 }
 .search {
   border: transparent;
-  width: 29%;
+  width: 100%;
   font-size: 1rem;
 
   display: block;
