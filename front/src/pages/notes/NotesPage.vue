@@ -1,5 +1,6 @@
 <template>
   <main>
+    
     <h1>{{ notesTitle }}</h1>
     <h2>{{ currentUser }}</h2>
     <section id="filter-add">
@@ -16,19 +17,15 @@
         ><button class="add_button">ADD NOTE</button></router-link
       >
     </section>
-    <br />
-    <section class="selectCategory">
-      <select v-model="selectedCategory">
-        <option value="">Select category</option>
-        <option
-          v-for="index in this.listOfCategories"
-          :value="index.id_cat"
-          :key="index.id_cat"
-        >
-          {{ index.name }}
-        </option>
-      </select>
-    </section>
+    <br/>
+    <div id="listOfCategories">
+        <select v-model="selectedCategories" multiple>
+          <option  v-for="category in listOfCategories"  :key="category" :value="category.id_cat">
+            {{category.name}}
+          </option>
+        </select>
+    </div>
+    
     <section id="notes-flex-container">
       <article id="note-item" v-for="note in filterNote" :key="note">
         <router-link :to="{ name: 'NoteDetail', params: { id: note.id } }">
@@ -58,6 +55,8 @@ export default {
       currentUser: "",
       listOfCategories: [],
       selectedCategory: "",
+      selectedCategories:[],
+      checked:"",
     };
   },
 
@@ -65,6 +64,7 @@ export default {
     this.loadData();
   },
   methods: {
+
     async loadData() {
       console.log;
       let usuario = localStorage.getItem("user");
@@ -120,15 +120,21 @@ export default {
         .filter((note) =>
           note.title.toLowerCase().includes(this.searchNote.toLowerCase())
         )
-        .filter((note) => {
-          if (this.selectedCategory != "" || this.selectedCategory == null) {
-            if (note.id_cat == this.selectedCategory) {
-              return true;
-            }
-          } else {
-            return this.notesList;
+        .filter((note) =>{
+          if(Object.keys(this.selectedCategories).length == 0)
+          {
+            return this.notesList
           }
-        });
+            if (Object.values(this.selectedCategories).indexOf(note.id_cat) > -1) {
+              console.log(this.selectedCategories)
+            return true
+          }
+          else{
+            return false
+          }
+          
+          
+        })
     },
   },
 };
@@ -203,4 +209,6 @@ select {
   flex-direction: column;
   justify-content: space-between;
 }
+
+
 </style>
