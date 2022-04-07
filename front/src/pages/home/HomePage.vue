@@ -5,11 +5,13 @@
       <h3>User:</h3>
       <input type="text" v-model="user" />
       <h3>Password:</h3>
-      <input type="password" v-model="password" />
+      <input
+        @keyup.enter="onButtonClicked"
+        type="password"
+        v-model="password"
+      />
     </section>
-    <button v-on:keyup.enter="onButtonClicked" @click="onButtonClicked">
-      LOGIN
-    </button>
+    <button @click="onButtonClicked">LOGIN</button>
   </div>
 </template>
 

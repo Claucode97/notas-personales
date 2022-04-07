@@ -136,6 +136,7 @@ export default {
         })
     },
   },
+  
 };
 </script>
 
@@ -207,6 +208,8 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-height: 65vh;
+  overflow-y: scroll;
 }
 
 
