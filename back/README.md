@@ -13,8 +13,8 @@
    `python -m pytest`
 
 3. Generar los datos iniciales
-   python scripts/initial_data.py
-   ``
+   
+   `python scripts/initial_data.py`
 
 4. Ejecutar la aplicación
 
