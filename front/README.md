@@ -42,8 +42,5 @@ npm install --save sweetalert2
 
 ## Authors 👩‍💻
 
-- [Jores](https://gitlab.com/joresatte)
-- [Laura](https://gitlab.com/Laurafarrerdev)
 - [Stephanie](https://gitlab.com/Stephanie_marin)
 - [Rocío](https://gitlab.com/rocio.gabriela.03c)
-- [Vicky](https://gitlab.com/vickypineli)

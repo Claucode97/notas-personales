@@ -67,21 +67,27 @@ export default {
     },
 
     goBack() {
-      Swal.fire({
-        title: "Do you want to save the changes?",
-        showConfirmButton: true,
-        showDenyButton: true,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          this.addNewNote();
-          this.$router.push("/notes");
-          Swal.fire("Saved!", "", "success");
-        } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
-          this.$router.push("/notes");
-        }
-      });
+      if (this.isValidData()){
+        Swal.fire({
+            title: "The note have changes. Do you want to save them?",
+            showConfirmButton: true,
+            showDenyButton: true,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              this.addNewNote();
+              this.$router.push("/notes");
+              Swal.fire("Saved!", "", "success");
+            } else if (result.isDenied) {
+              Swal.fire("Changes are not saved", "", "info");
+              this.$router.push("/notes");
+            }
+          });
+
+      }else{
+        this.$router.push("/notes")
+      }
+          
     },
     isValidData() {
       if (this.noteTitle != "" && this.noteDescription != "") {
