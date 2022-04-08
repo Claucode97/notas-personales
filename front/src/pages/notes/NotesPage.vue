@@ -117,7 +117,8 @@ export default {
     filterNote() {
       return this.notesList
         .filter((note) =>
-          note.title.toLowerCase().includes(this.searchNote.toLowerCase())
+          (note.title.toLowerCase().includes(this.searchNote.toLowerCase())) ||
+          (note.text.includes(this.searchNote))
         )
         .filter((note) =>{
           if(Object.keys(this.selectedCategories).length == 0)
@@ -125,14 +126,11 @@ export default {
             return this.notesList
           }
             if (Object.values(this.selectedCategories).indexOf(note.id_cat) > -1) {
-              console.log(this.selectedCategories)
             return true
           }
           else{
             return false
           }
-          
-          
         })
     },
   },
