@@ -29,7 +29,9 @@
     </select>
 
     <br />
-
+    <div v-for="tag in note.tags" :key="tag.note_id">
+      {{ tag.tag }}
+    </div>
     <button @click="goBack" class="button-save">Back</button>
     <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
       Save
@@ -59,6 +61,7 @@ export default {
 
   mounted() {
     this.loadData();
+    this.getNoteTags();
   },
 
   methods: {
@@ -89,6 +92,14 @@ export default {
           this.noteCategoryName = category.name;
         }
       }
+    },
+    async getNoteTags() {
+      const response = await fetch(
+        "http://localhost:5000/api/tags/" + this.$route.params.id
+      );
+      let data = await response.json();
+      this.note.tags = data;
+      console.log(this.note.tags);
     },
     goBack() {
       Swal.fire({
@@ -171,7 +182,6 @@ export default {
             title: "Your work has been saved",
             showConfirmButton: false,
             timer: 1200,
-
           });
           this.$router.push("/notes");
         } else {
@@ -192,7 +202,6 @@ export default {
 select {
   font-size: 1rem;
   height: 2rem;
-  
 }
 article {
   font-size: 1.2rem;

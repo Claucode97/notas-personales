@@ -4,6 +4,7 @@ from src.lib.utils import object_to_json
 from src.domain.note import Note
 from src.domain.user import User
 from src.domain.tags import Tag
+import json
 
 
 def create_app(repositories):
@@ -85,6 +86,11 @@ def create_app(repositories):
 
         repositories["tags"].save(tag)
         return "", 200
+
+    @app.route("/api/tags/<id>", methods=["GET"])
+    def tags_get_by_id(id):
+        tag_by_id = repositories["tags"].get_by_note_id(id)
+        return object_to_json(tag_by_id)
 
     @app.route("/api/categories", methods=["GET"])
     def categories_get_all():

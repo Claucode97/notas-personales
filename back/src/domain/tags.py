@@ -23,57 +23,54 @@ class TagsRepository:
 
     def init_tables(self):
         sql = """
-            create table if not exists tags (
-                note_id varchar,
-                tag varchar
-            )
-        """
+            CREATE TABLE IF NOT EXISTS tags (
+                note_id VARCHAR,
+                tag VARCHAR,
+                FOREIGN KEY (note_id) REFERENCES notes(id)
+            );
+
+            """
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()
 
     def get_all_tags(self):
-        sql = """select * from tags"""
+        sql = """SELECT * FROM tags"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql)
         data = cursor.fetchall()
         list_tag = []
         for item in data:
-            tag_class = Tag(note_id=json.loads(item["note_id"]), tag=item["tag"])
+            print(item)
+            tag_class = Tag(note_id=item["note_id"], tag=item["tag"])
             list_tag.append(tag_class)
         return list_tag
 
     def get_by_note_id(self, note_id):
-        sql = """SELECT * FROM tags WHERE note_id = :note_id
-        """
+
+        # get tag by note id
+        sql = """SELECT * FROM tags WHERE note_id = :note_id"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"note_id": note_id})
-        data = cursor.fetchone()
-        if data is None:
-            return None
-        else:
-            tag = Tag(**data)
-        return tag
+        data = cursor.fetchall()
+        list_tag = []
+        for item in data:
+            print(item)
+            tag_class = Tag(note_id=item["note_id"], tag=item["tag"])
+            list_tag.append(tag_class)
+        return list_tag
 
     def save(self, tags):
-        sql = """INSERT INTO tags (note_id, tag) values (
+        sql = """INSERT INTO tags (note_id, tag) VALUES (
             :note_id, :tag
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
-        # cursor.execute(sql, {"note_id": tags.note_id, "tag": json.dumps(tags.tag)})
-        # conn.commit()
         str_tags = json.dumps(tags.to_dict())
         json_tags = json.loads(str_tags)
-        print(json_tags)
-        if json_tags["tag"] == []:
-            return ""
-        else:
-            for tag in json_tags["tag"]:
-                cursor.execute(
-                    sql, {"note_id": json.dumps(json_tags["note_id"]), "tag": tag}
-                )
-                conn.commit()
+        for tag in json_tags['tag']:
+            cursor.execute(sql, {"note_id": json_tags['note_id'], "tag": tag})
+        conn.commit()
