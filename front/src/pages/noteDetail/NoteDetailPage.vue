@@ -3,13 +3,13 @@
   <article>
     <section>
       <label for="title">Note title: </label>
-      <input name="title" v-model="modifiedNote.title" />
+      <input name="title" v-model="this.modifiedNote.title" />
     </section>
     <section>
       <label for="description">Description: </label>
       <textarea
         id="text"
-        v-model="modifiedNote.text"
+        v-model="this.modifiedNote.text"
         rows="8"
         cols="49"
       ></textarea>
@@ -90,22 +90,32 @@ export default {
         }
       }
     },
+
     goBack() {
-      Swal.fire({
-        title: "Do you want to save the changes?",
-        showConfirmButton: true,
-        showDenyButton: true,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          this.modifyNote();
-          this.$router.push("/notes");
-          Swal.fire("Saved!", "", "success");
-        } else if (result.isDenied) {
-          Swal.fire("Changes are not saved", "", "info");
-          this.$router.push("/notes");
+      if (this.isNoteEmpty()) {
+      Swal.fire("Error!", "Fill all the fields out, please!", "error");
+      } else {
+        if (this.isNoteModified()){
+          Swal.fire({
+              title: "The note have changes. Do you want to save them?",
+              showConfirmButton: true,
+              showDenyButton: true,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                this.modifyNote();
+                this.$router.push("/notes");
+          
+              } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+                this.$router.push("/notes");
+              }
+            });
+
+        }else{
+          this.$router.push("/notes")
         }
-      });
+      }    
     },
     removeNote() {
       Swal.fire({
@@ -142,13 +152,17 @@ export default {
       }
     },
     isNoteEmpty() {
-      if (this.modifiedNote.title === "" && this.modifiedNote.text === "") {
+      if (this.modifiedNote.title === "" || this.modifiedNote.text === "") {
+        console.log(this.modifiedNote)
         return true;
+      }else{
+        return false
       }
+            
     },
-
+    
     async modifyNote() {
-      if (this.isNoteEmpty()) {
+      if (this.isNoteEmpty() == true) {
         Swal.fire("Error!", "Fill all the fields out, please!", "error");
       } else {
         if (this.isNoteModified()) {
@@ -159,12 +173,12 @@ export default {
               "Content-Type": "application/json",
             },
           };
-
+          let id = this.note.id
           await fetch(
-            `${config.API_PATH}/notes` + "/" + this.$route.params.id,
+            `${config.API_PATH}/notes` + "/" + id,
             settings
           );
-          this.loadData();
+          
           Swal.fire({
             position: "center",
             icon: "success",
