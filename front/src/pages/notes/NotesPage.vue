@@ -1,7 +1,10 @@
 <template>
   <main>
-    
-    <h1>{{ notesTitle }}</h1>
+    <div class="wrapper">
+      <div class="typing-demo">
+        {{ notesTitle }}
+      </div>
+    </div>
     <h2>{{ currentUser }}</h2>
     <section id="filter-add">
       <article class="search-structure">
@@ -9,22 +12,26 @@
           class="search"
           type="search"
           v-model="searchNote"
-          placeholder="Search..."/>
-        <span class="search-icon"><i class="fa fa-search"></i></span>
+          placeholder="Search..."
+        />
       </article>
       <router-link to="/notes/add"
         ><button class="add_button">ADD NOTE</button></router-link
       >
     </section>
-    <br/>
+    <br />
     <div id="listOfCategories">
-        <select v-model="selectedCategories" multiple>
-          <option  v-for="category in listOfCategories"  :key="category" :value="category.id_cat">
-            {{category.name}}
-          </option>
-        </select>
+      <select v-model="selectedCategories" multiple>
+        <option
+          v-for="category in listOfCategories"
+          :key="category"
+          :value="category.id_cat"
+        >
+          {{ category.name }}
+        </option>
+      </select>
     </div>
-    
+
     <section id="notes-flex-container">
       <article id="note-item" v-for="note in filterNote" :key="note">
         <router-link :to="{ name: 'NoteDetail', params: { id: note.id } }">
@@ -54,8 +61,8 @@ export default {
       currentUser: "",
       listOfCategories: [],
       selectedCategory: "",
-      selectedCategories:[],
-      checked:"",
+      selectedCategories: [],
+      checked: "",
     };
   },
 
@@ -63,7 +70,6 @@ export default {
     this.loadData();
   },
   methods: {
-
     async loadData() {
       console.log;
       let usuario = localStorage.getItem("user");
@@ -116,45 +122,56 @@ export default {
   computed: {
     filterNote() {
       return this.notesList
-        .filter((note) =>
-          (note.title.toLowerCase().includes(this.searchNote.toLowerCase())) ||
-          (note.text.includes(this.searchNote))
+        .filter(
+          (note) =>
+            note.title.toLowerCase().includes(this.searchNote.toLowerCase()) ||
+            note.text.includes(this.searchNote)
         )
-        .filter((note) =>{
-          if(Object.keys(this.selectedCategories).length == 0)
-          {
-            return this.notesList
+        .filter((note) => {
+          if (Object.keys(this.selectedCategories).length == 0) {
+            return this.notesList;
           }
-            if (Object.values(this.selectedCategories).indexOf(note.id_cat) > -1) {
-            return true
+          if (
+            Object.values(this.selectedCategories).indexOf(note.id_cat) > -1
+          ) {
+            return true;
+          } else {
+            return false;
           }
-          else{
-            return false
-          }
-        })
+        });
     },
   },
-  
 };
 </script>
 
 <style scoped>
-.search-structure {
-  border: 1px solid;
-  min-width: 3rem;
-  position: relative;
-  margin-right: 10%;
-  margin-left: 10%;
-  font-size: 1rem;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+* {
+  font-family: Montserrat;
+  color: white;
+  scroll-behavior: smooth;
 }
+a {
+  text-decoration: none;
+}
+.search-structure {
+  position: absolute;
+  min-width: 3rem;
+  margin-right: 40%;
+  margin-left: 40%;
+  padding: 0.4rem;
+  font-size: 1rem;
+  box-shadow: 0px 2px 4px black;
+  color: white;
+}
+.search-structure input {
+  max-width: 100%;
+}
+
 .search {
   border: transparent;
-  width: 100%;
   font-size: 1rem;
-
   display: block;
-  bottom: 0rem;
-  right: 0.1rem;
 }
 .search-icon {
   position: absolute;
@@ -163,13 +180,14 @@ export default {
   right: 0.1rem;
 }
 .add_button {
-  background-color: #c0a9ee;
-  width: 3rem;
-  float: right;
-  right: 2.3rem;
-  top: 12.3rem;
-  border-radius: 15%;
-  position: absolute;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  border: transparent;
+  box-shadow: 0px 2px 10px black;
+  margin-right: 2rem;
+}
+button:hover {
+  cursor: pointer;
 }
 .selectCategory {
   display: flex;
@@ -183,7 +201,7 @@ select {
 }
 .category {
   text-decoration: none;
-  border: 2px purple solid;
+  border: 3px purple solid;
   border-radius: 1rem;
   padding: 0.5rem;
   align-self: center;
@@ -192,13 +210,19 @@ select {
 }
 .remove_button {
   border-radius: 1rem;
+  padding: 0 3rem;
+  border: transparent;
+  box-shadow: 0px 2px 10px black;
 }
 #note-item {
   display: flex;
-  border: 1px solid;
+  box-shadow: 1px 1px 5px black;
   border-radius: 15px;
   justify-content: space-between;
   margin: 0.2rem;
+}
+h3 {
+  margin-left: 1rem;
 }
 #notes-flex-container {
   margin-top: 1rem;
@@ -206,9 +230,43 @@ select {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 65vh;
+  max-height: 45vh;
   overflow-y: scroll;
 }
 
+.wrapper {
+  /*This part is important for centering*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c0a9ee;
+  height: 4rem;
+  box-shadow: 0px 2px 4px black;
+}
 
+.typing-demo {
+  width: 14ch;
+  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  font-family: monospace;
+  font-size: 2em;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+#filter-add {
+  display: flex;
+  flex-direction: row-reverse;
+}
 </style>
