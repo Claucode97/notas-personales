@@ -17,7 +17,7 @@ def main():
 
     notes_repository = NotesRepository(database_path)
 
-    # tag_repository = TagsRepository(database_path)
+    tag_repository = TagsRepository(database_path)
     # tag_1 = Tag(note_id="1", tag="Music")
     # tag_2 = Tag(note_id="2", tag="Claudio")
 
@@ -53,7 +53,10 @@ def main():
 
     user_repository.save(User("user-1", "Roberto", "password1"))
     user_repository.save(User("user-2", "Laura", "password2"))
-
+    tag_1 = Tag("note-1", ["Musica", "Cine"])
+    tag_2 = Tag("note-1", ["Drogarme", "Ainarismo"])
+    tag_repository.save(tag_1)
+    tag_repository.save(tag_2)
     print("Datos iniciales cargados (se ha ejecutado initial_data.py)")
 
 
