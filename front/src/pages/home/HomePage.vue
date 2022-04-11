@@ -7,9 +7,17 @@
       <h3>Password:</h3>
       <input
         @keyup.enter="onButtonClicked"
+        v-if="showPassword"
+        type="text"
+        v-model="password"
+      />
+      <input
+        @keyup.enter="onButtonClicked"
+        v-else
         type="password"
         v-model="password"
       />
+      <button @click="onSwitchVisibility"><i class="fa fa-eye"></i></button>
     </section>
     <button @click="onButtonClicked">LOGIN</button>
   </div>
@@ -27,11 +35,11 @@ export default {
       greeting: "WELCOME TO NOTES",
       user: "",
       password: "",
+      showPassword: true,
       localUser: useStorage("user", {}),
     };
   },
 
-  mounted() {},
   methods: {
     async onButtonClicked() {
       const response = await login(this.user, this.password);
@@ -49,6 +57,9 @@ export default {
         localStorage.setItem("user", JSON.stringify(auth));
         this.$router.push("/notes");
       }
+    },
+    onSwitchVisibility() {
+      this.showPassword = !this.showPassword;
     },
   },
 };
