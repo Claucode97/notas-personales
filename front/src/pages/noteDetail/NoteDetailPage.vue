@@ -103,29 +103,27 @@ export default {
     },
     goBack() {
       if (this.isNoteEmpty()) {
-      Swal.fire("Error!", "Fill all the fields out, please!", "error");
+        Swal.fire("Error!", "Fill all the fields out, please!", "error");
       } else {
-        if (this.isNoteModified()){
+        if (this.isNoteModified()) {
           Swal.fire({
-              title: "The note have changes. Do you want to save them?",
-              showConfirmButton: true,
-              showDenyButton: true,
-            }).then((result) => {
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
-                this.modifyNote();
-                this.$router.push("/notes");
-          
-              } else if (result.isDenied) {
-                Swal.fire("Changes are not saved", "", "info");
-                this.$router.push("/notes");
-              }
-            });
-
-        }else{
-          this.$router.push("/notes")
+            title: "The note have changes. Do you want to save them?",
+            showConfirmButton: true,
+            showDenyButton: true,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              this.modifyNote();
+              this.$router.push("/notes");
+            } else if (result.isDenied) {
+              Swal.fire("Changes are not saved", "", "info");
+              this.$router.push("/notes");
+            }
+          });
+        } else {
+          this.$router.push("/notes");
         }
-      }    
+      }
     },
     removeNote() {
       Swal.fire({
@@ -163,14 +161,13 @@ export default {
     },
     isNoteEmpty() {
       if (this.modifiedNote.title === "" || this.modifiedNote.text === "") {
-        console.log(this.modifiedNote)
+        console.log(this.modifiedNote);
         return true;
-      }else{
-        return false
+      } else {
+        return false;
       }
-            
     },
-    
+
     async modifyNote() {
       if (this.isNoteEmpty() == true) {
         Swal.fire("Error!", "Fill all the fields out, please!", "error");
@@ -183,12 +180,9 @@ export default {
               "Content-Type": "application/json",
             },
           };
-          let id = this.note.id
-          await fetch(
-            `${config.API_PATH}/notes` + "/" + id,
-            settings
-          );
-          
+          let id = this.note.id;
+          await fetch(`${config.API_PATH}/notes` + "/" + id, settings);
+
           Swal.fire({
             position: "center",
             icon: "success",

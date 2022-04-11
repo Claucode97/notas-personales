@@ -67,27 +67,25 @@ export default {
     },
 
     goBack() {
-      if (this.isValidData()){
+      if (this.isValidData()) {
         Swal.fire({
-            title: "The note have changes. Do you want to save them?",
-            showConfirmButton: true,
-            showDenyButton: true,
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              this.addNewNote();
-              this.$router.push("/notes");
-              Swal.fire("Saved!", "", "success");
-            } else if (result.isDenied) {
-              Swal.fire("Changes are not saved", "", "info");
-              this.$router.push("/notes");
-            }
-          });
-
-      }else{
-        this.$router.push("/notes")
+          title: "The note have changes. Do you want to save them?",
+          showConfirmButton: true,
+          showDenyButton: true,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.addNewNote();
+            this.$router.push("/notes");
+            Swal.fire("Saved!", "", "success");
+          } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+            this.$router.push("/notes");
+          }
+        });
+      } else {
+        this.$router.push("/notes");
       }
-          
     },
     isValidData() {
       if (this.noteTitle != "" && this.noteDescription != "") {
@@ -131,7 +129,7 @@ export default {
         //Esto redirige a la página principal de todas las notas, justo despues de añadir una nueva
         // Si no queremos la redirección, sólo hay que borrar la línea de abajo
         this.$router.push("/notes");
-        this.getTags(newNote);
+        this.getTagsFromNoteDescription(newNote);
       } else {
         Swal.fire({
           position: "center",
@@ -146,28 +144,18 @@ export default {
       this.noteDescription = "";
     },
 
-    getTags(note) {
-      let hashtags = [];
-
-      let splitNoteBySpace = this.noteDescription.split(" ");
-      for (let hashtag of splitNoteBySpace) {
-        if (hashtag.startsWith("#")) {
-          hashtags.push(hashtag);
-        }
-      }
-      console.log(hashtags);
-
-      let objHash = { tag: hashtags, note_id: note.id };
+    getTagsFromNoteDescription(note) {
+      let tags = this.noteDescription.replace("\n", " ").split(" ");
+      let objHashtag = { tag: tags, note_id: note.id };
 
       const settings = {
         method: "POST",
-        body: JSON.stringify(objHash),
+        body: JSON.stringify(objHashtag),
         headers: {
           "Content-Type": "application/json",
           Authorization: note.user_id,
         },
       };
-      console.log(objHash)
       fetch(`${config.API_PATH}/tags`, settings);
     },
   },
