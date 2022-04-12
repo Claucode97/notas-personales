@@ -1,45 +1,50 @@
 <template>
-  <h1>DETAILED NOTE</h1>
-  <article>
-    <section>
-      <label for="title">Note title: </label>
-      <input name="title" v-model="this.modifiedNote.title" />
-    </section>
-    <section>
-      <label for="description">Description: </label>
-      <textarea
-        id="text"
-        v-model="this.modifiedNote.text"
-        rows="8"
-        cols="49"
-      ></textarea>
-    </section>
+  <main>
+    <h1>DETAILED NOTE</h1>
+    <article>
+      <section>
+        <label for="title">Note title: </label>
+        <input name="title" v-model="this.modifiedNote.title" />
+      </section>
+      <section class="desc">
+        <label for="description">Description: </label>
+        <textarea
+          id="text"
+          v-model="this.modifiedNote.text"
+          rows="8"
+          cols="49"
+        ></textarea>
+      </section>
 
-    <label>Category: </label>
+      <label>Category: </label>
 
-    <select v-model="clickedCategory">
-      <option disabled value="">{{ this.noteCategoryName }}</option>
-      <option
-        v-for="index in this.listOfCategories"
-        :value="index"
-        :key="index.id_cat"
-      >
-        {{ index.name }}
-      </option>
-    </select>
+      <select v-model="clickedCategory">
+        <option disabled value="">{{ this.noteCategoryName }}</option>
+        <option
+          v-for="index in this.listOfCategories"
+          :value="index"
+          :key="index.id_cat"
+        >
+          {{ index.name }}
+        </option>
+      </select>
 
-    <br />
-    <div v-for="tag in note.tags" :key="tag.note_id">
-      {{ tag.tag }}
-    </div>
-    <button @click="goBack" class="button-save">Back</button>
-    <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
-      Save
-    </button>
-    <router-link :to="{ name: 'NoteDetail' }" @click="removeNote"
-      ><button>Remove</button></router-link
-    >
-  </article>
+      <br />
+      <div class="tags">
+        <p v-for="tag in note.tags" :key="tag.note_id">
+          {{ tag.tag }}
+        </p>
+      </div>
+      <div class="buttons">
+        <button @click="goBack" class="back-button">Back</button>
+        <button @click.prevent="modifyNote(modifiedNote)" class="save_button">
+          Save
+        </button>
+
+        <button @click="removeNote" class="remove_button">Remove</button>
+      </div>
+    </article>
+  </main>
 </template>
 
 <script>
@@ -206,6 +211,40 @@ export default {
 };
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+  font-size: 2rem;
+  font-family: Poppins;
+  overflow: no-scroll;
+}
+main {
+  margin-top: 2rem;
+}
+.tags {
+  display: flex;
+}
+.tags .tag {
+  margin: 0.5rem;
+}
+input {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.desc textarea {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
 select {
   font-size: 1rem;
   height: 2rem;
@@ -223,8 +262,49 @@ label {
 }
 button {
   margin: 2rem 1rem;
-  width: 5rem;
-  height: 2rem;
-  font-size: 1rem;
+  width: 8rem;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+.save_button {
+  border: transparent;
+  background: rgba(0, 225, 255, 0.35);
+  box-shadow: 0 4px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.back-button {
+  border: transparent;
+  background: rgba(247, 0, 255, 0.35);
+  box-shadow: 0 4px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.remove_button {
+  border: transparent;
+  background: rgba(255, 0, 0, 0.35);
+  box-shadow: 0 4px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.tags {
+  margin: 0.5rem auto;
+
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.tags p {
+  font-size: 1.2rem !important;
 }
 </style>

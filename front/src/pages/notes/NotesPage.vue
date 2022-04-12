@@ -1,47 +1,48 @@
 <template>
   <main>
-    <div class="wrapper">
-      <div class="typing-demo">
-        {{ notesTitle }}
+    <section class="main">
+      <h1>
+        <i>{{ currentUser }}</i> {{ notesTitle }}
+      </h1>
+      <section id="filter-add">
+        <article class="search-structure">
+          <input
+            class="search"
+            type="search"
+            v-model="searchNote"
+            placeholder="Search..."
+          />
+          <span class="search-icon"><i class="fa fa-search"></i></span>
+        </article>
+      </section>
+      <br />
+      <div id="listOfCategories">
+        <select v-model="selectedCategories" multiple>
+          <option
+            v-for="category in listOfCategories"
+            :key="category"
+            :value="category.id_cat"
+          >
+            {{ category.name }}
+          </option>
+        </select>
       </div>
-    </div>
-    <h2>{{ currentUser }}</h2>
-    <section id="filter-add">
-      <article class="search-structure">
-        <input
-          class="search"
-          type="search"
-          v-model="searchNote"
-          placeholder="Search..."
-        />
-      </article>
+      <section>
+        <article class="comic">
+          <div class="panel" v-for="note in filterNote" :key="note.id">
+            <p @click="goToNoteDetail(note)" class="text top-left">
+              {{ note.title }}
+            </p>
+            <p class="text bottom-right">
+              {{ getCategoryNameById(note.id_cat) }}
+            </p>
+            <button class="remove_button" @click="removeNote(note)">❌</button>
+          </div>
+        </article>
+      </section>
       <router-link to="/notes/add"
         ><button class="add_button">ADD NOTE</button></router-link
       >
-    </section>
-    <br />
-    <div id="listOfCategories">
-      <select v-model="selectedCategories" multiple>
-        <option
-          v-for="category in listOfCategories"
-          :key="category"
-          :value="category.id_cat"
-        >
-          {{ category.name }}
-        </option>
-      </select>
-    </div>
-
-    <section id="notes-flex-container">
-      <article id="note-item" v-for="note in filterNote" :key="note">
-        <router-link :to="{ name: 'NoteDetail', params: { id: note.id } }">
-          <span class="data">
-            <h3>{{ note.title }}</h3>
-          </span>
-        </router-link>
-        <p class="category">{{ getCategoryNameById(note.id_cat) }}</p>
-        <button class="remove_button" @click="removeNote(note)">❌</button>
-      </article>
     </section>
   </main>
 </template>
@@ -95,6 +96,9 @@ export default {
         .map((c) => c.name)[0];
       return result;
     },
+    goToNoteDetail(note) {
+      this.$router.push("/notes/" + note.id);
+    },
     async removeNote(note) {
       Swal.fire({
         title: "Are you sure?",
@@ -144,129 +148,166 @@ export default {
 };
 </script>
 
-<style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
-* {
-  font-family: Montserrat;
-  color: white;
-  scroll-behavior: smooth;
-}
-a {
-  text-decoration: none;
-}
-.search-structure {
-  position: absolute;
-  min-width: 3rem;
-  margin-right: 40%;
-  margin-left: 40%;
-  padding: 0.4rem;
-  font-size: 1rem;
-  box-shadow: 0px 2px 4px black;
-  color: white;
-}
-.search-structure input {
-  max-width: 100%;
-}
 
-.search {
-  border: transparent;
-  font-size: 1rem;
-  display: block;
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Poppins;
 }
-.search-icon {
-  position: absolute;
-  display: block;
-  bottom: 0rem;
-  right: 0.1rem;
+main {
+  margin-top: 3rem;
 }
-.add_button {
-  border-radius: 1rem;
-  padding: 1rem 2rem;
-  border: transparent;
-  box-shadow: 0px 2px 10px black;
-  margin-right: 2rem;
-}
-button:hover {
-  cursor: pointer;
-}
-.selectCategory {
+.comic {
   display: flex;
-  justify-content: center;
-}
-select {
-  justify-content: center;
-}
-.data {
-  display: flex;
-}
-.category {
-  text-decoration: none;
-  border: 3px purple solid;
-  border-radius: 1rem;
-  padding: 0.5rem;
-  align-self: center;
-  margin: 0.3rem;
-  font-size: 0.8rem;
-}
-.remove_button {
-  border-radius: 1rem;
-  padding: 0 3rem;
-  border: transparent;
-  box-shadow: 0px 2px 10px black;
-}
-#note-item {
-  display: flex;
-  box-shadow: 1px 1px 5px black;
-  border-radius: 15px;
-  justify-content: space-between;
-  margin: 0.2rem;
-}
-h3 {
-  margin-left: 1rem;
-}
-#notes-flex-container {
-  margin-top: 1rem;
-  margin: 1rem 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  max-height: 45vh;
+  flex-wrap: wrap;
+  font-family: "Comic Sans", cursive;
+  padding: 1vmin;
+  max-height: 47vh;
   overflow-y: scroll;
 }
-
-.wrapper {
-  /*This part is important for centering*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #c0a9ee;
-  height: 4rem;
-  box-shadow: 0px 2px 4px black;
-}
-
-.typing-demo {
-  width: 14ch;
-  animation: typing 2s steps(22), blink 0.5s step-end infinite alternate;
-  white-space: nowrap;
+.panel {
+  box-shadow: 0 6px 6px -6px #000;
+  display: inline-block;
+  flex: 1 1;
+  height: 100px;
+  margin: 1vmin;
   overflow: hidden;
-  border-right: 3px solid;
-  font-family: monospace;
-  font-size: 2em;
+  position: relative;
+}
+.rigth {
+  margin-right: 5rem;
+}
+input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 1rem 0;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.4);
+}
+.text {
+  background-color: rgb(249, 252, 255);
+  margin: 0;
+  padding: 10px 40px;
+  border-radius: 5px;
+}
+.top-left {
+  left: -6px;
+  position: absolute;
+  top: -2px;
+  transform: skew(-5deg);
+  box-shadow: 0px 2px 4px 5px rgba(0, 0, 0, 0.4);
 }
 
-@keyframes typing {
-  from {
-    width: 0;
-  }
+.bottom-right {
+  bottom: -2px;
+  position: absolute;
+  right: 5px;
+  border-radius: 5px;
+  border: transparent;
+  transform: skew(-5deg);
+  background: transparent;
+  padding: 0.4rem;
+}
+.speech {
+  background-color: #fff;
+  border: solid 2px #000;
+  border-radius: 12px;
+  display: inline-block;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+  position: relative;
+}
+.speech:before {
+  border: solid 12px transparent;
+  border-left: solid 12px #000;
+  border-top: solid 12px #000;
+  bottom: -24px;
+  content: "";
+  height: 0;
+  left: 24px;
+  position: absolute;
+  transform: skew(-15deg);
+  width: 0;
+}
+.speech:after {
+  border: solid 10px transparent;
+  border-left: solid 10px #fff;
+  border-top: solid 10px #fff;
+  bottom: -19px;
+  content: "";
+  height: 0;
+  left: 27px;
+  position: absolute;
+  transform: skew(-15deg);
+  width: 0;
+}
+.panel {
+  flex-basis: 100vw;
+  font-size: 1.4rem;
+} /* background colours */
+.panel {
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px black;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
+.remove_button {
+  top: -2px;
+  position: absolute;
+  right: 5px;
+  background: transparent;
+  border: transparent;
+  font-size: 1.1rem;
+  transform: skew(-15deg);
+  padding: 0.4rem;
 }
-#filter-add {
-  display: flex;
-  flex-direction: row-reverse;
+.add_button {
+  margin-top: 2rem;
+  border: transparent;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: rgba(99, 177, 255, 0.6);
+  box-shadow: 1px 2px 4px black;
+  padding: 1rem 5rem;
+}
+.add_button:hover {
+  cursor: pointer;
+}
+select {
+  border: transparent;
+  padding: 0 1rem;
+  font-size: 1rem;
+  box-shadow: 1px 4px 2px rgba(14, 13, 13, 0.6);
+}
+select option:hover {
+  background: rgb(144, 216, 255);
+  cursor: pointer;
+}
+select option:selected {
+  background: yellow;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
 }
 </style>

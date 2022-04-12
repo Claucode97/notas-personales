@@ -1,13 +1,14 @@
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: #5491ce; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #5491ce, #fd746c); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #5491ce, #fd746c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  height:100vh;
+  background: #E8CBC0;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #a9b8ff, #E8CBC0);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #a9b8ff, #E8CBC0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  height:100%;
 }
 
 #nav {
@@ -24,10 +25,5 @@
 }
 
 body {
-  margin: 0;
-}
-h1 {
-  background-color: #c0a9ee;
-  padding-top: 0.3rem;
   margin: 0;
 }

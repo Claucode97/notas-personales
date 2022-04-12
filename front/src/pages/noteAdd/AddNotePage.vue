@@ -146,6 +146,9 @@ export default {
 
     getTagsFromNoteDescription(note) {
       let tags = this.noteDescription.replace("\n", " ").split(" ");
+      for (let tag in tags) {
+        console.log(tag);
+      }
       let objHashtag = { tag: tags, note_id: note.id };
 
       const settings = {
