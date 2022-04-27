@@ -75,6 +75,9 @@ export default {
 h2 {
   display: none;
 }
+#container {
+  margin-top: 20vh;
+}
 /* media query for not displaying .overlay-container */
 @media screen and (max-width: 767px) {
   .overlay-container {

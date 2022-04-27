@@ -97,5 +97,5 @@ def create_app(repositories):
         all_categories = repositories["note"].get_all_categories()
 
         return jsonify(all_categories)
-
+º
     return app

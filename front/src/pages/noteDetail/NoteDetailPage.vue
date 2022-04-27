@@ -104,7 +104,6 @@ export default {
       );
       let data = await response.json();
       this.note.tags = data;
-      console.log(this.note.tags);
     },
     goBack() {
       if (this.isNoteEmpty()) {
@@ -166,7 +165,6 @@ export default {
     },
     isNoteEmpty() {
       if (this.modifiedNote.title === "" || this.modifiedNote.text === "") {
-        console.log(this.modifiedNote);
         return true;
       } else {
         return false;
@@ -214,7 +212,6 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
 * {
-  font-size: 2rem;
   font-family: Poppins;
   overflow: no-scroll;
 }
@@ -294,8 +291,6 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .tags {
-  margin: 0.5rem auto;
-
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(3px);
@@ -306,5 +301,14 @@ button {
 
 .tags p {
   font-size: 1.2rem !important;
+  margin-left: 0.5rem;
+}
+@media screen and (max-width: 600px) {
+  .remove_button {
+    width: 5rem;
+    height: 5%;
+    font-size: 1rem !important;
+    margin-top: 5.5rem;
+  }
 }
 </style>

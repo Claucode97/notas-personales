@@ -55,11 +55,18 @@ export default {
       selectedCategory: null,
     };
   },
-  mounted() {
+  created() {
     this.loadData();
   },
 
   methods: {
+    enviarToque() {
+      let localUser = localStorage.getItem("user");
+      localUser = JSON.parse(localUser);
+      let sender_name = localUser.name;
+      let receiver_id = this.$router.params.id
+      console.log(sender_name, "le ha enviado un toque a ", receiver_id)
+    },
     async loadData() {
       //Categorias
       const responseCategories = await fetch(`${config.API_PATH}/categories`);
@@ -146,10 +153,14 @@ export default {
 
     getTagsFromNoteDescription(note) {
       let tags = this.noteDescription.replace("\n", " ").split(" ");
-      for (let tag in tags) {
-        console.log(tag);
+      let filteredTags = [];
+      for (let tag of tags) {
+        if (tag.startsWith("#")) {
+          filteredTags.push(tag);
+        }
       }
-      let objHashtag = { tag: tags, note_id: note.id };
+
+      let objHashtag = { tag: filteredTags, note_id: note.id };
 
       const settings = {
         method: "POST",
