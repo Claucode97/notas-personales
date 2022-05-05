@@ -4,7 +4,6 @@ from src.lib.utils import object_to_json
 from src.domain.note import Note
 from src.domain.user import User
 from src.domain.tags import Tag
-import json
 
 
 def create_app(repositories):
@@ -35,8 +34,6 @@ def create_app(repositories):
         user_id = request.headers.get("Authorization")
         notes = repositories["note"].search_by_user_id(user_id)
         return object_to_json(notes)
-
-    # verificar que no pueda ir a notas sin haber escogido un usuario
 
     @app.route("/api/notes", methods=["POST"])
     def notes_post():
@@ -97,5 +94,5 @@ def create_app(repositories):
         all_categories = repositories["note"].get_all_categories()
 
         return jsonify(all_categories)
-º
+
     return app

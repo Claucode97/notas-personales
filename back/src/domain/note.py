@@ -11,11 +11,11 @@ class Note:
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'title': self.title,
-            'text': self.text,
-            'user_id': self.user_id,
-            'id_cat': self.id_cat
+            "id": self.id,
+            "title": self.title,
+            "text": self.text,
+            "user_id": self.user_id,
+            "id_cat": self.id_cat,
         }
 
 
@@ -30,8 +30,6 @@ class NotesRepository:
         return conn
 
     def init_tables(self):
-        # notes -> no tiene foreign key(id_cat)
-        # porque la relacion notes - categories es VOLUNTARIA
         sql_table_notes = """
             CREATE TABLE IF NOT EXISTS notes (
                 id varchar NOT NULL PRIMARY KEY,
@@ -64,28 +62,36 @@ class NotesRepository:
 
         for item in data:
             one_note = Note(
-                id=item["id"], title=item["title"], text=item["text"], user_id=item["user_id"], id_cat=item["id_cat"]
+                id=item["id"],
+                title=item["title"],
+                text=item["text"],
+                user_id=item["user_id"],
+                id_cat=item["id_cat"],
             )
             notes_list.append(one_note)
 
         return notes_list
 
     def get_by_id(self, note_id):
-
         sql = """SELECT * FROM notes WHERE id= :id"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"id": note_id})
 
         data = cursor.fetchone()
-        one_note = Note(id=data["id"], title=data["title"],
-                        text=data["text"], user_id=data["user_id"], id_cat=data["id_cat"])
+        one_note = Note(
+            id=data["id"],
+            title=data["title"],
+            text=data["text"],
+            user_id=data["user_id"],
+            id_cat=data["id_cat"],
+        )
         return one_note
 
-    # get_all_notes_searching_by_user_id
     def search_by_user_id(self, user_id):
-
-        sql = """SELECT * FROM notes WHERE user_id= :user_id ORDER BY lower(title) ASC"""
+        sql = (
+            """SELECT * FROM notes WHERE user_id= :user_id ORDER BY lower(title) ASC"""
+        )
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"user_id": user_id})
@@ -106,11 +112,8 @@ class NotesRepository:
         cursor.execute(
             sql,
             note.to_dict(),
-
         )
         conn.commit()
-
-    # metodo save() cambiado de nombre
 
     def modify_data_note_by_id(self, modified_note):
 
@@ -119,9 +122,7 @@ class NotesRepository:
                     WHERE id = :id; """
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(
-            sql, modified_note.to_dict()
-        )
+        cursor.execute(sql, modified_note.to_dict())
         conn.commit()
 
     def note_deleted_by_id(self, note_deleted):
@@ -129,9 +130,7 @@ class NotesRepository:
                     WHERE notes.id = :id """
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(
-            sql, {"id": note_deleted}
-        )
+        cursor.execute(sql, {"id": note_deleted})
         conn.commit()
         cursor.close()
 
@@ -146,14 +145,12 @@ class NotesRepository:
         categories_list = []
         for category in data_list:
 
-            category_dicc = {
-                'id_cat': category["id_cat"], 'name': category["name"]}
+            category_dicc = {"id_cat": category["id_cat"], "name": category["name"]}
             categories_list.append(category_dicc)
 
         cursor.close()
         return categories_list
 
-    # terminar de construir
     def get_last_category_id(self):
         sql = """SELECT id_cat FROM categories
                 ORDER BY id_cat DESC
@@ -165,12 +162,11 @@ class NotesRepository:
 
         return data_last_id
 
-    # comprobar que funciona
     def save_a_new_category(self, id_category, name_category):
         sql = """insert into categories (id_cat, name) values (
             :id_cat, :name
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(sql, {'id_cat': id_category, 'name': name_category})
+        cursor.execute(sql, {"id_cat": id_category, "name": name_category})
         conn.commit()

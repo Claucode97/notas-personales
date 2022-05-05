@@ -49,8 +49,6 @@ class TagsRepository:
         return list_tag
 
     def get_by_note_id(self, note_id):
-
-        # get tag by note id
         sql = """SELECT * FROM tags WHERE note_id = :note_id"""
         conn = self.create_conn()
         cursor = conn.cursor()
@@ -71,6 +69,6 @@ class TagsRepository:
         cursor = conn.cursor()
         str_tags = json.dumps(tags.to_dict())
         json_tags = json.loads(str_tags)
-        for tag in json_tags['tag']:
-            cursor.execute(sql, {"note_id": json_tags['note_id'], "tag": tag})
+        for tag in json_tags["tag"]:
+            cursor.execute(sql, {"note_id": json_tags["note_id"], "tag": tag})
         conn.commit()
