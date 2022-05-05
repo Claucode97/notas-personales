@@ -39,8 +39,3 @@ or execute this command in the console of the front file in [Visual Studio Code]
 ```
 npm install --save sweetalert2
 ```
-
-## Authors 👩‍💻
-
-- [Stephanie](https://gitlab.com/Stephanie_marin)
-- [Rocío](https://gitlab.com/rocio.gabriela.03c)
